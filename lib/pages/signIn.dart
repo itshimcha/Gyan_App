@@ -175,7 +175,7 @@ class _signInState extends State<signIn> {
                                               children: [
                                                 Image.asset("assets/images/google.png",width: 30,height: 30,),
                                                 SizedBox(width: 8,),
-                                                Text("SignIn with Google",style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white)),
+                                                Text("Sign in with Google",style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white)),
                                               ]
                                           ),
                                           Icon(Icons.arrow_forward,color: Colors.white,size: 25,),

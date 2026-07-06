@@ -6,6 +6,8 @@ import 'package:gyansutra/extra/com_wid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class PYQs extends StatefulWidget {
   final int cat_id;
   const PYQs({super.key, required this.cat_id});
@@ -86,7 +88,12 @@ class _PYQsState extends State<PYQs> {
                         final notes = mseList[index];
                         return GestureDetector(
                             onTap: () async {
-
+                              final Uri url = Uri.parse(notes.web_view_link);
+                              if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Could not open the article.')),
+                                );
+                              }
                             },
                             child: Container(
                                 clipBehavior: Clip.hardEdge,
@@ -127,7 +134,14 @@ class _PYQsState extends State<PYQs> {
                                       Positioned(
                                           bottom: 60,
                                           right: 10,
-                                          child: Icon(Icons.more_horiz,color: Colors.black,size: 30)),
+                                          child: IconButton(onPressed:() async {
+                                            final Uri url = Uri.parse(notes.download_link);
+                                            if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(content: Text('Could not open the article.')),
+                                              );
+                                            }
+                                            }, icon: Icon(Icons.more_horiz,color: Colors.black,size: 30)),),
                                       Positioned(
                                           left: 10,
                                           bottom: 15,
@@ -190,7 +204,12 @@ class _PYQsState extends State<PYQs> {
                         final notes = eseList[index];
                         return GestureDetector(
                             onTap: () async {
-
+                              final Uri url = Uri.parse(notes.web_view_link);
+                              if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Could not open the article.')),
+                                );
+                              }
                             },
                             child: Container(
                                 clipBehavior: Clip.hardEdge,

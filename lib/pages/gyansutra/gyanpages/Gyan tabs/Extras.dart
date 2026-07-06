@@ -86,7 +86,12 @@ class _ExtrasState extends State<Extras> {
                 final notes = ExtraList[index];
                 return GestureDetector(
                     onTap: () async {
-
+                      final Uri url = Uri.parse(notes.web_view_link);
+                      if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Could not open the article.')),
+                        );
+                      }
                     },
                     child: Container(
                         clipBehavior: Clip.hardEdge,
@@ -175,7 +180,7 @@ class _ExtrasState extends State<Extras> {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(16.0),
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       children: [
         _buildSection("Books", _booksFuture),
         _buildSection("Practicals", _practicalFuture),

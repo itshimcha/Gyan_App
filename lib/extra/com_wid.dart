@@ -132,10 +132,22 @@ class MainTxt extends StatelessWidget {
                   },
                   child: Image.asset("assets/images/medium.png", width: 30,height: 30,),
                 ),
+                SizedBox(width: 10,),
+                GestureDetector(
+                  onTap: () async {
+                    final Uri url = Uri.parse(Varfile.linkdin_url);
+                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Could not open the article.')),
+                      );
+                    }
+                  },
+                  child: Image.asset("assets/images/linkedin.png", width: 30,height: 30,),
+                )
               ]
           ),
-          SizedBox(height: 100,),
-          Text("Made by Himcha,Coco,Atharv,Akku\nPowered by Nakshatra NSUT and Team", style: GoogleFonts.poppins(color: Colors.white38.withOpacity(0.3), fontWeight: FontWeight.w600)),
+          SizedBox(height: 20,),
+          Text("Made by Himcha,Coco,Atharv,Akku\nPowered by Nakshatra NSUT and Team", style: GoogleFonts.poppins(color: Colors.white38.withOpacity(0.3),fontSize: 8, fontWeight: FontWeight.w600)),
           SizedBox(height: 140,)
         ],
       ),
