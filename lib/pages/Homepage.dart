@@ -12,8 +12,8 @@ import 'package:gyansutra/pages/USER/aboutgyan.dart';
 import 'package:gyansutra/pages/USER/aboutnkt.dart';
 import 'package:gyansutra/pages/USER/abtapp.dart';
 import 'package:gyansutra/pages/USER/drawer.dart';
-import 'package:gyansutra/pages/USER/privacy.dart';
 import 'package:gyansutra/pages/gyansutra/peer2peer.dart';
+import 'package:lottie/lottie.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/exploreGyan.dart';
@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   final UserName = Fstorage.read(key: 'username');
   double _alignment = 0.0;
   bool _isDragging = false;
+  int _animationTrigger = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +42,17 @@ class _HomePageState extends State<HomePage> {
       body:Stack(
         children: [
           StarBg(),
+          Lottie.asset("assets/lottie/SpaceCat.json",
+              key: ValueKey(_animationTrigger),
+              fit: BoxFit.cover,width: double.infinity, height: double.infinity, repeat: false),
           Container(
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Color(0x66262335),
-                  Color(0x66463699),
-                  Color(0x668A83DA),
-                  Color(0x66FBD5BD)
+                  Colors.transparent,
+                  Colors.black,
+
                 ],begin: Alignment.topCenter,
                     end: Alignment.bottomLeft
                 )
@@ -99,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Text(
                             "Explore\nThe\nSpace!", style: GoogleFonts.poppins(
-                            fontSize: 70,
+                            fontSize: 60,
                             fontWeight: FontWeight.w900,
                             color: Colors.white,
                             height: 1.1,
@@ -118,15 +121,8 @@ class _HomePageState extends State<HomePage> {
                       color: Color(0xffE6E6FA),
                     ),
                     ),
-                    Container(
-                      width: 325,
-                      height: 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color(0xffE6E6FA),
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                    Divider(color: Color(0xffE6E6FA), thickness: 1,),
+                    SizedBox(height: 10),
                     StaggeredGrid.count(
                       crossAxisCount: 4,
                       mainAxisSpacing: 5,
@@ -170,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("AstroCalender", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                                        Text("AstroCalendar", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
                                         Text("Stay Updated with latest events", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                       ],
                                     )
@@ -651,8 +647,8 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                         gradient: LinearGradient(colors: [
-                          Color(0x66003049),
-                          Color(0x66ffc34f),
+                          Color(0x88003049),
+                          Color(0x88ffc34f),
                         ],)
                       ),
                       child: Stack(
@@ -677,7 +673,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Icon(Icons.keyboard_double_arrow_right_rounded,color: Colors.white.withOpacity(0.5),size: 20,)),
                               Padding(
                                 padding: const EdgeInsets.only(right:25.0),
-                                child: Text("Gyansutra", style: GoogleFonts.poppins(color: Colors.black.withOpacity(0.5), fontWeight: FontWeight.w500)),
+                                child: Text("Gyansutra", style: GoogleFonts.poppins(color: Colors.black.withOpacity(0.8), fontWeight: FontWeight.w500)),
                               ),
                             ],
                           ),
@@ -706,6 +702,7 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> NakshatraMain())).then((_){
                                       setState(() {
                                         _alignment = 0.0;
+                                        _animationTrigger++;
                                       });
                                     });
 
@@ -715,9 +712,9 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Exploregyan())).then((_){
                                       setState(() {
                                         _alignment = 0.0;
+                                        _animationTrigger++;
                                       });
                                     });
-
                                   }
                                   else {
                                     setState(() {
@@ -731,25 +728,17 @@ class _HomePageState extends State<HomePage> {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white
+                                      color: Colors.grey
                                   ),
                                   child: Container(
-                                      height: heightnav-8,
-                                      width: heightnav-8,
+                                      height: heightnav-10,
+                                      width: heightnav-10,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.black
+                                          color: Colors.white
                                       ),
-                                      child:Container(
-                                          height: heightnav-20,
-                                          width: heightnav-20,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white
-                                          ),
-                                          child: Icon(Icons.rocket, color: Colors.black, size: 25,)
-                                      )
+                                      child:Lottie.asset("assets/lottie/Rocket.json",width: 60, height: 60)
                                   )
                               )
 

@@ -153,7 +153,7 @@ class _AstrocalenderState extends State<Astrocalender> {
           ],
         ),
       ),
-      drawer: CustomDrawer(),
+
       body: Stack(
         children: [
           Container(

@@ -49,7 +49,7 @@ class _NotesState extends State<Notes> {
             future: _notesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator(color: Colors.white));
+                return earthrotate();
               }
               else if (snapshot.hasError) {
                 return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
@@ -60,6 +60,7 @@ class _NotesState extends State<Notes> {
               final notesList = snapshot.data!;
 
               return GridView.builder(
+                padding: EdgeInsets.only(left: 10,right: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: notesList.length,

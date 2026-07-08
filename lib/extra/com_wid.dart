@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/VarFile.dart';
 import 'package:gyansutra/pages/Homepage.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class homenav extends StatelessWidget {
@@ -155,26 +156,14 @@ class MainTxt extends StatelessWidget {
   }
 }
 
-// Widget _buildMessageState({required IconData icon, required String message, bool showRetry = false, Function()? ontap}) {
-//   return ListView(
-//     shrinkWrap: true,
-//     physics: NeverScrollableScrollPhysics(),
-//     children: [
-//       const SizedBox(height: 120),
-//       Icon(icon, size: 56, color: Colors.grey),
-//       const SizedBox(height: 12),
-//       Text(message, textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey, fontSize: 15)),
-//       if (showRetry) ...[
-//         const SizedBox(height: 16),
-//         Center(
-//           child: OutlinedButton.icon(
-//             onPressed: (){wi},
-//             icon: const Icon(Icons.refresh),
-//             label: const Text('Retry'),
-//           ),
-//         ),
-//       ],
-//     ],
-//   );
-// }
+class earthrotate extends StatelessWidget {
+  const earthrotate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Lottie.asset("assets/lottie/Earth.json", width: 80, height: 80),
+    );
+  }
+}
 

@@ -147,14 +147,7 @@ class _BlogsState extends State<Blogs> {
                         future: _blog,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              heightFactor: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                                backgroundColor: Colors.white.withOpacity(0.3),
-                              ),
-                            );
+                            return earthrotate();
                           } if (snapshot.hasError) {
                             return Center(
                               child: Text(

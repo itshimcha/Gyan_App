@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -26,7 +27,6 @@ class _CosmicfeedState extends State<Cosmicfeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body:
         Stack(
           children: [
@@ -36,19 +36,18 @@ class _CosmicfeedState extends State<Cosmicfeed> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xff0d0552),
-                    Color(0xff2c9ee5)
+                    Colors.black,
+                    Color(0x770d0552),
+                    Color(0x882c9ee5)
                   ],
-                  stops: [0.7,1],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomCenter
-
-
                 )
-
               )
             ),
-            StarBg(),
+            Opacity(
+              opacity: 0.6,
+                child: StarBg()),
             DefaultTabController(
                 length: 2,
                 child: Column(
@@ -56,25 +55,41 @@ class _CosmicfeedState extends State<Cosmicfeed> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
                       SizedBox(height: 50,),
-
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false);
-                          },
-                          child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false);
+                                      },
+                                      child: Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle
+                                          ),
+                                          child: Center(child: Icon(Icons.home,color: Colors.white,))))
                               ),
-                              child: Center(child: Icon(Icons.home,color: Colors.black,))))
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 27.0),
-                        child: Text("Cosmic Feed", style: GoogleFonts.alegreya(fontSize: 50, fontWeight: FontWeight.w600,color: Colors.white),),
+                              SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 27.0),
+                                child: Text("Galaxify", style: GoogleFonts.alegreya(fontSize: 50, height: 1,fontWeight: FontWeight.w600,color: Colors.white),),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 8,),
+                          Expanded(
+                            child: Container(
+                              height: 130,
+                              child:
+                              Lottie.asset("assets/lottie/Nice.json"),
+                            ),
+                          )
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
@@ -155,7 +170,7 @@ class _NewsForYouState extends State<NewsForYou> {
       future: _futureArticles,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return earthrotate();
         }
         else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -232,7 +247,6 @@ class _NewsForYouState extends State<NewsForYou> {
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
                                               Colors.black,
-
                                               Colors.transparent,
                                             ],
                                                 stops: [0.2, 1.0],
@@ -589,13 +603,46 @@ class _OnAirState extends State<OnAir> {
     }
   }
 
+  Widget _buildPremiumTag({required IconData icon, required String text}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.08),
+          width: 0.8,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: const Color(0xFFE6E6FA).withOpacity(0.7),
+            size: 13,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: GoogleFonts.jost(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withOpacity(0.85),
+              letterSpacing: 0.3,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CosmicFeedOnAir>>(
       future: futureEvents,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return earthrotate();
         }
         else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.red)));
@@ -612,7 +659,6 @@ class _OnAirState extends State<OnAir> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 ListView.builder(
                   itemCount: events.length,
                   padding: EdgeInsets.zero,
@@ -626,8 +672,8 @@ class _OnAirState extends State<OnAir> {
                       child: GestureDetector(
                           onTap: () async {
                             final Uri url = Uri.parse(event.video_url);
-                            if(!await launchUrl(url, mode: LaunchMode.externalApplication)){
-                              if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                            if(!await launchUrl(url, mode: LaunchMode.inAppWebView)){
+                              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Could not open the video.')),
                                 );
@@ -635,73 +681,124 @@ class _OnAirState extends State<OnAir> {
                             }
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2 ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width*0.9,
-                                  height: 170,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 0.4,color: Colors.white.withOpacity(0.4)),
-                                    borderRadius: BorderRadius.circular(15),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          Color(0x44e6e6fa),
-                                          Color(0x44004984)
-                                        ],
-                                        stops: [0.7,1],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomCenter
-                                    ),),
-                                  child:  Stack(
-                                      children:[
-                                        Positioned(
-                                            right: 130,
-                                            top: -30,
-                                            child: Icon(Icons.play_circle, color: Colors.white.withOpacity(0.1),size: 300,)),
-                                        Positioned(
-                                          top: 20,
-                                          right: 20,
-                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 23),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Positioned(
+                                  right: -10,
+                                  top: -10,
+                                  child: Container(
+                                    width: 130,
+                                    height: 130,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white12
+                                    ),
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width * 0.92,
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(24),
+                                        border: Border.all(
+                                          width: 1.2,
+                                          color: Colors.white.withOpacity(0.12),
                                         ),
-                                        Positioned(
-                                          bottom: 20,
-                                          left: 15,
-                                          right: 35,
-                                          child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.white.withOpacity(0.07),
+                                            const Color(0xFF004984).withOpacity(0.05),
+                                            Colors.black.withOpacity(0.2),
+                                          ],
+                                          stops: const [0.0, 0.5, 1.0],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(22.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text(event.name,
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: GoogleFonts.jost(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),),
-                                                SizedBox(height: 5,),
-                                                Text(event.description,maxLines: 2, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(fontSize: 12, fontWeight: FontWeight.w400,height: 1.2,color: Colors.white.withOpacity(0.7),),),
-                                                SizedBox(height: 10,),
-                                                Row(
-                                                    children: [
-                                                      Icon(Icons.calendar_month, color: Colors.white.withOpacity(0.7),size: 15,),
-                                                      SizedBox(width: 2,),
-                                                      Text(event.date.length == 8
-                                                          ? "${event.date.substring(6, 8)}-${event.date.substring(4, 6)}-${event.date.substring(0, 4)}"
-                                                          : event.date, style: GoogleFonts.jost(fontSize: 12, fontWeight: FontWeight.w400,color: Colors.white),),
-                                                      SizedBox(width: 10,),
-                                                      Icon(Icons.access_time, color: Colors.white.withOpacity(0.7),size: 15,),
-                                                      SizedBox(width: 2,),
-                                                      Text(event.time, style: GoogleFonts.jost(fontSize: 12, fontWeight: FontWeight.w400,color: Colors.white),),
-                                                    ]
-                                                )
-                                              ]
-                                          ),
-                                        ),
-                                      ]
-                                  ),
+                                                Expanded(
+                                                  child: Text(
+                                                    event.name,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: GoogleFonts.jost(
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.white,
+                                                      letterSpacing: 0.5,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                Container(
+                                                  padding: const EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.white.withOpacity(0.08),
+                                                    border: Border.all(color: Colors.white.withOpacity(0.15), width: 1),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.arrow_forward_rounded,
+                                                    color: Colors.white.withOpacity(0.9),
+                                                    size: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Expanded(
+                                              child: Text(
+                                                event.description,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.jost(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 1.4,
+                                                  color: Colors.white.withOpacity(0.6),
+                                                  letterSpacing: 0.2,
+                                                ),
+                                              ),
+                                            ),
 
+                                            const SizedBox(height: 14),
+
+                                            // BOTTOM ROW: Clean Pill Tags
+                                            Row(
+                                              children: [
+                                                _buildPremiumTag(
+                                                  icon: Icons.calendar_today_rounded,
+                                                  text: event.date.length == 8
+                                                      ? "${event.date.substring(6, 8)}/${event.date.substring(4, 6)}/${event.date.substring(0, 4)}"
+                                                      : event.date,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                _buildPremiumTag(
+                                                  icon: Icons.schedule_rounded,
+                                                  text: event.time,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           )
                       ),

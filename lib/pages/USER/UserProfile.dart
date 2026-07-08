@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gyansutra/extra/com_wid.dart' show earthrotate;
 import 'package:http/http.dart' as http;
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'dart:convert';
@@ -202,12 +203,7 @@ class _UserpageState extends State<Userpage> {
                 future: _userProfile,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(heightFactor: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                        backgroundColor: Colors.white.withOpacity(0.3),
-                      ),);
+                    return earthrotate();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}',
                         style: const TextStyle(color: Colors.white));

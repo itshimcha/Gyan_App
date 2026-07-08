@@ -402,10 +402,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),),
-                              child: _isLoading ? const SizedBox(width: 20, height: 20,
-                                  child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2)) : Text("Submit", style: GoogleFonts.poppins(
+                              child: _isLoading ? earthrotate(): Text("Submit", style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                               )

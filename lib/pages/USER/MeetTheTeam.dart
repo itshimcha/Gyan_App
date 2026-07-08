@@ -262,13 +262,13 @@ class _MeettheteamState extends State<Meettheteam> {
                       children: [
                         Card("assets/images/Team/ishit.png",
                           "Ishit Ninawat",
-                          "Content Writter",
+                          "Content Writer",
                           "Ishit Ninawat is a student from Mathematics and Computing, batch of 2029. His main focus lies in software development, and as his side activities, carries out writing, public speaking, debating and photography. ",
                         ),
                         SizedBox(width: 10,),
                         Card("assets/images/Team/Ekansh.png",
                           "Ekansh",
-                          "Content writter",
+                          "Content writer",
                           "Ekansh Miglani is a student of Instrumentation and Control Engineering, batch of 2029, at NSUT. His interests include technology, finance, and writing. Outside academics, he enjoys playing sports and writing poetry."
                         ),
                       ]

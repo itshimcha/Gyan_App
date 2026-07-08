@@ -366,7 +366,7 @@ class _AdvicepageState extends State<Advicepage> {
                       future: futureAdvice,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                          return earthrotate();
                         } else if (snapshot.hasError) {
                           return _buildMessageState(
                             icon: Icons.error_outline,

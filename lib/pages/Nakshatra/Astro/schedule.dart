@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:gyansutra/extra/Varfile.dart';
+import 'package:gyansutra/extra/com_wid.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
 
@@ -96,14 +97,7 @@ class _ScheduleState extends State<Schedule> {
       future: _fatchAll(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            heightFactor: 20,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-              strokeWidth: 2,
-              backgroundColor: Colors.white.withOpacity(0.3),
-            ),
-          );
+          return earthrotate();
         }if (snapshot.hasError) {
           return Center(
             child: Text(

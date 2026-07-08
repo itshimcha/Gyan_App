@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:gyansutra/extra/Varfile.dart';
+import 'package:gyansutra/extra/com_wid.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -162,12 +163,7 @@ class _MonthAstroState extends State<MonthAstro> {
                     ]
                 ),
                 child: _isLoading
-                    ? Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    backgroundColor: Colors.white.withOpacity(0.3),
-                  ),
-                )
+                    ? earthrotate()
                     : _errorMessage != null
                     ? Center(child: Text(_errorMessage!, style: TextStyle(color: Colors.red[300])))
                     : Column(

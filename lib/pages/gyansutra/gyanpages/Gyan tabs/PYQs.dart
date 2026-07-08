@@ -47,7 +47,7 @@ class _PYQsState extends State<PYQs> {
               future: _pyqsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                  return earthrotate();
                 }
                 else if (snapshot.hasError) {
                   return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
@@ -59,6 +59,7 @@ class _PYQsState extends State<PYQs> {
                 final eseList = pyqsList.where((file) => file.name.contains("ESE")).toList();
                 final mseList = pyqsList.where((file) => file.name.contains("MSE")).toList();
                 return ListView(
+                  padding: EdgeInsets.only(left: 10,right: 10, top: 10),
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   children: [
@@ -75,6 +76,7 @@ class _PYQsState extends State<PYQs> {
                         style: GoogleFonts.poppins(fontStyle: FontStyle.italic,color: Colors.white54, fontSize: 10))
                     ) :
                     GridView.builder(
+                      padding: EdgeInsets.only(left: 10,right: 10),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: mseList.length,
@@ -191,6 +193,7 @@ class _PYQsState extends State<PYQs> {
                     Text("No ESE files found",
                         style: GoogleFonts.poppins(fontStyle: FontStyle.italic,color: Colors.white54, fontSize: 10)),) :
                     GridView.builder(
+                      padding: EdgeInsets.only(left: 10,right: 10),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: eseList.length,
@@ -291,7 +294,6 @@ class _PYQsState extends State<PYQs> {
 
                   ],
                 );
-
               }
           ),
           MainTxt(text: "Gyansutra"),

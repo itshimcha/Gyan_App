@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
+import 'package:gyansutra/extra/com_wid.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,7 +45,7 @@ class _SyallbusState extends State<Syallbus> {
         future: _syallbusFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Colors.white));
+            return earthrotate();
           }
           else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
@@ -70,7 +72,7 @@ class _SyallbusState extends State<Syallbus> {
                   width: 70,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: Color(0xffe6e6fa).withOpacity(0.9),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(45),
                     boxShadow: [
                       BoxShadow(
@@ -84,7 +86,7 @@ class _SyallbusState extends State<Syallbus> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.picture_as_pdf_outlined, color: Colors.black,size: 25,),
+                        Lottie.asset("assets/lottie/university.json", width: 30, height: 30),
                         SizedBox(height: 2,),
                         Text("Syllabus", style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 10,color: Colors.black))
                       ]

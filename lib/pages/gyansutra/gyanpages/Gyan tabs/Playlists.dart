@@ -51,7 +51,7 @@ class _PlaylistsState extends State<Playlists> {
               future: _playlistFuture,
               builder: (context,snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                  return earthrotate();
                 }else if (snapshot.hasError) {
                     return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

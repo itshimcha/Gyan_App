@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
+import 'package:gyansutra/extra/com_wid.dart';
 import 'package:gyansutra/pages/USER/drawer.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/Gyan%20tabs/Extras.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/Gyan%20tabs/Notes.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/Gyan%20tabs/PYQs.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/Gyan%20tabs/Playlists.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart' show Lottie;
 import 'dart:convert';
 
 import 'Gyan tabs/syallbus.dart' show Syallbus;
@@ -57,9 +59,7 @@ class _CategoryState extends State<Category> {
           builder: (context, snapshot) {
             if (snapshot.connectionState ==
                 ConnectionState.waiting) {
-              return const Center(
-                  child: CircularProgressIndicator(color: Colors
-                      .white));
+              return earthrotate();
             }
             else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot
@@ -125,38 +125,61 @@ class _CategoryState extends State<Category> {
                           IconButton(onPressed: (){
                             Navigator.pop(context);
                           }, icon: Icon(Icons.arrow_back_ios_new_sharp,color: Colors.white,size: 25,)),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text("Explore",
-                                style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 40,color: Color(0xffe6e6fa))),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: SizedBox(height: 10,),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                SizedBox(width:5,),
-                                Text(widget.branchCode , style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
-                                SizedBox(width: 5,),
-                                Icon(Icons.keyboard_double_arrow_right, color: Color(0xffe6e6fa),size: 18,),
-                                SizedBox(width: 5,),
-                                Text("Sem " + widget.semesterNumber.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
-                                SizedBox(width: 5,),
-                                Icon(Icons.keyboard_double_arrow_right, color: Color(0xffe6e6fa),size: 18,),
-                                SizedBox(width: 5,),
-                                Expanded(
-                                  child: Text(widget.subjectName,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
+                          Row(
+                            mainAxisAlignment:MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        child: Text("Explore",
+                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: 40,color: Color(0xffe6e6fa))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        child: SizedBox(height: 10,),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width:5,),
+                                            Text(widget.branchCode , style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
+                                            SizedBox(width: 5,),
+                                            Icon(Icons.keyboard_double_arrow_right, color: Color(0xffe6e6fa),size: 18,),
+                                            SizedBox(width: 5,),
+                                            Text("Sem " + widget.semesterNumber.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
+                                            SizedBox(width: 5,),
+                                            Icon(Icons.keyboard_double_arrow_right, color: Color(0xffe6e6fa),size: 18,),
+                                            SizedBox(width: 5,),
+                                            Expanded(
+                                              child: Text(widget.subjectName,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 13,color: Color(0xffe6e6fa)),),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(95),
+                                    color: Colors.white12,),
+                                  child: Lottie.asset("assets/lottie/Astronaut&.json", ))
+                            ],
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(height: 20,),
                           Expanded(
                             child: Stack(
                               children: [
@@ -233,7 +256,6 @@ class _CategoryState extends State<Category> {
                   Syallbus(cat_id: syllabusCategory?.id ?? -1,)
                 ]
             );
-
           }
       )
     );
