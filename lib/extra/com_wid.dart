@@ -18,7 +18,6 @@ class homenav extends StatelessWidget {
     }
   }
 
-
 class UserSettingNav extends StatelessWidget {
   final Color IconColor;
   const UserSettingNav({super.key, required this.IconColor });
@@ -163,6 +162,23 @@ class earthrotate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Lottie.asset("assets/lottie/Earth.json", width: 80, height: 80),
+    );
+  }
+}
+
+class CustomSnackbar {
+  static void show(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: Colors.white,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 4),
+      ),
     );
   }
 }
