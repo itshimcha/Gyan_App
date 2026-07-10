@@ -34,7 +34,7 @@ class _splashScreenState extends State<splashScreen> {
   }
 
   Future<void> checkLoginStatus() async {
-    await Future.delayed(const Duration(milliseconds: 6500));
+    await Future.delayed(const Duration(milliseconds: 6250));
     String? access_token =await FStorage.read(key: 'access_token');
     String? refresh_token =await FStorage.read(key: 'refresh_token');
     String? is_profile_complete =await FStorage.read(key: 'is_profile_complete');
@@ -57,6 +57,7 @@ class _splashScreenState extends State<splashScreen> {
       body: SizedBox.expand(
         child: Image.asset(
           "assets/gifs/splashscreen.gif",
+          repeat: ImageRepeat.noRepeat,
           fit: BoxFit.cover,
         ),
       ),
