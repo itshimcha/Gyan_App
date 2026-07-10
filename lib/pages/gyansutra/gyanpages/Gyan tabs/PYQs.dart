@@ -50,10 +50,10 @@ class _PYQsState extends State<PYQs> {
                   return earthrotate();
                 }
                 else if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
+                  return Center(child: No_internet());
                 }
                 else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text("No data found.", style: TextStyle(color: Colors.white)));
+                  return const Center(child: Text("No PYQs for this Subject", style: TextStyle(color: Colors.white)));
                 }
                 final pyqsList = snapshot.data!;
                 final eseList = pyqsList.where((file) => file.name.contains("ESE")).toList();

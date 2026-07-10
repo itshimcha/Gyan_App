@@ -26,7 +26,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
   void _showDialog() {
     showDialog(
       context: context,
-      // barrierDismissible prevents users from closing the dialog by tapping outside it
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -72,11 +71,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
     setState(() => _isLoading = true);
     final Map formData = {
-      "entry.983625159": _nameController.text,
-      "entry.997569354": _rollnoController.text,
-      "entry.730524261": _emailController.text,
-      "entry.1466128427": selectedtype,
-      "entry.148925937": _feedbackController.text
+      "entry.941555442": _nameController.text,
+      "entry.533545778": _rollnoController.text,
+      "entry.1003059422": _emailController.text,
+      "entry.1877825256": selectedtype,
+      "entry.771845918": _feedbackController.text
     };
     try {
       final response = await http.post(

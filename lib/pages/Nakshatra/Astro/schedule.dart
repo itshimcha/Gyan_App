@@ -99,12 +99,7 @@ class _ScheduleState extends State<Schedule> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return earthrotate();
         }if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              "Failed to load data. Try again later.",
-              style: TextStyle(color: Colors.red[300]),
-            ),
-          );
+          return Center(child: No_internet());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
@@ -186,34 +181,58 @@ class _ScheduleState extends State<Schedule> {
                                           widget.onEventTap!(event.start_date);
                                         }
                                       },
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 60,
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(event.start_date.day.toString(), style: GoogleFonts.poppins(color: Colors.black,fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
-                                                Text(Varfile.days[event.start_date.weekday - 1], style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Container(
-                                              height: 62,
+                                      child: Container(
+                                        height: 62,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(colors: [
+                                            Color(0xffBEB8CD),
+                                            Color(0xffBEB8CD),
+                                            Color(0xffFAF9F8),
+                                          ]),
+                                          borderRadius: BorderRadius.circular(40),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 4,),
+                                            Container(
+                                              width: 53,
+                                              height: 53,
                                               decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(40),
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color(0xff0D2750).withOpacity(0.3),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 2,
+                                                      offset: Offset(1, 2),
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0xff0D2750),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 2,
+                                                      offset: Offset(-1, -1),
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0xffffffff),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 2,
+                                                      offset: Offset(0, 0),
+                                                    ),
+                                                  ],
+                                                  shape: BoxShape.circle
+
                                               ),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(event.start_date.day.toString(), style: GoogleFonts.poppins(color: Colors.black,fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
+                                                  Text(Varfile.days[event.start_date.weekday - 1], style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                padding: const EdgeInsets.only(left: 10, right: 30),
                                                 child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -225,8 +244,12 @@ class _ScheduleState extends State<Schedule> {
                                                 ),
                                               ),
                                             ),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 15),
+                                              child: Icon(Icons.arrow_circle_right, color: Colors.black87, size: 25),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );

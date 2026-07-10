@@ -143,6 +143,13 @@ class MainTxt extends StatelessWidget {
                     }
                   },
                   child: Image.asset("assets/images/linkedin.png", width: 30,height: 30,),
+                ),
+                SizedBox(width: 10,),
+                GestureDetector(
+                  onTap: () async {
+
+                  },
+                  child: Image.asset("assets/images/whatsapplogo.png", width: 35,height: 35,),
                 )
               ]
           ),
@@ -183,3 +190,24 @@ class CustomSnackbar {
   }
 }
 
+class No_internet extends StatelessWidget {
+  final double size ;
+  final double fontsize;
+  const No_internet({super.key, this.size = 300, this.fontsize = 20});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: size/4.5,),
+        Container(
+          width: size ?? 300,
+            height: size ?? 300,
+          child: Lottie.asset("assets/lottie/Nointer.json"),
+        ),
+        Text("OOPS! No Internet Connection", style: GoogleFonts.poppins(color: Colors.white70, fontSize: fontsize ?? 20, fontWeight: FontWeight.w400)),
+      ],
+    );
+  }
+}

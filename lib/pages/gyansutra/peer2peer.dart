@@ -82,11 +82,7 @@ class _AdvicepageState extends State<Advicepage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to post advice', style: GoogleFonts.poppins(color: Colors.white)),
-            backgroundColor: Colors.red,
-          ),
+        CustomSnackbar.show(context, "failed to post advice, sorry for Inconvience"
         );
       }
     }
@@ -368,11 +364,7 @@ class _AdvicepageState extends State<Advicepage> {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return earthrotate();
                         } else if (snapshot.hasError) {
-                          return _buildMessageState(
-                            icon: Icons.error_outline,
-                            message: 'Something went wrong',
-                            showRetry: true,
-                          );
+                          return Center(child: No_internet(),);
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return _buildMessageState(
                             icon: Icons.forum_outlined,

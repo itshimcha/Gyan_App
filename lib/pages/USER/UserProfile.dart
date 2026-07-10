@@ -73,7 +73,6 @@ class _UserpageState extends State<Userpage> {
     }
   ];
 
-  // Global Text Controllers map securely instantiated
   final Map<String, TextEditingController> _controllers = {
     'name': TextEditingController(),
     'rollno': TextEditingController(),
@@ -531,8 +530,6 @@ class _UserpageState extends State<Userpage> {
                                                         children: [
                                                           Text("Edit Profile", style: GoogleFonts.poppins(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
                                                           const SizedBox(height: 15),
-
-                                                          // Dropdown Category Selector - WHITE TEXT FIX & EMAIL DROPPED
                                                           DropdownButtonFormField<String>(
                                                             value: activeCategory,
                                                             dropdownColor: Colors.black,
@@ -556,8 +553,6 @@ class _UserpageState extends State<Userpage> {
                                                             },
                                                           ),
                                                           const SizedBox(height: 25),
-
-                                                          // Dynamic Category Form Switch Panel - TEXT EDIT VISIBILITY FIXES
                                                           if (activeCategory == "Name")
                                                             TextFormField(
                                                               controller: _controllers['name'],

@@ -36,8 +36,7 @@ class _BlogsState extends State<Blogs> {
       final List<dynamic> responseData = json.decode(response.body);
       return responseData.map((json) => fatchBlog.fromJson(json)).toList();
     } else {
-      print("SERVER ERROR BODY: ${response.body}");
-      throw Exception('Failed to load user profile: ${response.statusCode}');
+      throw Exception('Failed to load user profile');
     }
   }
 
@@ -150,11 +149,7 @@ class _BlogsState extends State<Blogs> {
                             return earthrotate();
                           } if (snapshot.hasError) {
                             return Center(
-                              child: Text(
-                                "Failed to load blogs. Try again later.",
-                                style: TextStyle(color: Colors.red[300]),
-                              ),
-                            );
+                              child: No_internet());
                           }
                           if (!snapshot.hasData || snapshot.data!.isEmpty) {
                             return Center(
@@ -179,9 +174,7 @@ class _BlogsState extends State<Blogs> {
                                 String? rawLink = swipedBlog.medium_link;
                                 if (rawLink == null || rawLink.trim().isEmpty) {
                                   ScaffoldMessenger.of(context).clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('No link available for this article.')),
-                                  );
+                                  CustomSnackbar.show(context, "No, link for this blog is not available.");
                                   return true;
                                 }
                                 String cleanUrl = rawLink.trim();
@@ -189,18 +182,13 @@ class _BlogsState extends State<Blogs> {
                                   final Uri articleUrl = Uri.parse(cleanUrl);
                                   if (!await launchUrl(articleUrl, mode: LaunchMode.inAppBrowserView)) {
                                     ScaffoldMessenger.of(context).clearSnackBars();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Could not open the article.')),
-                                    );
+                                    CustomSnackbar.show(context, "Could not open the article.");
                                   }
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Invalid link format in database.')),
-                                  );
+                                  CustomSnackbar.show(context, "Something went wrong. Try again Later");
                                 }
                               } else if (direction == CardSwiperDirection.left) {
-
                               }
                               return true;
                             },
@@ -248,9 +236,7 @@ class _BlogsState extends State<Blogs> {
                                               onTap: () async {
                                                 final Uri url = Uri.parse(Varfile.medium_url);
                                                 if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    const SnackBar(content: Text('Could not open the article.')),
-                                                  );
+                                                  CustomSnackbar.show(context, "Could not open the Article.");
                                                 }
                                               },
                                               child: Image.asset("assets/images/medium.png",width: 30,height: 30,)),

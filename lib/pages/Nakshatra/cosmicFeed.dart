@@ -173,7 +173,7 @@ class _NewsForYouState extends State<NewsForYou> {
           return earthrotate();
         }
         else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return No_internet();
         }
         else if (!snapshot.hasData) {
           return const Center(child: Text('No news available right now.'));
@@ -227,9 +227,7 @@ class _NewsForYouState extends State<NewsForYou> {
                               onTap: () async {
                                 final Uri url = Uri.parse(article.url);
                                 if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Could not open the article.')),
-                                  );
+                                  CustomSnackbar.show(context, "Could not open the article");
                                 }
                               },
                               child: Stack(
@@ -345,9 +343,7 @@ class _NewsForYouState extends State<NewsForYou> {
                           onTap: () async {
                             final Uri url = Uri.parse(topstory.url);
                             if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Could not open the article.')),
-                              );
+                              CustomSnackbar.show(context, "Could not open the article");;
                             }
                           },
                         child: Stack(
@@ -461,9 +457,7 @@ class _NewsForYouState extends State<NewsForYou> {
                             onTap: () async {
                               final Uri url = Uri.parse(newstoday.url);
                               if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Could not open the article.')),
-                                );
+                                CustomSnackbar.show(context, "Could not open the article");
                               }
                             },
                             child: Stack(
@@ -674,9 +668,7 @@ class _OnAirState extends State<OnAir> {
                             final Uri url = Uri.parse(event.video_url);
                             if(!await launchUrl(url, mode: LaunchMode.inAppWebView)){
                               if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Could not open the video.')),
-                                );
+                                CustomSnackbar.show(context, "Could not open the article");
                               }
                             }
                           },

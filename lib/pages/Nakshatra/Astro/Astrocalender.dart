@@ -156,13 +156,23 @@ class _AstrocalenderState extends State<Astrocalender> {
 
       body: Stack(
         children: [
+          Opacity(
+              opacity: 0.4,child: StarBg()),
           Container(
             width: double.infinity,
             height: double.infinity,
             decoration: const BoxDecoration(
-                color: Colors.black
+                gradient: LinearGradient(colors: [
+                  Colors.black,
+                  Color(0x330d0552),
+                  Color(0x442c9ee5)
+                ],
+                begin: AlignmentGeometry.topLeft,
+                end: AlignmentGeometry.bottomRight)
             ),
           ),
+          Opacity(
+              opacity: 0.4,child: StarBg()),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SingleChildScrollView(
@@ -181,7 +191,7 @@ class _AstrocalenderState extends State<Astrocalender> {
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white38,
+                            color: Colors.white,
                             shape: BoxShape.circle
                           ),
                           child: Center(child: Icon(Icons.home,color: Colors.black,))),

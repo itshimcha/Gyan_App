@@ -42,10 +42,7 @@ class _DayAstroState extends State<DayAstro> {
         }
         if (snapshot.hasError) {
           return Center(
-            child: Text(
-              "Failed to load data. Try again later.",
-              style: TextStyle(color: Colors.red[300]),
-            ),
+            child: No_internet(),
           );
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -69,9 +66,7 @@ class _DayAstroState extends State<DayAstro> {
                         onTap: () async {
                           final Uri url = Uri.parse(Varfile.instagram_url);
                           if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Could not open the article.')),
-                            );
+                            CustomSnackbar.show(context, "Couldn't open the URL, sorry for Inconvenience");
                           }
                         },
                         child: Container(
@@ -126,26 +121,26 @@ class _DayAstroState extends State<DayAstro> {
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
-                            ShaderMask(
-                              shaderCallback: (rect) {
-                                return const LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Colors.black,
-                                    Colors.black,
-                                    Colors.transparent,
-                                  ],
-                                  stops: [0.0, 0.4, 0.8],
-                                ).createShader(rect);
-                              },
-                              blendMode: BlendMode.dstIn,
-                              child: Image.network(
-                                event.image,
-                                fit: BoxFit.cover,
+                            Image.network(
+                              event.image,
+                              fit: BoxFit.cover,
 
-                                alignment: Alignment.center,
-                              ),
+                              alignment: Alignment.center,
+                            ),
+
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    end: Alignment.topRight,
+                                    begin: Alignment.bottomLeft,
+                                    colors: [
+                                      Colors.black,
+                                      Colors.black,
+                                      Colors.transparent,
+                                    ],
+                                    stops: [0.0, 0.1, 0.5],
+                                )
+                              )
                             ),
                             Container(
                               decoration: BoxDecoration(

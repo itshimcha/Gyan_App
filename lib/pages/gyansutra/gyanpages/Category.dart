@@ -62,9 +62,7 @@ class _CategoryState extends State<Category> {
               return earthrotate();
             }
             else if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot
-                  .error}",
-                  style: const TextStyle(color: Colors.white)));
+              return Center(child: No_internet());
             }
             else
             if (!snapshot.hasData || snapshot.data!.isEmpty) {

@@ -88,15 +88,11 @@ class _signInState extends State<signIn> {
       } else {
         print(response.statusCode);
         if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Authentication failed. Please try again.")),
-        );
+        CustomSnackbar.show(context, "Authentication failed, Try again");
       }
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("An error occurred")),
-      );
+      CustomSnackbar.show(context, "There is some Problem, try again later");
     } finally {
       if (mounted) {
         setState(() {

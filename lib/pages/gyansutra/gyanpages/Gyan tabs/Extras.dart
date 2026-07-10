@@ -66,9 +66,9 @@ class _ExtrasState extends State<Extras> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return earthrotate();
             } else if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white)));
+              return Center(child: No_internet(size: 100 ,fontsize: 11,));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text("Not found.", style: GoogleFonts.poppins(color: Colors.white54, fontStyle: FontStyle.italic)));
+              return Center(child: Text("No Extra Material Found.", style: GoogleFonts.poppins(color: Colors.white54, fontStyle: FontStyle.italic)));
             }
             final ExtraList = snapshot.data!;
             return GridView.builder(

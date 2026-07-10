@@ -165,7 +165,7 @@ class _MonthAstroState extends State<MonthAstro> {
                 child: _isLoading
                     ? earthrotate()
                     : _errorMessage != null
-                    ? Center(child: Text(_errorMessage!, style: TextStyle(color: Colors.red[300])))
+                    ? Center(child: Text("There is an Issue, we are trying to figure it out ", style: TextStyle(color: Colors.red[300])))
                     : Column(
                   children: [
                     Container(
@@ -201,40 +201,73 @@ class _MonthAstroState extends State<MonthAstro> {
                                     }
                                   },
                                   child: Container(
-                                    height: 65,
+                                    height: 62,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      gradient: LinearGradient(colors: [
+                                        Color(0xffBEB8CD),
+                                        Color(0xffBEB8CD),
+                                        Color(0xffFAF9F8),
+                                      ]),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                      child: Row(
-                                        children: [
-                                          Column(
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 4,),
+                                        Container(
+                                          width: 53,
+                                          height: 53,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Color(0xff0D2750).withOpacity(0.3),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: Offset(1, 2),
+                                                ),
+                                                BoxShadow(
+                                                  color: Color(0xff0D2750),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: Offset(-1, -1),
+                                                ),
+                                                BoxShadow(
+                                                  color: Color(0xffffffff),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: Offset(0, 0),
+                                                ),
+                                              ],
+                                              shape: BoxShape.circle
+
+                                          ),
+                                          child: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text(event.start_date.day.toString(),
-                                                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
-                                              Text(Varfile.days[event.start_date.weekday - 1],
-                                                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
+                                              Text(event.start_date.day.toString(), style: GoogleFonts.poppins(color: Colors.black,fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
+                                              Text(Varfile.days[event.start_date.weekday - 1], style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
                                             ],
                                           ),
-                                          const SizedBox(width: 15),
-                                          Expanded(
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 10, right: 30),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text(event.title ?? "Event Details", maxLines: 1, overflow: TextOverflow.ellipsis,
-                                                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700)),
-                                                Text(event.short_description, maxLines: 1, overflow: TextOverflow.ellipsis,
-                                                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 10, fontWeight: FontWeight.w500)),
+                                                Text(event.title ?? "Event Details", maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700)),
+                                                Text(event.short_description,maxLines: 1,overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.black, fontSize: 8, fontWeight: FontWeight.w500)),
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 15),
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.black87, size: 25),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
