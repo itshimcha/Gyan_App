@@ -161,9 +161,7 @@ class _AdvicepageState extends State<Advicepage> {
 
     String selectedFormBranch = Varfile.Branch_Name.isNotEmpty ? Varfile.Branch_Name.first : '';
     final formKey = GlobalKey<FormState>();
-
     if (!mounted) return;
-
     showDialog(
       context: context,
       builder: (context) {

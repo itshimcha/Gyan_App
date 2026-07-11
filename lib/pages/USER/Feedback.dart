@@ -5,6 +5,9 @@ import 'package:gyansutra/extra/com_wid.dart';
 import 'package:http/http.dart'as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+
 
 
 class FeedbackPage extends StatefulWidget {
@@ -15,12 +18,13 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _rollnoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _feedbackController = TextEditingController();
   String? selectedtype;
-
+  File? selectedFile;
   bool _isLoading = false;
 
   void _showDialog() {
@@ -54,52 +58,73 @@ class _FeedbackPageState extends State<FeedbackPage> {
       },
     );
   }
-  Future <void> submitFeedback() async {
-    if (_nameController.text.trim().isEmpty ||
-        _rollnoController.text.trim().isEmpty ||
-        _emailController.text.trim().isEmpty ||
-        _feedbackController.text.trim().isEmpty ||
-        selectedtype == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please fill all the details before submitting."),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      return;
-    }
 
-    setState(() => _isLoading = true);
-    final Map formData = {
-      "entry.941555442": _nameController.text,
-      "entry.533545778": _rollnoController.text,
-      "entry.1003059422": _emailController.text,
-      "entry.1877825256": selectedtype,
-      "entry.771845918": _feedbackController.text
-    };
+  Future<void> _pickFile() async {
     try {
-      final response = await http.post(
-        Uri.parse(apiConfig.FeedbackFormLink),
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: formData,
+      FilePickerResult? result = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf'],
       );
-      await Future.delayed(Duration(seconds: 1));
-      if (response.statusCode == 200) {
-        if(mounted){
-          _showDialog();
-        }
+
+      if (result != null && result.files.single.path != null) {
+        setState(() {
+          selectedFile = File(result.files.single.path!);
+        });
+      }
+    } catch (e, stackTrace) {
+      CustomSnackbar.show(context, "Error picking file");
+    }
+  }
+
+  Future <void> submitFeedback() async {
+    final String finalType = selectedtype ?? "GENERAL";
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final uri = Uri.parse(apiConfig.FeedbackEndpoint);
+      final request = http.MultipartRequest('POST', uri);
+      request.headers.addAll({
+        'Accept': 'application/json',
+      });
+
+
+      request.fields['name'] = _nameController.text;
+      request.fields['roll_no'] = _rollnoController.text;
+      request.fields['email'] = _emailController.text;
+      request.fields['feedback_type'] = finalType;
+      request.fields['text'] = _feedbackController.text;
+
+      if (selectedFile != null) {
+        final fileStream = await http.MultipartFile.fromPath(
+          'attachment',
+          selectedFile!.path,
+        );
+        request.files.add(fileStream);
+      }
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         _nameController.clear();
         _rollnoController.clear();
         _emailController.clear();
-        selectedtype = null;
         _feedbackController.clear();
+        setState(() {
+          selectedtype = null;
+          selectedFile = null;
+        });
+        _showDialog();
       } else {
-        print("Failed: Status ${response.statusCode}");
+        CustomSnackbar.show(context, "Submission failed");
       }
     } catch (e) {
-      print("Error: $e");
+      No_internet();
     } finally {
-      setState(() => _isLoading = false);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -258,8 +283,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.black38,
-                              borderRadius: BorderRadius
-                                  .circular(4.0),
+                              borderRadius: BorderRadius.circular(4.0),
                             ),
                             width: 300,
                             padding: const EdgeInsets.only(left: 18, top: 15, bottom: 15),
@@ -267,21 +291,23 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    "Feedback Type",style: GoogleFonts.poppins(
+                                  "Feedback Type",
+                                  style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15,
-                                    color: Colors.white)
+                                    color: Colors.white,
+                                  ),
                                 ),
-                                SizedBox(height: 10,),
-                                FormField<dynamic>(
-                                  initialValue: selectedtype ?? "General",
+                                const SizedBox(height: 10),
+                                FormField<String>(
+                                  initialValue: selectedtype ?? "GENERAL",
                                   validator: (value) {
                                     if (selectedtype == null) {
                                       return "Please select a feedback type";
                                     }
                                     return null;
                                   },
-                                  builder: (FormFieldState<dynamic> state) {
+                                  builder: (FormFieldState<String> state) {
                                     return Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -289,14 +315,17 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                           child: Wrap(
                                             spacing: 20.0,
                                             runSpacing: 12.0,
-                                            children: Varfile.type.map((type) {
-                                              bool isSelected = selectedtype == type;
+                                            children: Varfile.feedbackTypes.map((item) {
+                                              final String backendValue = item["value"]!;
+                                              final String displayLabel = item["display"]!;
+                                              bool isSelected = selectedtype == backendValue;
+
                                               return GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    selectedtype = type;
+                                                    selectedtype = backendValue; // Saves 'BUG', 'FEATURE'
                                                   });
-                                                  state.didChange(type);
+                                                  state.didChange(backendValue);
                                                 },
                                                 child: Row(
                                                   mainAxisSize: MainAxisSize.min,
@@ -308,9 +337,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                                         shape: BoxShape.circle,
                                                         gradient: isSelected
                                                             ? const RadialGradient(
-                                                            colors: [Color(0xffBEB8CD), Color(0xffFAF9F8)],
-                                                            center: Alignment.topLeft,
-                                                            radius: 2)
+                                                          colors: [Color(0xffBEB8CD), Color(0xffFAF9F8)],
+                                                          center: Alignment.topLeft,
+                                                          radius: 2,
+                                                        )
                                                             : null,
                                                         color: isSelected ? null : Colors.transparent,
                                                         border: Border.all(
@@ -323,7 +353,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Text(
-                                                      type.toString(),
+                                                      displayLabel, // Renders "Bug Report", "Feature Request"
                                                       style: GoogleFonts.poppins(
                                                         color: isSelected
                                                             ? Colors.white
@@ -356,43 +386,101 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                 ),
                               ],
                             ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              gradient: RadialGradient(
-                                  colors: [
-                                    Color(0xffBEB8CD),
-                                    Color(0xffFAF9F8)
-                                  ],
-                                  center: Alignment.topLeft,
-                                  radius: 7),
-                              borderRadius: BorderRadius.circular(4.0),
+                          ), // feedback
+                    Container(
+                      width: 300,
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          colors: [
+                            Color(0xffBEB8CD),
+                            Color(0xffFAF9F8),
+                          ],
+                          center: Alignment.topLeft,
+                          radius: 7,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              minHeight: 120,
                             ),
                             child: TextField(
-                              maxLines: 200,
+                              maxLines: null,
                               style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
                               ),
                               controller: _feedbackController,
                               textCapitalization: TextCapitalization.sentences,
                               decoration: InputDecoration(
-                                  focusColor: Colors.blue,
-                                  labelText: "Feedback",
-                                  hintText: "Brief",
-                                  hintStyle: GoogleFonts.poppins(color: Colors.black26, fontWeight: FontWeight.w400),
-                                  labelStyle: GoogleFonts.poppins(color: Colors.black54),
-                                  alignLabelWithHint: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      borderSide: BorderSide(color: Colors.white)
-                                  )
+                                labelText: "Feedback",
+                                hintText: "Brief description...",
+                                hintStyle: GoogleFonts.poppins(color: Colors.black26, fontWeight: FontWeight.w400),
+                                labelStyle: GoogleFonts.poppins(color: Colors.black54),
+                                alignLabelWithHint: true,
+                                border: InputBorder.none,
                               ),
-
                             ),
                           ),
+                          const Divider(color: Colors.black12, height: 20, thickness: 1),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (selectedFile != null) ...[
+                                    const SizedBox(height: 5),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.insert_drive_file, size: 16, color: Colors.black54),
+                                          const SizedBox(width: 6),
+                                          Expanded(
+                                            child: Text(
+                                              selectedFile!.path.split('/').last,
+                                              style: GoogleFonts.poppins(fontSize: 12, color: Colors.black54),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            constraints: const BoxConstraints(),
+                                            padding: EdgeInsets.zero,
+                                            icon: const Icon(Icons.cancel, size: 18, color: Colors.black54),
+                                            onPressed: () {
+                                              setState(() {
+                                                selectedFile = null;
+                                              });
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                  TextButton.icon(
+                                    onPressed: _pickFile,
+                                    icon: const Icon(Icons.attach_file, size: 15, color: Colors.black),
+                                    label: Text(
+                                      "Choose File",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                           ElevatedButton(
                               onPressed: _isLoading ? null : submitFeedback,
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurpleAccent,
@@ -406,6 +494,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                   fontWeight: FontWeight.bold),
                               )
                           ),
+                          SizedBox(height: 100,),
                         ]
                     )
                 ),
