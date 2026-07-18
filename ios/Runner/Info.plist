@@ -17,7 +17,17 @@
 	<key>CFBundleName</key>
 	<string>gyansutra</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<array>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.149005867813-7p7n567d46bru2msv9c1g87mvc5hnkr3</string>
+        </array>
+      </dict>
+    </array>
+	<string>APP</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>

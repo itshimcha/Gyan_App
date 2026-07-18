@@ -118,8 +118,7 @@ class _HomePageState extends State<HomePage> {
                       "Most visited", style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
-                      color: Color(0xffE6E6FA),
-                    ),
+                      color: Color(0xffE6E6FA),),
                     ),
                     Divider(color: Color(0xffE6E6FA), thickness: 1,),
                     SizedBox(height: 10),
@@ -163,11 +162,12 @@ class _HomePageState extends State<HomePage> {
                                 Positioned(
                                     bottom: 20,
                                     left: 10,
+                                    right: 10,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Astro Calendar", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
-                                        Text("Stay Updated with latest events", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                        Text("Astro Calendar",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                                        Text("Stay Updated with latest events",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                       ],
                                     )
                                 ),
@@ -217,8 +217,8 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Study Materials", style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Gyansutra", style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                            Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                           ],
                                         )
@@ -270,8 +270,8 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Campus Share", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.7),),
-                                            Text("Your Thought", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.7),),
+                                            Text("Your Thought",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                           ],
                                         )
                                     ),
@@ -322,8 +322,8 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Blogs", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.9),),
-                                              Text("NKT Special", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                              Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.9),),
+                                              Text("NKT Special",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
                                       ),
@@ -373,8 +373,8 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("About", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 0.7),),
-                                            Text("The App", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 0.7),),
+                                            Text("The App",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                           ],
                                         )
@@ -428,8 +428,8 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Nakshatra", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Know More...", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                            Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                           ],
                                         )
@@ -482,8 +482,8 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Gyansutra", style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Know More...", style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                            Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                           ],
                                         )
@@ -526,7 +526,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Icon(Icons.groups_rounded,color: Color(0x111b003f), size: 150,))
 
                                     ),
-                                    Center(child: Text("MEET THE TEAM", style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 0.7),)),
+                                    Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 0.7),)),
 
                                   ],
                                 ),
@@ -556,9 +556,7 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () async {
                                   final Uri url = Uri.parse(Varfile.instagram_url);
                                   if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Could not open the article.')),
-                                    );
+                                    CustomSnackbar.show(context, "Try again later");
                                   }
                                 },
                                 child: Stack(
@@ -618,7 +616,6 @@ class _HomePageState extends State<HomePage> {
                 BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
                     boxShadow: [
-
                       BoxShadow(
                           color: Colors.white.withOpacity(0.2),
                           spreadRadius: 1,

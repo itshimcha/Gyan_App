@@ -147,7 +147,12 @@ class MainTxt extends StatelessWidget {
                 SizedBox(width: 10,),
                 GestureDetector(
                   onTap: () async {
-
+                    final Uri url = Uri.parse(Varfile.whatapp_url);
+                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Could not open the article.')),
+                      );
+                    }
                   },
                   child: Image.asset("assets/images/whatsapplogo.png", width: 35,height: 35,),
                 )

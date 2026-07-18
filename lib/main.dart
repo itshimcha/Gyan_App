@@ -3,7 +3,6 @@ import 'package:gyansutra/pages/splashScreen.dart';
 import 'package:flutter/services.dart';
 
 void main() async{
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

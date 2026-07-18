@@ -11,9 +11,7 @@ import 'package:gyansutra/extra/com_wid.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lottie/lottie.dart';
 import 'package:gyansutra/extra/VarFile.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class signIn extends StatefulWidget {
   const signIn({super.key});
@@ -26,15 +24,6 @@ final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
 class _signInState extends State<signIn> {
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _googleSignIn.initialize(serverClientId: Varfile.serverID).catchError((e) {
-      print("Google Auth pre-initialization log: $e");
-    });
-  }
 
   Future<void> SignInGoogle(BuildContext context) async{
 
@@ -87,12 +76,15 @@ class _signInState extends State<signIn> {
         }
       } else {
         print(response.statusCode);
+        print(response.body);
         if (!context.mounted) return;
-        CustomSnackbar.show(context, "Authentication failed, Try again");
+        CustomSnackbar.show(context, "Failed to authenticate with Google. Please try again.");
       }
     } catch (e) {
       if (!context.mounted) return;
-      CustomSnackbar.show(context, "There is some Problem, try again later");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An error occurred: $e")),
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -100,140 +92,140 @@ class _signInState extends State<signIn> {
         });
       }
     }
-}
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body:Stack(
-          children: [
-            StarBg(),
-            Positioned(
-              top: -125,
-                right:-170,
-                child: Lottie.asset("assets/lottie/WaveAnimation.json")),
-            Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Color(0x113B038A),
-                Colors.black
-              ],begin: Alignment.topCenter,
-                end: Alignment.bottomLeft
-              )
-            ),
-          ),
-            Positioned(
-          bottom: 80,
-          left: 25,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 300),
-                  child: Image.asset("assets/images/translogo.png",width: 80,height: 80,),
-                ),
-                SizedBox(
-                  width: 400,
-                  height: 100,
-                  child: Text(
-                    "First Step\nToward Cosmos...", style: GoogleFonts.alegreya(fontSize: 40, fontWeight: FontWeight.w700,color: Color(0xffE6E6FA),height: 1.2),
-                  ),
-                ),
-                GestureDetector(
-                    onTap: (){
-                      SignInGoogle(context);
-                    },
-                    child: Stack(
-                        children: [
-                          Container(
-                            width: 320,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16.0),
-                                boxShadow: [BoxShadow(
-                                    color: Colors.white.withOpacity(0.1),
-                                    spreadRadius: 0,
-                                    blurRadius: 20,
-                                    blurStyle: BlurStyle.outer
-                                )]
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(0),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
-                              child: Container(
-                                  width: 320,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.15),
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left:30, right: 20, top: 8, bottom: 8),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Image.asset("assets/images/google.png",width: 30,height: 30,),
-                                              SizedBox(width: 8,),
-                                              Text("Sign in with Google",style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white)),
-                                            ]
-                                        ),
-                                        Icon(Icons.arrow_forward,color: Colors.white,size: 25,),
-                                      ],
-                                    ),
-                                  )
-                              ),
-                            ),
-                          ),
-                        ]
-            
+            children: [
+              StarBg(),
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      Color(0x663B038A),
+                      Colors.black
+                    ],begin: Alignment.topCenter,
+                        end: Alignment.bottomLeft
                     )
                 ),
-                SizedBox(height: 100,),
-                Container(
-                  width: 180,
-                  height: 20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PrivacyPolicyScreen()));
-                          },
-                          child: Text(
-                            "Privacy Policy", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
-                          )
-                      ),
-                      Text(
-                        "|", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
-                      ),
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CookiePolicyScreen()));
-                          },
-                          child: Text(
-                            "Cookies", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
-                          )
-                      )
-            
-                    ],
+              ),
+              Stack(
+                children: [
+                  Positioned(
+                      top: 100,
+                      left: 25,
+                      child: Image.asset("assets/images/translogo.png", height: 100,width: 90,)
                   ),
-                )
-              ],
-            ),
-          )
-      ),
-              ],
-            )
-        );
+                  Positioned(
+                    top: 500,
+                    left: 20,
+                    child: SizedBox(
+                      width: 400,
+                      height: 100,
+                      child: Text(
+                        "First Step\nToward Cosmos...", style: GoogleFonts.alegreya(fontSize: 40, fontWeight: FontWeight.w700,color: Color(0xffE6E6FA),height: 1.2),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 630,
+                    left: 20,
+                    child: GestureDetector(
+                        onTap: (){
+                          SignInGoogle(context);
+                        },
+                        child: Stack(
+                            children: [
+                              Container(
+                                width: 320,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    boxShadow: [BoxShadow(
+                                        color: Colors.white.withOpacity(0.1),
+                                        spreadRadius: 0,
+                                        blurRadius: 20,
+                                        blurStyle: BlurStyle.outer
+                                    )]
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(0),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
+                                  child: Container(
+                                      width: 320,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.15),
+                                        borderRadius: BorderRadius.circular(16.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left:30, right: 20, top: 8, bottom: 8),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Image.asset("assets/images/google.png",width: 30,height: 30,),
+                                                  SizedBox(width: 8,),
+                                                  Text("SignIn with Google",style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white)),
+                                                ]
+                                            ),
+                                            Icon(Icons.arrow_forward,color: Colors.white,size: 25,),
+                                          ],
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ]
+
+                        )
+                    ),
+                  ),
+                  Positioned(
+                      bottom: 50,
+                      left: 30,
+                      child: Container(
+                        width: 180,
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PrivacyPolicyScreen()));
+                                },
+                                child: Text(
+                                  "Privacy Policy", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
+                                )
+                            ),
+                            Text(
+                              "|", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
+                            ),
+                            GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CookiePolicyScreen()));
+                                },
+                                child: Text(
+                                  "Cookies", style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,color: Colors.white.withOpacity(0.4)),
+                                )
+                            )
+
+                          ],
+                        ),
+                      )
+                  )
+                ],
+              )
+            ]
+        )
+    );
   }
 }
