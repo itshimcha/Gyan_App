@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gyansutra/extra/VarFile.dart';
+import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:gyansutra/extra/com_wid.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,10 +17,12 @@ import 'package:gyansutra/pages/USER/aboutnkt.dart';
 import 'package:gyansutra/pages/USER/abtapp.dart';
 import 'package:gyansutra/pages/USER/drawer.dart';
 import 'package:gyansutra/pages/gyansutra/peer2peer.dart';
+import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/exploreGyan.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,10 +34,43 @@ class HomePage extends StatefulWidget {
 final Fstorage = const FlutterSecureStorage();
 
 class _HomePageState extends State<HomePage> {
+  late Future<List<Announcement>> _announcement;
+  int _currentIndex = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _announcement = getAnnouncement();
+    _timer = Timer.periodic(Duration(seconds: 3), (_) {
+      setState(() {
+        // _currentIndex = ((_currentIndex + 1) % _announcements.length).toInt();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   final UserName = Fstorage.read(key: 'username');
   double _alignment = 0.0;
   bool _isDragging = false;
   int _animationTrigger = 0;
+
+  Future<List<Announcement>> getAnnouncement() async {
+    final response = await http.get(
+        Uri.parse(apiConfig.AnnouncementEndpoint),
+        headers: apiConfig.headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((json) => Announcement.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +154,23 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      "Most visited", style: GoogleFonts.poppins(
+                      "Annoucements", style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       color: Color(0xffE6E6FA),),
                     ),
-                    Divider(color: Color(0xffE6E6FA), thickness: 1,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0, right: 0,),
+                      child: Container(
+                        width: double.infinity,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white)
+                        ),
+                        child: Center(child: Text("New Version Coming Soon!", style: GoogleFonts.poppins(color: Colors.white),)),
+                      ),
+                    ),
                     SizedBox(height: 10),
                     StaggeredGrid.count(
                       crossAxisCount: 4,
@@ -719,33 +769,52 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   }
                                 },
-                              child: Container(
-                                  height: heightnav,
-                                  width: heightnav,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey
-                                  ),
-                                  child: Container(
-                                      height: heightnav-10,
-                                      width: heightnav-10,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white
-                                      ),
-                                      child:Lottie.asset("assets/lottie/Rocket.json",width: 60, height: 60)
-                                  )
+                              child: Center(
+                                child: Container(
+                                    height: heightnav,
+                                    width: heightnav,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey
+                                    ),
+                                    child: Container(
+                                        height: heightnav-10,
+                                        width: heightnav-10,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white
+                                        ),
+                                        child:Lottie.asset("assets/lottie/Rocket.json",width: 60, height: 60)
+                                    )
+                                ).animate(onPlay: (controller) => controller.repeat())
+                                    .slide(
+                                  begin: Offset.zero,
+                                  end: const Offset(0.5, 0),
+                                  duration: 500.milliseconds,
+                                  curve: Curves.easeInOut,
+                                ).then().slide(
+                                  begin: const Offset(0.5, 0),
+                                  end: const Offset(-0.5, 0),
+                                  duration: 1.seconds,
+                                  curve: Curves.easeInOut,
+                                ).then().slide(
+                                  begin: const Offset(-0.5, 0),
+                                  end: const Offset(0, 0),
+                                  duration: 1.seconds,
+                                  curve: Curves.easeInOut,
+                                ).then().fade(
+                                  duration: 4.seconds,
+                                  begin: 1.0,
+                                  end: 1.0,
+                                ),
                               )
-
-
-                          )
-                    ),
-
+                            )
+                          ),
                         ],
-                      )
-                      ),
+                       )
+                     ),
                   ),
                 ),
               ),

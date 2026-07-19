@@ -65,7 +65,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
         type: FileType.custom,
         allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf'],
       );
-
       if (result != null && result.files.single.path != null) {
         setState(() {
           selectedFile = File(result.files.single.path!);

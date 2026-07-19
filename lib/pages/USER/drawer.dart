@@ -7,7 +7,7 @@ import 'package:gyansutra/pages/USER/aboutgyan.dart';
 import 'package:gyansutra/pages/USER/aboutnkt.dart';
 import 'package:gyansutra/pages/USER/Feedback.dart';
 import 'package:gyansutra/pages/signIn.dart';
-
+import 'package:package_info_plus/package_info_plus.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -17,6 +17,19 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  String _version = 'Loading...';
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = packageInfo.version;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -34,7 +47,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 40,),
+                SizedBox(height: 30,),
+                Text('Version: $_version', style: GoogleFonts.poppins(color: Colors.white54, fontSize: 12)),
                 Expanded(
                   child: ListView(
                     children: <Widget> [
@@ -149,7 +163,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           });
                         },
                       ),
-                    ],
+                      ],
                   ),
                 )
               ],

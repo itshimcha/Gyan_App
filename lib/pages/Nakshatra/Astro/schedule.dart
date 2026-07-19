@@ -58,13 +58,12 @@ class _ScheduleState extends State<Schedule> {
       Uri.parse(apiConfig.AstroAllEndpoint),
       headers: apiConfig.headers,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final List<dynamic> responseData = json.decode(response.body);
       return responseData.map((json) => Astro.fromJson(json)).toList();
     } else {
-      print("SERVER ERROR BODY: ${response.body}");
-      throw Exception('Failed to load user profile: ${response.statusCode}');
+      print("SERVER ERROR BODY:");
+      throw Exception('Failed to load data');
     }
   }
 
