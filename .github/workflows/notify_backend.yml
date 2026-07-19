@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Send Release Data to Django Webhook
         run: |
-          curl -X POST https://<YOUR-PRODUCTION-DJANGO-DOMAIN>/api/app-config/webhook/github/ \
+          curl -X POST https://nakshatra-api-xime.onrender.com/api/app-config/webhook/github/ \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer ${{ secrets.APPCONFIG_SECRET }}" \
           -d '${{ toJson(github.event) }}'
