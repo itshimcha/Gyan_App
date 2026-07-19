@@ -1,0 +1,15 @@
+name: Notify Backend of New APK Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify-django:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Release Data to Django Webhook
+        run: |
+          curl -X POST https://nakshatra-api-xime.onrender.com/api/app-config/webhook/github/ \
+          -H "Content-Type: application/json" \
+          -d '${{ toJson(github.event) }}'
