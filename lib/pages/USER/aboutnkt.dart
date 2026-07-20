@@ -31,6 +31,7 @@ class _AboutnktState extends State<Aboutnkt> {
                       ),
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: screenWidth,
@@ -84,7 +85,7 @@ class _AboutnktState extends State<Aboutnkt> {
                         ),
                         SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0.0),
+                          padding: const EdgeInsets.symmetric(horizontal:20 ),
                           child: Text(
                             StaticData.initat["title"]!,
                             style: GoogleFonts.gloock(

@@ -5,7 +5,6 @@ import 'package:gyansutra/extra/VarFile.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:gyansutra/pages/Homepage.dart';
 import 'package:gyansutra/pages/Nakshatra/Nakshatra.dart';
-import 'package:gyansutra/pages/USER/drawer.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/Subjects.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
@@ -288,9 +287,12 @@ class _ExploregyanState extends State<Exploregyan> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20,right: 20),
-                  child: MainTxt(text: "gyansutra"),
+                Align(
+                    alignment: AlignmentGeometry.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: MainTxt(text: "gyansutra"),
+                  ),
                 )
               ],
             ),

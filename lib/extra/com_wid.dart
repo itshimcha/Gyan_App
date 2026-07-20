@@ -89,75 +89,91 @@ class MainTxt extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 80),
-          Text(
-            "I LOVE ${text.toUpperCase()}", style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w800,
-              fontSize: 50,
-              color: Color(0xffE6E6FA).withOpacity(0.3),
-              height: 1
+          SizedBox(height: 60),
+          Stack(
+            children: [
+            Container(
+            height: 180,
+            width: 200,
+            child: Lottie.asset("assets/lottie/catlove.json",
+              fit: BoxFit.cover,
+            ),),
+            SizedBox(height: 5),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(Varfile.instagram_url);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open the article.')),
+                          );
+                        }
+                      },
+                      child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color:Colors.white
+                          ),
+                          child: Image.asset("assets/images/instagram.png", width: 30,height: 30,)),
+                    ),
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(Varfile.medium_url);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open the article.')),
+                          );
+                        }
+                      },
+                      child: Image.asset("assets/images/medium.png", width: 30,height: 30,),
+                    ),
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(Varfile.linkdin_url);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open the article.')),
+                          );
+                        }
+                      },
+                      child: Image.asset("assets/images/linkedin.png", width: 30,height: 30,),
+                    ),
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri url = Uri.parse(Varfile.whatapp_url);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open the article.')),
+                          );
+                        }
+                      },
+                      child: Image.asset("assets/images/whatsapplogo.png", width: 35,height: 35,),
+                    )
+                  ]
+              ),
+            )
+            ],
           ),
-            overflow: TextOverflow.fade,
-          ),
-          SizedBox(height: 5),
-          Row(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final Uri url = Uri.parse(Varfile.instagram_url);
-                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Could not open the article.')),
-                      );
-                    }
-                  },
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color:Colors.white
-                  ),
-                  child: Image.asset("assets/images/instagram.png", width: 30,height: 30,)),
-                ),
-                SizedBox(width: 10,),
-                GestureDetector(
-                  onTap: () async {
-                    final Uri url = Uri.parse(Varfile.medium_url);
-                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Could not open the article.')),
-                      );
-                    }
-                  },
-                  child: Image.asset("assets/images/medium.png", width: 30,height: 30,),
-                ),
-                SizedBox(width: 10,),
-                GestureDetector(
-                  onTap: () async {
-                    final Uri url = Uri.parse(Varfile.linkdin_url);
-                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Could not open the article.')),
-                      );
-                    }
-                  },
-                  child: Image.asset("assets/images/linkedin.png", width: 30,height: 30,),
-                ),
-                SizedBox(width: 10,),
-                GestureDetector(
-                  onTap: () async {
-                    final Uri url = Uri.parse(Varfile.whatapp_url);
-                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Could not open the article.')),
-                      );
-                    }
-                  },
-                  child: Image.asset("assets/images/whatsapplogo.png", width: 35,height: 35,),
-                )
-              ]
-          ),
+          // Text(
+          //   "I LOVE ${text.toUpperCase()}", style: GoogleFonts.poppins(
+          //     fontWeight: FontWeight.w800,
+          //     fontSize: 50,
+          //     color: Color(0xffE6E6FA).withOpacity(0.3),
+          //     height: 1
+          // ),
+          //   overflow: TextOverflow.fade,
+          // ),
+
           SizedBox(height: 20,),
           Text("Made by Himcha,Coco,Atharv,Akku\nPowered by Nakshatra NSUT and Team", style: GoogleFonts.poppins(color: Colors.white38.withOpacity(0.3),fontSize: 8, fontWeight: FontWeight.w600)),
           SizedBox(height: 140,)

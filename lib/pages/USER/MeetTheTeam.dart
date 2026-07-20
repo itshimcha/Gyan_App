@@ -121,6 +121,7 @@ class _MeettheteamState extends State<Meettheteam> {
           ),
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
                   alignment: Alignment.topCenter,

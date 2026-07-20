@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gyansutra/pages/Nakshatra/Astro/Astrocalender.dart';
 import 'package:gyansutra/pages/Nakshatra/blogs.dart';
+import 'package:gyansutra/pages/USER/Announce.dart';
 import 'package:gyansutra/pages/USER/MeetTheTeam.dart';
 import 'package:gyansutra/pages/Nakshatra/Nakshatra.dart';
 import 'package:gyansutra/pages/USER/aboutgyan.dart';
@@ -34,19 +35,14 @@ class HomePage extends StatefulWidget {
 final Fstorage = const FlutterSecureStorage();
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Announcement>> _announcement;
+  List<Announcement> _announcements = [];
   int _currentIndex = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _announcement = getAnnouncement();
-    _timer = Timer.periodic(Duration(seconds: 3), (_) {
-      setState(() {
-        // _currentIndex = ((_currentIndex + 1) % _announcements.length).toInt();
-      });
-    });
+    fetchAndSetAnnouncements();
   }
 
   @override
@@ -72,6 +68,31 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 10), (_) {
+      if (_announcements.isNotEmpty) {
+        setState(() {
+          _currentIndex = (_currentIndex + 1) % _announcements.length;
+        });
+      }
+    });
+  }
+
+  Future<void> fetchAndSetAnnouncements() async {
+    try {
+      final list = await getAnnouncement();
+      setState(() {
+        _announcements = list;
+        if (_announcements.isNotEmpty) {
+          _startTimer();
+        }
+      });
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double widthnav = 350;
@@ -91,7 +112,6 @@ class _HomePageState extends State<HomePage> {
                 gradient: LinearGradient(colors: [
                   Colors.transparent,
                   Colors.black,
-
                 ],begin: Alignment.topCenter,
                     end: Alignment.bottomLeft
                 )
@@ -146,7 +166,6 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                             height: 1.1,
                             letterSpacing: 1.5,
-
                           ),
                           ),
                         )
@@ -159,16 +178,52 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 15,
                       color: Color(0xffE6E6FA),),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 0, right: 0,),
-                      child: Container(
-                        width: double.infinity,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white)
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Announce()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0,),
+                        child: ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(10),
+                          child: Container(
+                            width: double.infinity,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white)
+                            ),
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              transitionBuilder: (Widget child, Animation<double> animation) {
+                                if (animation.status == AnimationStatus.forward) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: const Offset(1.0, 0.0),
+                                      end: Offset.zero,
+                                    ).animate(animation),
+                                    child: child,
+                                  );
+                                } else {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                }
+                              },
+                              child: Center(
+                                key: ValueKey<int>(_announcements.isEmpty ? -1 : _currentIndex),
+                                child: _announcements.isEmpty
+                                    ? Text("No Announcements", style: GoogleFonts.poppins(color: Colors.white, fontSize: 15))
+                                    : Text(
+                                  _announcements[_currentIndex].title,
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Center(child: Text("New Version Coming Soon!", style: GoogleFonts.poppins(color: Colors.white),)),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -727,6 +782,7 @@ class _HomePageState extends State<HomePage> {
                           AnimatedAlign(duration: Duration(milliseconds: _isDragging ? 0:500),
                           alignment: Alignment(_alignment, 0),
                           child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onHorizontalDragStart:(details){
                                   setState(() {
                                     _isDragging = true;
@@ -769,45 +825,52 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   }
                                 },
-                              child: Center(
-                                child: Container(
-                                    height: heightnav,
-                                    width: heightnav,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey
-                                    ),
-                                    child: Container(
-                                        height: heightnav-10,
-                                        width: heightnav-10,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white
-                                        ),
-                                        child:Lottie.asset("assets/lottie/Rocket.json",width: 60, height: 60)
-                                    )
-                                ).animate(onPlay: (controller) => controller.repeat())
-                                    .slide(
-                                  begin: Offset.zero,
-                                  end: const Offset(0.5, 0),
-                                  duration: 500.milliseconds,
-                                  curve: Curves.easeInOut,
-                                ).then().slide(
-                                  begin: const Offset(0.5, 0),
-                                  end: const Offset(-0.5, 0),
-                                  duration: 1.seconds,
-                                  curve: Curves.easeInOut,
-                                ).then().slide(
-                                  begin: const Offset(-0.5, 0),
-                                  end: const Offset(0, 0),
-                                  duration: 1.seconds,
-                                  curve: Curves.easeInOut,
-                                ).then().fade(
-                                  duration: 4.seconds,
-                                  begin: 1.0,
-                                  end: 1.0,
+                              child: Container(
+                                  height: heightnav,
+                                  width: heightnav,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                  ),
+                                child: IgnorePointer(
+                                  child: Container(
+                                      height: heightnav,
+                                      width: heightnav,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey
+                                      ),
+                                      child: Container(
+                                          height: heightnav-10,
+                                          width: heightnav-10,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white
+                                          ),
+                                          child:Lottie.asset("assets/lottie/Rocket.json",width: 60, height: 60)
+                                      )
+                                  ).animate(onPlay: (controller) => controller.repeat())
+                                      .slide(
+                                    begin: Offset.zero,
+                                    end: const Offset(0.5, 0),
+                                    duration: 500.milliseconds,
+                                    curve: Curves.easeInOut,
+                                  ).then().slide(
+                                    begin: const Offset(0.5, 0),
+                                    end: const Offset(-0.5, 0),
+                                    duration: 1.seconds,
+                                    curve: Curves.easeInOut,
+                                  ).then().slide(
+                                    begin: const Offset(-0.5, 0),
+                                    end: const Offset(0, 0),
+                                    duration: 1.seconds,
+                                    curve: Curves.easeInOut,
+                                  ).then().fade(
+                                    duration: 4.seconds,
+                                    begin: 1.0,
+                                    end: 1.0,
+                                  ),
                                 ),
                               )
                             )

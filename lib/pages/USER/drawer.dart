@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gyansutra/pages/USER/Announce.dart';
 import 'package:gyansutra/pages/USER/MeetTheTeam.dart';
 import 'package:gyansutra/pages/USER/Settings.dart';
 import 'package:gyansutra/pages/USER/UserProfile.dart';
@@ -96,6 +97,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             }
                           ),
                         ],
+                      ),
+                      ListTile(
+                        title: Text("Updates", style: GoogleFonts.poppins(color: Colors.white),),
+                        contentPadding: EdgeInsets.zero,
+                        minTileHeight: 20,
+                        leading: Icon(Icons.update, color: Color(0xffe6e6fa),),
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Announce()));
+                        },
                       ),
                       ListTile(
                         title: Text("Feedback", style: GoogleFonts.poppins(color: Colors.white),),
