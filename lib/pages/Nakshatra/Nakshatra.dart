@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:gyansutra/pages/Nakshatra/Astro/Astrocalender.dart';
 import 'package:gyansutra/pages/Nakshatra/Explore.dart';
 import 'package:gyansutra/pages/Nakshatra/blogs.dart';
@@ -17,6 +18,7 @@ class NakshatraMain extends StatefulWidget {
 
 class _NakshatraMainState extends State<NakshatraMain> {
   int selectedIndex = 0;
+  bool isVisible = true;
 
   List<Widget> _pages = const [
     Cosmicfeed(),
@@ -30,9 +32,17 @@ class _NakshatraMainState extends State<NakshatraMain> {
     return Scaffold(
       body: Stack(
         children: [
-          _pages[selectedIndex],
+          NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (notification.direction == ScrollDirection.forward) {
+                  if (!isVisible) setState(() => isVisible = true);
+                } else if (notification.direction == ScrollDirection.reverse) {
+                  if (isVisible) setState(() => isVisible = false);
+                }
+                return true;
+              },child: _pages[selectedIndex]),
           Positioned(
-              top: 0,
+            top: 0,
             child: Container(
               height: 75,
               width: MediaQuery.of(context).size.width,
@@ -70,6 +80,7 @@ class _NakshatraMainState extends State<NakshatraMain> {
           NavBar(
             selectedIndex: selectedIndex,
             onTabChange: (index) => setState(() => selectedIndex = index),
+            isVisible: isVisible,
           )
         ],
       )
@@ -77,7 +88,6 @@ class _NakshatraMainState extends State<NakshatraMain> {
     );
   }
 }
-
 
 class NakNavBarPainter extends CustomPainter {
   @override
@@ -160,12 +170,12 @@ class NakNavBarPainter extends CustomPainter {
 class NavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onTabChange;
-  const NavBar({super.key, required this.selectedIndex, required this.onTabChange});
+  final bool isVisible;
+  const NavBar({super.key, required this.selectedIndex, required this.onTabChange, required this.isVisible});
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
-
 
 class _NavBarState extends State<NavBar> {
 
@@ -174,8 +184,10 @@ class _NavBarState extends State<NavBar> {
     final double w = MediaQuery.of(context).size.width*0.9;
     final double h = 60;
     final double radius = h / 2;
-    return Positioned(
-        bottom: 60,
+    return AnimatedPositioned(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        bottom: widget.isVisible ? 60 : -100,
         left: 20,
         right: 20,
         child: Container(

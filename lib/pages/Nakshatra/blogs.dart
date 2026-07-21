@@ -225,7 +225,7 @@ class _BlogsState extends State<Blogs> {
                                                 ],
                                                 begin: Alignment.bottomCenter,
                                                 end: Alignment.topCenter,
-                                                stops: [0.1, 1]
+                                                stops: [0.3, 1]
                                             ),
                                           ),
                                         ),
@@ -244,7 +244,7 @@ class _BlogsState extends State<Blogs> {
                                         Positioned(
                                           left: 20,
                                           right: 20,
-                                          bottom: 170,
+                                          bottom: 195,
                                           child: Center(
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,

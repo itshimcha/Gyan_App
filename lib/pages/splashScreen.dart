@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:gyansutra/extra/version.dart';
 import 'dart:async';
 import 'package:gyansutra/pages/signIn.dart';
 import 'package:gyansutra/pages/Homepage.dart';
@@ -38,7 +39,7 @@ class _splashScreenState extends State<splashScreen> {
     String? is_profile_complete = await FStorage.read(key: 'is_profile_complete');
 
     if (access_token != null && is_profile_complete == 'true') {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const VersionCheckGate(child: HomePage())));
     } else {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signIn()));
     }

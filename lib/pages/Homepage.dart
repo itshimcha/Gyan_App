@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gyansutra/extra/VarFile.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   List<Announcement> _announcements = [];
   int _currentIndex = 0;
   Timer? _timer;
+  bool _isVisible = true;
 
   @override
   void initState() {
@@ -105,306 +107,366 @@ class _HomePageState extends State<HomePage> {
           Lottie.asset("assets/lottie/SpaceCat.json",
               key: ValueKey(_animationTrigger),
               fit: BoxFit.cover,width: double.infinity, height: double.infinity, repeat: false),
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.transparent,
-                  Colors.black,
-                ],begin: Alignment.topCenter,
-                    end: Alignment.bottomLeft
-                )
-            ),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right: MediaQuery.of(context).size.width*0.05, top: 50),
-                child: Column(
-                  spacing: 3,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserSettingNav(IconColor: Color(0xffE6E6FA),),
-                    SizedBox(height: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 0,
-                      children: [
-                        FutureBuilder<String?>(
-                          future: Fstorage.read(key: 'username'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Text('Loading...');
-                            }
-                            if (snapshot.hasData && snapshot.data != null) {
-                              return Text('Hello, ${snapshot.data}', style: GoogleFonts.poppins(
+          NotificationListener<UserScrollNotification>(
+           onNotification: (notification) {
+            if (notification.direction == ScrollDirection.forward) {
+              if (!_isVisible) setState(() => _isVisible = true);
+            } else if (notification.direction == ScrollDirection.reverse) {
+              if (_isVisible) setState(() => _isVisible = false);
+            }
+            return true;
+          },
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.transparent,
+                    Colors.black,
+                  ],begin: Alignment.topCenter,
+                      end: Alignment.bottomLeft
+                  )
+              ),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.05, right: MediaQuery.of(context).size.width*0.05, top: 50),
+                  child: Column(
+                    spacing: 3,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      UserSettingNav(IconColor: Color(0xffE6E6FA),),
+                      SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 0,
+                        children: [
+                          FutureBuilder<String?>(
+                            future: Fstorage.read(key: 'username'),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Text('Loading...');
+                              }
+                              if (snapshot.hasData && snapshot.data != null) {
+                                return Text('Hello, ${snapshot.data}', style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xffE6E6FA)));
+                              }
+                              return Text("Hello", style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xffE6E6FA)));
-                            }
-                            return Text("Hello", style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffE6E6FA)));
-                          },
-                        ),
-                        ShaderMask(
-                          blendMode: BlendMode.srcIn,
-                          shaderCallback: (Rect bounds) {
-                            return const LinearGradient(
-                              colors: [Color(0xffCDCDFF), Color(0xffE6E6FA)],
-                              stops: [0.0, 1.0],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ).createShader(bounds);
-                          },
-                          child: Text(
-                            "Explore\nThe\nSpace!", style: GoogleFonts.poppins(
-                            fontSize: 60,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            height: 1.1,
-                            letterSpacing: 1.5,
+                            },
                           ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      "Annoucements", style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: Color(0xffE6E6FA),),
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Announce()));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 0, right: 0,),
-                        child: ClipRRect(
-                          borderRadius: BorderRadiusGeometry.circular(10),
-                          child: Container(
-                            width: double.infinity,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.white)
+                          ShaderMask(
+                            blendMode: BlendMode.srcIn,
+                            shaderCallback: (Rect bounds) {
+                              return const LinearGradient(
+                                colors: [Color(0xffCDCDFF), Color(0xffE6E6FA)],
+                                stops: [0.0, 1.0],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ).createShader(bounds);
+                            },
+                            child: Text(
+                              "Explore\nThe\nSpace!", style: GoogleFonts.poppins(
+                              fontSize: 60,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              height: 1.1,
+                              letterSpacing: 1.5,
                             ),
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 500),
-                              transitionBuilder: (Widget child, Animation<double> animation) {
-                                if (animation.status == AnimationStatus.forward) {
-                                  return SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(1.0, 0.0),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: child,
-                                  );
-                                } else {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                }
-                              },
-                              child: Center(
-                                key: ValueKey<int>(_announcements.isEmpty ? -1 : _currentIndex),
-                                child: _announcements.isEmpty
-                                    ? Text("No Announcements", style: GoogleFonts.poppins(color: Colors.white, fontSize: 15))
-                                    : Text(
-                                  _announcements[_currentIndex].title,
-                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                                  textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Text(
+                        "Annoucements", style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: Color(0xffE6E6FA),),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Announce()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 0,),
+                          child: ClipRRect(
+                            borderRadius: BorderRadiusGeometry.circular(10),
+                            child: Container(
+                              width: double.infinity,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.white)
+                              ),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                transitionBuilder: (Widget child, Animation<double> animation) {
+                                  if (animation.status == AnimationStatus.forward) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1.0, 0.0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    );
+                                  } else {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  }
+                                },
+                                child: Center(
+                                  key: ValueKey<int>(_announcements.isEmpty ? -1 : _currentIndex),
+                                  child: _announcements.isEmpty
+                                      ? Text("No Announcements", style: GoogleFonts.poppins(color: Colors.white, fontSize: 15))
+                                      : Text(
+                                    _announcements[_currentIndex].title,
+                                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    StaggeredGrid.count(
-                      crossAxisCount: 4,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 4,
-                      children: [
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 3,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: RadialGradient(colors: [
-                                Color(0xffB3B3FF),
-                                Color(0xff030322),
-                                Color(0xff09093b),
-                              ],
-                                  radius: 3,center: Alignment.topLeft),
-                            ),
-                            child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
-                            },
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  bottom: 20,
-                                  right:1,
-                                  child: Transform.rotate(
-                                      angle : 0.2,
-                                      child: Icon(Icons.calendar_month,color: Color(0x22ffffff), size: 300,)),
-                                ),
-                                Positioned(
-                                    top:12,
-                                    right: 10,
-                                    child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
-                                ),
-                                Positioned(
-                                    bottom: 20,
-                                    left: 10,
-                                    right: 10,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Astro Calendar",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
-                                        Text("Stay Updated with latest events",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-                                      ],
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          )
-                        ), //Astrocalender
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 2,
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
+                      SizedBox(height: 10),
+                      StaggeredGrid.count(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 5,
+                        crossAxisSpacing: 4,
+                        children: [
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 3,
                             child: Container(
                               clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 gradient: RadialGradient(colors: [
-                                  Color(0xffEAE2B7),
-                                  Color(0xffF77F00),
-                                  Color(0xffFFC34F),
-                                ],
-                                    radius: 2,center: Alignment.topLeft),
-                              ),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Exploregyan()));
-                                },
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      child: Transform.rotate(
-                                          angle : 0.2,
-                                          child: Icon(Icons.sticky_note_2_outlined,color: Color(0x221b003f), size: 300,)),
-                                    ),
-                                    Positioned(
-                                        top:12,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
-                                    ),
-                                    Positioned(
-                                        bottom: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
-
-                                          ],
-                                        )
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ), //Notes
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 1,
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xff15151c),
-                                  Color(0xff323291),
-                                  Color(0xffb66f3f),
+                                  Color(0xffB3B3FF),
+                                  Color(0xff030322),
+                                  Color(0xff09093b),
                                 ],
                                     radius: 3,center: Alignment.topLeft),
                               ),
                               child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Advicepage()));
-                                },
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      child: Transform.rotate(
-                                          angle : 0.2,
-                                          child: Icon(Icons.sticky_note_2_outlined,color: Color(0x22000000), size: 200,)),
-                                    ),
-                                    Positioned(
-                                        top:12,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size: 25)
-                                    ),
-                                    Positioned(
-                                        bottom: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.7),),
-                                            Text("Your Thought",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-                                          ],
-                                        )
-                                    ),
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
+                              },
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 20,
+                                    right:1,
+                                    child: Transform.rotate(
+                                        angle : 0.2,
+                                        child: Icon(Icons.calendar_month,color: Color(0x22ffffff), size: 300,)),
+                                  ),
+                                  Positioned(
+                                      top:12,
+                                      right: 10,
+                                      child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
+                                  ),
+                                  Positioned(
+                                      bottom: 20,
+                                      left: 10,
+                                      right: 10,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Astro Calendar",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                                          Text("Stay Updated with latest events",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                        ],
+                                      )
+                                  ),
+                                ],
+                              ),
+                            ),
+                            )
+                          ), //Astrocalender
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 2,
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xffEAE2B7),
+                                    Color(0xffF77F00),
+                                    Color(0xffFFC34F),
                                   ],
+                                      radius: 2,center: Alignment.topLeft),
+                                ),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Exploregyan()));
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 10,
+                                        left: 0,
+                                        child: Transform.rotate(
+                                            angle : 0.2,
+                                            child: Icon(Icons.sticky_note_2_outlined,color: Color(0x221b003f), size: 300,)),
+                                      ),
+                                      Positioned(
+                                          top:12,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
+                                      ),
+                                      Positioned(
+                                          bottom: 15,
+                                          left: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ), //PYQs
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 3,
-                          mainAxisCellCount: 1,
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                    Color(0xff09093b),
-                                  Color(0xff030322),
-                                    Color(0xffB3B3FF),
-
-                                ],
-                                    radius: 4,center: Alignment.topLeft),
-                              ),
+                          ), //Notes
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xff15151c),
+                                    Color(0xff323291),
+                                    Color(0xffb66f3f),
+                                  ],
+                                      radius: 3,center: Alignment.topLeft),
+                                ),
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Blogs()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Advicepage()));
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 10,
+                                        left: 0,
+                                        child: Transform.rotate(
+                                            angle : 0.2,
+                                            child: Icon(Icons.sticky_note_2_outlined,color: Color(0x22000000), size: 200,)),
+                                      ),
+                                      Positioned(
+                                          top:12,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size: 25)
+                                      ),
+                                      Positioned(
+                                          bottom: 15,
+                                          left: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.7),),
+                                              Text("Your Thought",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ), //PYQs
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 3,
+                            mainAxisCellCount: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                      Color(0xff09093b),
+                                    Color(0xff030322),
+                                      Color(0xffB3B3FF),
+
+                                  ],
+                                      radius: 4,center: Alignment.topLeft),
+                                ),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Blogs()));
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 150,
+                                          child: Transform.rotate(
+                                              angle : 0.2,
+                                              child: Icon(Icons.scanner_outlined,color: Color(0x220ffffff), size: 120,)),
+                                        ),
+                                        Positioned(
+                                            top:12,
+                                            right: 10,
+                                            child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size: 25)
+                                        ),
+                                        Positioned(
+                                            bottom: 20,
+                                            left: 20,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.9),),
+                                                Text("NKT Special",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                              ],
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ), //Announcement
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 1,
+                            mainAxisCellCount: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xffB3B3FF),
+                                    Color(0xff030322),
+                                    Color(0xff09093b),
+                                  ],
+                                      radius: 3,center: Alignment.topLeft),
+                                ),
+                                child:GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutGyanScreen()));
                                   },
                                   child: Stack(
                                     children: [
@@ -421,298 +483,250 @@ class _HomePageState extends State<HomePage> {
                                           child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size: 25)
                                       ),
                                       Positioned(
-                                          bottom: 20,
-                                          left: 20,
+                                          bottom: 15,
+                                          left: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.9),),
-                                              Text("NKT Special",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                              Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 0.7),),
+                                              Text("The App",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+
                                             ],
                                           )
                                       ),
                                     ],
                                   ),
-                                )
-                            ),
-                          ),
-                        ), //Announcement
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 1,
-                          mainAxisCellCount: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xffB3B3FF),
-                                  Color(0xff030322),
-                                  Color(0xff09093b),
-                                ],
-                                    radius: 3,center: Alignment.topLeft),
-                              ),
-                              child:GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutGyanScreen()));
-                                },
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      bottom: 0,
-                                      left: 150,
-                                      child: Transform.rotate(
-                                          angle : 0.2,
-                                          child: Icon(Icons.scanner_outlined,color: Color(0x220ffffff), size: 120,)),
-                                    ),
-                                    Positioned(
-                                        top:12,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size: 25)
-                                    ),
-                                    Positioned(
-                                        bottom: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 0.7),),
-                                            Text("The App",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-
-                                          ],
-                                        )
-                                    ),
-                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                        ), //About the app
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 2,
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xff000000),
-                                  Color(0xff3B038A),
+                          ), //About the app
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 2,
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xff000000),
+                                    Color(0xff3B038A),
 
-                                ],
-                                    radius: 2,center: Alignment.topLeft),
-                              ),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutnkt()));
-                                },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Positioned(
-                                        right: 20,
-                                        bottom: 0,
-                                        child: Transform.rotate(
-                                            angle: 0.7,
-                                            child: Opacity(opacity: 0.3,
-                                                child: Image.asset("assets/images/translogo2.png",width: 240, height: 240,)))
-                                    ),
-                                    Positioned(
-                                        bottom:15,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
-                                    ),
-                                    Positioned(
-                                        bottom: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-
-                                          ],
-                                        )
-                                    ),
                                   ],
+                                      radius: 2,center: Alignment.topLeft),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ), // Nakshatra
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xff818532),
-                                  Color(0xff2B2B88),
-                                  Color(0xff535391)
-                                ],
-                                    radius: 4,center: Alignment.topLeft),
-                              ),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutgyan()));
-                                },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Positioned(
-                                        left: 40,
-                                        top: 0,
-                                        child: Transform.rotate(
-                                            angle: 0.7,
-                                            child: Opacity(opacity: 0.4,
-                                                child: Image.asset("assets/images/translogo2.png",width: 240, height: 240,color: Colors.black, )))
-                                    ),
-                                    Positioned(
-                                        top:12,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Color(0xff1B003F).withOpacity(1),size: 25)
-                                    ),
-                                    Positioned(
-                                        top: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
-
-                                          ],
-                                        )
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                            ),
-                          ),
-                        ), // Gyansutra
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 4,
-                          mainAxisCellCount: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xffFFc34f),
-                                  Color(0xffeae2b7),
-
-                                ],
-                                    radius: 9,center: Alignment.topLeft),
-                              ),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Meettheteam()));
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutnkt()));
                                   },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Positioned(
-                                        left: -15,
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Positioned(
+                                          right: 20,
+                                          bottom: 0,
+                                          child: Transform.rotate(
+                                              angle: 0.7,
+                                              child: Opacity(opacity: 0.3,
+                                                  child: Image.asset("assets/images/translogo2.png",width: 240, height: 240,)))
+                                      ),
+                                      Positioned(
+                                          bottom:15,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
+                                      ),
+                                      Positioned(
+                                          bottom: 15,
+                                          left: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
-                                        bottom: -40,
-                                        child: Transform.rotate(
-                                            angle: 0,
-                                            child: Icon(Icons.groups_rounded,color: Color(0x111b003f), size: 150,))
-
-                                    ),
-                                    Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 0.7),)),
-
-                                  ],
-                                ),
-                              ),
-
-                            ),
-                          )
-                        ), // Meet the creator
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 1,
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                    Color(0xffB3B3FF),
-                                  Color(0xff030322),
-                                  Color(0xff09093b),
-
-                                ],
-                                    radius: 4,center: Alignment.bottomRight),
-                              ),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final Uri url = Uri.parse(Varfile.instagram_url);
-                                  if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                    CustomSnackbar.show(context, "Try again later");
-                                  }
-                                },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Positioned(
-                                        right: -30,
-                                        bottom: 0,
-                                        child: Transform.rotate(
-                                            angle: 0.7,
-                                            child: Opacity(opacity: 0.6,
-                                                child: Image.asset("assets/images/instagram.png",width: 130, height: 130,)))
-                                    ),
-                                    Positioned(
-                                        top:15,
-                                        right: 10,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
-                                    ),
-                                    Positioned(
-                                        bottom: 15,
-                                        left: 10,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Social", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
-                                            Text("Follow to Stay Update", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-
-                                          ],
-                                        )
-                                    ),
-                                  ],
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          )
+                          ), // Nakshatra
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xff818532),
+                                    Color(0xff2B2B88),
+                                    Color(0xff535391)
+                                  ],
+                                      radius: 4,center: Alignment.topLeft),
+                                ),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutgyan()));
+                                  },
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Positioned(
+                                          left: 40,
+                                          top: 0,
+                                          child: Transform.rotate(
+                                              angle: 0.7,
+                                              child: Opacity(opacity: 0.4,
+                                                  child: Image.asset("assets/images/translogo2.png",width: 240, height: 240,color: Colors.black, )))
+                                      ),
+                                      Positioned(
+                                          top:12,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Color(0xff1B003F).withOpacity(1),size: 25)
+                                      ),
+                                      Positioned(
+                                          top: 15,
+                                          left: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
 
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    MainTxt( text: "GYANSUTRA")
-                  ]
-                ),
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              ),
+                            ),
+                          ), // Gyansutra
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 4,
+                            mainAxisCellCount: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                    Color(0xffFFc34f),
+                                    Color(0xffeae2b7),
+
+                                  ],
+                                      radius: 9,center: Alignment.topLeft),
+                                ),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Meettheteam()));
+                                    },
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Positioned(
+                                          left: -15,
+
+                                          bottom: -40,
+                                          child: Transform.rotate(
+                                              angle: 0,
+                                              child: Icon(Icons.groups_rounded,color: Color(0x111b003f), size: 150,))
+
+                                      ),
+                                      Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 0.7),)),
+
+                                    ],
+                                  ),
+                                ),
+
+                              ),
+                            )
+                          ), // Meet the creator
+                          StaggeredGridTile.count(
+                            crossAxisCellCount: 2,
+                            mainAxisCellCount: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: RadialGradient(colors: [
+                                      Color(0xffB3B3FF),
+                                    Color(0xff030322),
+                                    Color(0xff09093b),
+
+                                  ],
+                                      radius: 4,center: Alignment.bottomRight),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    final Uri url = Uri.parse(Varfile.instagram_url);
+                                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                      CustomSnackbar.show(context, "Try again later");
+                                    }
+                                  },
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Positioned(
+                                          right: -30,
+                                          bottom: 0,
+                                          child: Transform.rotate(
+                                              angle: 0.7,
+                                              child: Opacity(opacity: 0.6,
+                                                  child: Image.asset("assets/images/instagram.png",width: 130, height: 130,)))
+                                      ),
+                                      Positioned(
+                                          top:15,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
+                                      ),
+                                      Positioned(
+                                          bottom: 15,
+                                          left: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Social", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Follow to Stay Update", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      MainTxt( text: "GYANSUTRA")
+                    ]
+                  ),
+                )
               )
-            )
+            ),
           ),
-          Positioned(
-            bottom: MediaQuery.of(context).size.height*0.06,
-            left:0,
-            right:0,
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            bottom: _isVisible ? (MediaQuery.of(context).size.height * 0.06) : -150,
+            left: 0,
+            right: 0,
             child: Center(
               child: Container(
                 width: widthnav,
