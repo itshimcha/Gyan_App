@@ -98,136 +98,163 @@ class _AstrocalenderState extends State<Astrocalender> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height * 0.08,
-          left: MediaQuery.of(context).size.width * 0.03,
-        ),
-        child: SpeedDial(
-          icon: Icons.calendar_view_month_outlined,
-          activeIcon: Icons.close,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          overlayColor: Colors.black,
-          overlayOpacity: 0.8,
-          spacing: 12,
-          spaceBetweenChildren: 8,
-          children: [
-            SpeedDialChild(
-              child: Icon(Icons.calendar_month, color: Colors.black),
-              backgroundColor: Colors.white,
-              label: 'Month',
-              onTap: () {
-                setState(() {
-                  _currentView = 'Month';
-                });
-                _scrollToTop();
-              },
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.calendar_view_day, color: Colors.black),
-              backgroundColor: Colors.white,
-              label: 'Day',
-              onTap: () {
-                setState(() {
-                  _currentView = 'Day';
-                });
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (_scrollController.hasClients) {
-                    _scrollController.jumpTo(0.0);
-                  }
-                });
-              },
-            ),
-            SpeedDialChild(
-              child: const Icon(Icons.view_agenda, color: Colors.black),
-              backgroundColor: Colors.white,
-              label: 'Schedule',
-              onTap: () {
-                setState(() {
-                  _currentView = 'Schedule';
-                });
-              },
-            ),
-          ],
-        ),
-      ),
-
-      body: Stack(
-        children: [
-          Opacity(
-              opacity: 0.4,child: StarBg()),
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.black,
-                  Color(0x330d0552),
-                  Color(0x442c9ee5)
-                ],
-                begin: AlignmentGeometry.topLeft,
-                end: AlignmentGeometry.bottomRight)
-            ),
+    return PopScope(
+        canPop: _currentView == 'Schedule',
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+          if (_currentView != 'Schedule') {
+            setState(() {
+              _currentView = 'Schedule';
+            });
+          }
+        },
+      child: Scaffold(
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.08,
+            left: MediaQuery.of(context).size.width * 0.03,
           ),
-          Opacity(
-              opacity: 0.4,child: StarBg()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
-              key: ValueKey(_currentView),
-              controller: _scrollController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 50),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false);
-                      },
-                      child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle
-                          ),
-                          child: Center(child: Icon(Icons.home,color: Colors.black,))),
-                    )
-                  ),
-                  SizedBox(height: 10,),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 13),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "AstroCalender", style:
-                        GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                            color: Color(0xffe6e6fa)
-                        ),),
-                        Text("Never miss an Event",
-                            style:
-                            GoogleFonts.poppins(
-                                height: 0.7,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                                color: Color(0x88e6e6fa)))
-                      ],
-                    ),
-                  ),
-                  _buildCalendarView(),
-                  MainTxt(text: "AstroCalender")
-                ],
+          child: SpeedDial(
+            icon: Icons.calendar_view_month_outlined,
+            activeIcon: Icons.close,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.8,
+            spacing: 12,
+            spaceBetweenChildren: 8,
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.calendar_month, color: Colors.black),
+                backgroundColor: Colors.white,
+                label: 'Month',
+                onTap: () {
+                  setState(() {
+                    _currentView = 'Month';
+                  });
+                  _scrollToTop();
+                },
               ),
+              SpeedDialChild(
+                child: Icon(Icons.calendar_view_day, color: Colors.black),
+                backgroundColor: Colors.white,
+                label: 'Day',
+                onTap: () {
+                  setState(() {
+                    _currentView = 'Day';
+                  });
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (_scrollController.hasClients) {
+                      _scrollController.jumpTo(0.0);
+                    }
+                  });
+                },
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.view_agenda, color: Colors.black),
+                backgroundColor: Colors.white,
+                label: 'Schedule',
+                onTap: () {
+                  setState(() {
+                    _currentView = 'Schedule';
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+
+        body: Stack(
+          children: [
+            Opacity(
+                opacity: 0.4,child: StarBg()),
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.black,
+                    Color(0x330d0552),
+                    Color(0x442c9ee5)
+                  ],
+                  begin: AlignmentGeometry.topLeft,
+                  end: AlignmentGeometry.bottomRight)
+              ),
+            ),
+            Opacity(
+                opacity: 0.4,child: StarBg()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SingleChildScrollView(
+                key: ValueKey(_currentView),
+                controller: _scrollController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,top: 50),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (_currentView != 'Schedule') {
+                            setState(() {
+                              _currentView = 'Schedule';
+                            });
+                          } else {
+                            if (Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            } else {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
+                                    (Route<dynamic> route) => false,
+                              );
+                            }
+                          }
+                        },
+                        child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle
+                            ),
+                            child: Center(child: Icon(Icons.home,color: Colors.black,))),
+                      )
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 13),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "AstroCalender", style:
+                          GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                              color: Color(0xffe6e6fa)
+                          ),),
+                          Text("Never miss an Event",
+                              style:
+                              GoogleFonts.poppins(
+                                  height: 0.7,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  color: Color(0x88e6e6fa)))
+                        ],
+                      ),
+                    ),
+                    _buildCalendarView(),
+                    MainTxt(text: "AstroCalender")
+                  ],
+                ),
+              )
             )
-          )
-        ]
-      )
+          ]
+        )
+      ),
     );
   }
 }

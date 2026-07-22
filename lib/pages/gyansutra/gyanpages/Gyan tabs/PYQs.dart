@@ -296,7 +296,7 @@ class _PYQsState extends State<PYQs> {
                 );
               }
           ),
-          MainTxt(text: "Gyansutra"),
+          Align(alignment: AlignmentGeometry.centerLeft,child: MainTxt(text: "Gyansutra")),
           SizedBox(height: 50,),
         ],
       ),

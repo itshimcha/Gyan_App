@@ -179,7 +179,7 @@ class _PlaylistsState extends State<Playlists> {
               }
           ),
           SizedBox(height: 20,),
-          MainTxt(text: "Gyansutra")
+          Align(alignment: AlignmentGeometry.centerLeft,child: MainTxt(text: "Gyansutra"))
         ],
       ),
     );

@@ -41,7 +41,7 @@ class _splashScreenState extends State<splashScreen> {
     if (access_token != null && is_profile_complete == 'true') {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const VersionCheckGate(child: HomePage())));
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signIn()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const VersionCheckGate(child: signIn())));
     }
   }
 

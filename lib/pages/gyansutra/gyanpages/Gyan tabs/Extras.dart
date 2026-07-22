@@ -185,7 +185,7 @@ class _ExtrasState extends State<Extras> {
         _buildSection("Books", _booksFuture),
         _buildSection("Practicals", _practicalFuture),
         _buildSection("PM", _pmFuture),
-        MainTxt(text: "Gyansutra")
+        Align(alignment: AlignmentGeometry.centerLeft,child: MainTxt(text: "Gyansutra"))
       ],
     );
   }

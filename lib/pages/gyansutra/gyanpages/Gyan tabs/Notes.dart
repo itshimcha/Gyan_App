@@ -162,7 +162,7 @@ class _NotesState extends State<Notes> {
 
             }
           ),
-          MainTxt(text: "Gyansutra"),
+          Align(alignment: AlignmentGeometry.centerLeft,child: MainTxt(text: "Gyansutra")),
           SizedBox(height: 50,),
         ],
       ),

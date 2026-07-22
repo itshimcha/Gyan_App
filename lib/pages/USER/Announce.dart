@@ -96,57 +96,58 @@ class _AnnounceState extends State<Announce> {
                     ],),
                   ),
                   SizedBox(height: 20,),
-                  SingleChildScrollView(
-                    child: Positioned.fill(
-                      child: FutureBuilder<List<Announcement>>(
-                        future: _announcements,
-                        builder: (context, snapshot) {
-                          if(snapshot.connectionState == ConnectionState.waiting){
-                            return Center(child: CircularProgressIndicator());
-                          } else if(snapshot.hasError){
-                            return Center(child: Text("Error: ${snapshot.error}"));
-                          } else if (!snapshot.hasData || snapshot.data!.isEmpty){
-                            return Center(child: Text("No Announcements"));
-                          }
-                          final ann = snapshot.data!;
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                            itemCount: ann.length,
-                            itemBuilder: (context, index) {
-                              final item = ann[index];
-                              return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white10,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(color: Colors.white24),
+                  FutureBuilder<List<Announcement>>(
+                    future: _announcements,
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.waiting){
+                        return Center(child: CircularProgressIndicator());
+                      } else if(snapshot.hasError){
+                        return Center(child: Text("Error"));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty){
+                        return Center(child: Text("No Announcements"));
+                      }
+                      final ann = snapshot.data!;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        itemCount: ann.length,
+                        itemBuilder: (context, index) {
+                          final item = ann[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white10,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: Colors.white24),
+                            ),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                              child: ExpansionTile(
+                                shape: const Border(
                                 ),
-                                child: ExpansionTile(
-                                  backgroundColor: Colors.white12,
-                                  collapsedBackgroundColor: Colors.transparent,
-                                  minTileHeight: 60,
-                                  title: Text(
-                                    item.title,
-                                    style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15),
-                                  ),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        item.details,
-                                        style:  GoogleFonts.poppins(color: Colors.white70,fontSize: 12),
-                                      ),
+                                backgroundColor: Colors.white12,
+                                collapsedBackgroundColor: Colors.transparent,
+                                minTileHeight: 60,
+                                title: Text(
+                                  item.title,
+                                  style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15),
+                                ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      item.details,
+                                      style:  GoogleFonts.poppins(color: Colors.white70,fontSize: 12),
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         },
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   MainTxt(text: "nkt")
                 ],

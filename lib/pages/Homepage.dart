@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         }
       });
     } catch (e) {
-      print("Error: $e");
+      print("Error");
     }
   }
 
@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 15,
                         color: Color(0xffE6E6FA),),
                       ),
-                      GestureDetector(
+                      GestureDetector (
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> Announce()));
                         },
@@ -226,8 +226,7 @@ class _HomePageState extends State<HomePage> {
                                   key: ValueKey<int>(_announcements.isEmpty ? -1 : _currentIndex),
                                   child: _announcements.isEmpty
                                       ? Text("No Announcements", style: GoogleFonts.poppins(color: Colors.white, fontSize: 15))
-                                      : Text(
-                                    _announcements[_currentIndex].title,
+                                      : Text(_announcements[_currentIndex].title,
                                     style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
                                     textAlign: TextAlign.center,
                                   ),
@@ -329,6 +328,7 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           bottom: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,6 +382,7 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           bottom: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -409,7 +410,6 @@ class _HomePageState extends State<HomePage> {
                                       Color(0xff09093b),
                                     Color(0xff030322),
                                       Color(0xffB3B3FF),
-
                                   ],
                                       radius: 4,center: Alignment.topLeft),
                                 ),
@@ -434,6 +434,7 @@ class _HomePageState extends State<HomePage> {
                                         Positioned(
                                             bottom: 20,
                                             left: 20,
+                                            right: 10,
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,6 +486,7 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           bottom: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,6 +542,7 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           bottom: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -594,6 +597,7 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           top: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -635,7 +639,6 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       Positioned(
                                           left: -15,
-
                                           bottom: -40,
                                           child: Transform.rotate(
                                               angle: 0,
@@ -694,13 +697,13 @@ class _HomePageState extends State<HomePage> {
                                       Positioned(
                                           bottom: 15,
                                           left: 10,
+                                          right: 10,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text("Social", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
                                               Text("Follow to Stay Update", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-
                                             ],
                                           )
                                       ),
@@ -709,7 +712,6 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             )
-
                           ),
                         ],
                       ),

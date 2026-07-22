@@ -21,6 +21,7 @@ class Userpage extends StatefulWidget {
 class _UserpageState extends State<Userpage> {
   late Future<List<userProfile>> _userProfile;
   int _selectedCharIndex = 0;
+  late String _activeCategory;
 
   final List<Map<String, String>> _characterData = [
     {
@@ -299,7 +300,7 @@ class _UserpageState extends State<Userpage> {
           Navigator.pop(context);
         }
       } else {
-        throw Exception('Failed to update profile: ${response.body}');
+        throw Exception('Failed to update profile, Check your internet connection');
       }
     } catch (e) {
       if (mounted) {
@@ -546,11 +547,11 @@ class _UserpageState extends State<Userpage> {
                                                             items: ["Name", "Rollno", "Campus", "Branch", "Semester", "Batch", "Phone", "Date of Birth"].map((String target) {
                                                               return DropdownMenuItem<String>(value: target, child: Text(target, style: const TextStyle(color: Colors.white)));
                                                             }).toList(),
-                                                            onChanged: (String? newTarget) {
-                                                              if (newTarget != null) {
-                                                                setSheetState(() => activeCategory = newTarget);
-                                                              }
-                                                            },
+                                                              onChanged: (newTarget) {
+                                                                if (newTarget != null) {
+                                                                  setSheetState(() => activeCategory = newTarget);
+                                                                }
+                                                              },
                                                           ),
                                                           const SizedBox(height: 25),
                                                           if (activeCategory == "Name")

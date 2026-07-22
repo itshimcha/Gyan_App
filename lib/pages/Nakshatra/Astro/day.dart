@@ -27,8 +27,7 @@ class _DayAstroState extends State<DayAstro> {
       final List<dynamic> responseData = json.decode(response.body);
       return responseData.map((json) => Astro.fromJson(json)).toList();
     } else {
-      print("SERVER ERROR BODY: ${response.body}");
-      throw Exception('Failed to load user profile: ${response.statusCode}');
+      throw Exception('Failed to load data');
     }
   }
 

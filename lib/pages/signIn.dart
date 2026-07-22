@@ -82,9 +82,7 @@ class _signInState extends State<signIn> {
       }
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("An error occurred: $e")),
-      );
+      CustomSnackbar.show(context,"An error occurred");
     } finally {
       if (mounted) {
         setState(() {
