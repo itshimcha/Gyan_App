@@ -221,16 +221,16 @@ class _MeettheteamState extends State<Meettheteam> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Card("assets/images/Team/atharv.png",
+                            "Atharv",
+                            "Backend Developer",
+                            "Hi, I'm Atharv from ICE, and I can proudly say ICE is not so cool."
+                        ),
+                        SizedBox(width: 10,),
                         Card("assets/images/Team/akash.png",
                           "Akash",
                           "Backend Developer",
-                          "Hi, I’m akash from ICE,"
-                        ),
-                        SizedBox(width: 10,),
-                        Card("assets/images/Team/atharv.png",
-                          "Atharv",
-                          "Backend Developer",
-                            "Hi, I’m Atharv from ICE and proudly i can say ICE is not so cool,"
+                          "Hi, I’m akash from ICE and singing is my part time job"
                         ),
                       ]
                   ),
@@ -261,16 +261,56 @@ class _MeettheteamState extends State<Meettheteam> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Card("assets/images/Team/kush.png",
+                          "Kushank",
+                          "UI/UX",
+                          "Hi, I am Narasimha. I move pixels until they finally agree with each other. Fighting bad UX one screen at a time, because confused users deserve better.",
+                        ),
+                        SizedBox(width: 10,),
+                        Card("assets/images/Team/Ekansh.png",
+                          "Ekansh",
+                          "Content writer & Tester",
+                          "Ekansh Miglani is a student of Instrumentation and Control Engineering, batch of 2029, at NSUT. His interests include technology, finance, and writing. Outside academics, he enjoys playing sports and writing poetry."
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Card("assets/images/Team/ishit.png",
                           "Ishit Ninawat",
                           "Content Writer",
                           "Ishit Ninawat is a student from Mathematics and Computing, batch of 2029. His main focus lies in software development, and as his side activities, carries out writing, public speaking, debating and photography. ",
                         ),
                         SizedBox(width: 10,),
-                        Card("assets/images/Team/Ekansh.png",
-                          "Ekansh",
-                          "Content writer",
-                          "Ekansh Miglani is a student of Instrumentation and Control Engineering, batch of 2029, at NSUT. His interests include technology, finance, and writing. Outside academics, he enjoys playing sports and writing poetry."
+                        Card("assets/images/Team/laksh.png",
+                            "lakshay",
+                            "Tester",
+                            "Hey, I'm Lakshya. My superpower? Finding the one bug that survives every test case. If this app breaks, I probably already knew it would happen. I just wanted to watch it live."
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Card("assets/images/Team/yashw.png",
+                          "Yashwani Jain",
+                          "Tester",
+                          "Meet Yashwani Jain, a CSAI student Batch'29. Passionate about technology and finance, she enjoys exploring new things, connecting with new people and embracing new experiences. ",
+                        ),
+                        SizedBox(width: 10,),
+                        Card("assets/images/Team/harshita.png",
+                            "Harshita",
+                            "Tester",
+                            "Hey, I'm Harshita Kannoujia, a CSE student. Equal parts curious and chaotic, I believe the best souvenirs aren't bought. They're the experiences, conversations, and stories you bring back."
                         ),
                       ]
                   ),
