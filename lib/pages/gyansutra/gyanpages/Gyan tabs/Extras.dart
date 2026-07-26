@@ -76,8 +76,8 @@ class _ExtrasState extends State<Extras> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: ExtraList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 childAspectRatio: 1.1,
@@ -140,7 +140,7 @@ class _ExtrasState extends State<Extras> {
                                   child: Text(
                                     notes.name,
                                     overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
+                                    maxLines: 1,
                                     style: GoogleFonts.poppins(
                                         height: 1,
                                         fontWeight: FontWeight.w700,

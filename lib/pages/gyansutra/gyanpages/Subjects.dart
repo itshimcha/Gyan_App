@@ -133,11 +133,11 @@ class _SubjectsPageState extends State<SubjectsPage> {
                               shrinkWrap: true,
                               padding: const EdgeInsets.only(top: 0),
                               itemCount: subjectList.length,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 15,
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 15,
-                                  childAspectRatio: 1.1
+                              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                                mainAxisSpacing: 15,
+                                crossAxisSpacing: 15,
+                                childAspectRatio: 1.1,
                               ),
                               itemBuilder: (context, index) {
                                 final subject = subjectList[index];
@@ -160,7 +160,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                             ],
                                             border: Border.all(color: const Color(0xffc29242), width: 3),
                                             image: DecorationImage(
-                                                image: AssetImage("assets/images/folder/${random[index]}.jpg"), fit: BoxFit.cover
+                                                image: AssetImage("assets/images/folder/${random[index]}.jpg"), fit: BoxFit.fitWidth
                                             )
                                         ),
                                         child: ClipRRect(

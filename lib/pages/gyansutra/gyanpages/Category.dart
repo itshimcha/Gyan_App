@@ -182,7 +182,7 @@ class _CategoryState extends State<Category> {
                             child: Stack(
                               children: [
                                 Container(
-                                  width: 400,
+                                  width: MediaQuery.of(context).size.width,
                                   height: 48,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(45),

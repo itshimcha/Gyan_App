@@ -55,7 +55,7 @@ class _NotesState extends State<Notes> {
                 return Center(child: No_internet());
               }
               else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text("No notes for this subject", style: TextStyle(color: Colors.white)));
+                return Center(child: Text("No notes for this subject", style: TextStyle(color: Colors.white)));
               }
               final notesList = snapshot.data!;
 
@@ -64,11 +64,11 @@ class _NotesState extends State<Notes> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: notesList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 15,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      childAspectRatio: 1.1
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 1.1,
                   ),
                   itemBuilder: (context, index) {
                     final notes = notesList[index];
@@ -130,7 +130,7 @@ class _NotesState extends State<Notes> {
                                       child: Text(
                                         notes.name,
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         style: GoogleFonts.poppins(
                                             height: 1,
                                             fontWeight: FontWeight.w700,

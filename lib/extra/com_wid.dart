@@ -87,21 +87,19 @@ class MainTxt extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 60),
-          Stack(
+          SizedBox(height: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Container(
-            height: 180,
-            width: 200,
-            child: Lottie.asset("assets/lottie/catlove.json",
+            height: 150,
+            width: 150,
+            child: Lottie.asset("assets/lottie/Astronautinfo.json",
               fit: BoxFit.cover,
-            ),),
+              ),
+            ),
             SizedBox(height: 5),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Row(
+              Row(
                   children: [
                     GestureDetector(
                       onTap: () async {
@@ -158,8 +156,7 @@ class MainTxt extends StatelessWidget {
                       child: Image.asset("assets/images/whatsapplogo.png", width: 35,height: 35,),
                     )
                   ]
-              ),
-            )
+              )
             ],
           ),
           // Text(
@@ -171,7 +168,6 @@ class MainTxt extends StatelessWidget {
           // ),
           //   overflow: TextOverflow.fade,
           // ),
-
           SizedBox(height: 20,),
           Text("Made by Himcha,Coco,Atharv,Akku\nPowered by Nakshatra NSUT and Team", style: GoogleFonts.poppins(color: Colors.white38.withOpacity(0.3),fontSize: 8, fontWeight: FontWeight.w600)),
           SizedBox(height: 140,)

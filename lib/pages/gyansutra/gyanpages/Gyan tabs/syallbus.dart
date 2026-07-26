@@ -35,7 +35,7 @@ class _SyallbusState extends State<Syallbus> {
       List<Files> syallbus = data.map((item) => Files.fromJson(item)).toList();
       return syallbus;
     } else {
-      throw Exception('Failed to load data');
+      throw Exception();
     }
   }
 
@@ -45,13 +45,13 @@ class _SyallbusState extends State<Syallbus> {
         future: _syallbusFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return earthrotate();
+            return Container();
           }
           else if (snapshot.hasError) {
-            return Center(child: No_internet());
+            return Container();
           }
           else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("No data found.", style: TextStyle(color: Colors.white)));
+            return Container();
           }
           final syallbus = snapshot.data!;
           return Positioned(

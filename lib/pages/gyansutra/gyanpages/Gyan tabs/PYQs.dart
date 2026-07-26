@@ -80,8 +80,8 @@ class _PYQsState extends State<PYQs> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: mseList.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
                         childAspectRatio: 1.1,
@@ -151,7 +151,7 @@ class _PYQsState extends State<PYQs> {
                                           child: Text(
                                             notes.name,
                                             overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
+                                            maxLines: 1,
                                             style: GoogleFonts.poppins(
                                                 height: 1,
                                                 fontWeight: FontWeight.w700,
@@ -197,8 +197,8 @@ class _PYQsState extends State<PYQs> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: eseList.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
                         childAspectRatio: 1.1,
@@ -261,7 +261,7 @@ class _PYQsState extends State<PYQs> {
                                           child: Text(
                                             notes.name,
                                             overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
+                                            maxLines: 1,
                                             style: GoogleFonts.poppins(
                                                 height: 1,
                                                 fontWeight: FontWeight.w700,

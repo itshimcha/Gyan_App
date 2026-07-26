@@ -12,6 +12,9 @@ import 'package:gyansutra/extra/backEndSup.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gyansutra/extra/VarFile.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:gyansutra/extra/device_switch/Sign_android.dart'
+if (dart.library.js_interop) 'package:gyansutra/extra/device_switch/Sign_Web.dart';
 
 class signIn extends StatefulWidget {
   const signIn({super.key});
@@ -24,19 +27,35 @@ final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
 class _signInState extends State<signIn> {
   bool _isLoading = false;
+  bool _webReady = !kIsWeb;
 
-  Future<void> SignInGoogle(BuildContext context) async{
+  @override
+  void initState() {
+    super.initState();
+    if (kIsWeb) {
+      _googleSignIn.initialize(serverClientId: null).then((_) {
+        if (mounted) setState(() => _webReady = true);
+      });
+      _googleSignIn.authenticationEvents.listen((user) {
+        if (user is GoogleSignInAuthenticationEventSignIn) {
+          CompleteSignInGoogle(context, user.user);
+        }
+      });
+    }
+  }
 
+  Future<void> CompleteSignInGoogle(BuildContext context, GoogleSignInAccount googleUser) async{
+    setState(() => _isLoading = true);
     try {
-      await _googleSignIn.initialize(
-        serverClientId: Varfile.serverID,
-      );
-
-      final googleUser = await _googleSignIn.authenticate();
-      if (googleUser == null) {
-        setState(() { _isLoading = false; });
-        return;
-      }
+      // await _googleSignIn.initialize(
+      //   serverClientId: kIsWeb ? null : Varfile.serverID,
+      // );
+      //
+      // final googleUser = await _googleSignIn.authenticate();
+      // if (googleUser == null) {
+      //   setState(() { _isLoading = false; });
+      //   return;
+      // }
 
       final googleAuth = await googleUser.authentication;
       final String? idToken = googleAuth.idToken;
@@ -49,7 +68,6 @@ class _signInState extends State<signIn> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
-
         final String myAccessToken = responseData['access'];
         final String myRefreshToken = responseData['refresh'];
         final bool isProfileComplete = responseData['is_profile_complete'];
@@ -75,20 +93,35 @@ class _signInState extends State<signIn> {
           );
         }
       } else {
-        print(response.statusCode);
-        print(response.body);
         if (!context.mounted) return;
-        CustomSnackbar.show(context, "Failed to authenticate with Google. Please try again.");
+        CustomSnackbar.show(context, "Failed to authenticate with Google. Please try again Later.");
       }
     } catch (e) {
       if (!context.mounted) return;
-      CustomSnackbar.show(context,"An error occurred");
+      CustomSnackbar.show(context,"An error occurred${e}");
     } finally {
       if (mounted) {
         setState(() {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  Future<void> SignInGoogle(BuildContext context) async {
+    setState(() => _isLoading = true);
+    try {
+      await _googleSignIn.initialize(serverClientId: Varfile.serverID);
+      final googleUser = await _googleSignIn.authenticate();
+      if (googleUser == null) {
+        setState(() => _isLoading = false);
+        return;
+      }
+      await CompleteSignInGoogle(context, googleUser);
+    } catch (e) {
+      if (!context.mounted) return;
+      CustomSnackbar.show(context, "An error occurred$e");
+      setState(() => _isLoading = false);
     }
   }
 
@@ -128,65 +161,76 @@ class _signInState extends State<signIn> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 630,
-                    left: 20,
-                    child: GestureDetector(
-                        onTap: (){
-                          SignInGoogle(context);
-                        },
-                        child: Stack(
-                            children: [
-                              Container(
-                                width: 320,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    boxShadow: [BoxShadow(
-                                        color: Colors.white.withOpacity(0.1),
-                                        spreadRadius: 0,
-                                        blurRadius: 20,
-                                        blurStyle: BlurStyle.outer
-                                    )]
-                                ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(0),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
-                                  child: Container(
-                                      width: 320,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(16.0),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left:30, right: 20, top: 8, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  Image.asset("assets/images/google.png",width: 30,height: 30,),
-                                                  SizedBox(width: 8,),
-                                                  Text("SignIn with Google",style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white)),
-                                                ]
-                                            ),
-                                            Icon(Icons.arrow_forward,color: Colors.white,size: 25,),
-                                          ],
-                                        ),
-                                      )
-                                  ),
-                                ),
-                              ),
-                            ]
-
-                        )
+        Positioned(
+          top: 630,
+          left: 20,
+          child: SizedBox(
+            width: 320,
+            height: 60,
+            child: Stack(
+              children: [
+                // your existing visual container + blur + row (unchanged) — keep exactly as-is
+                Container(
+                  width: 320,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16.0),
+                    boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.1), spreadRadius: 0, blurRadius: 20, blurStyle: BlurStyle.outer)],
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(0),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
+                    child: Container(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(color: Colors.black.withOpacity(0.15), borderRadius: BorderRadius.circular(16.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 20, top: 8, bottom: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset("assets/images/google.png", width: 30, height: 30),
+                                const SizedBox(width: 8),
+                                Text("SignIn with Google", style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white)),
+                              ],
+                            ),
+                            const Icon(Icons.arrow_forward, color: Colors.white, size: 25),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+                ),
+                if (kIsWeb && _webReady)
+                  Positioned.fill(
+                    child: Opacity(
+                      opacity: 0.01,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: SizedBox(
+                          width: 320,  // Google button's configured minimumWidth
+                          height: 40,  // Google's actual rendered height for "large" size
+                          child: renderGoogleButton(),
+                        ),
+                      ),
+                    ),
+                  ),
+                if (!kIsWeb)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onTap: () => SignInGoogle(context),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
                   Positioned(
                       bottom: 50,
                       left: 30,
