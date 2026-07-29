@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gyansutra/extra/Responsive.dart' show Responsive;
 import 'package:gyansutra/pages/Nakshatra/Astro/Astrocalender.dart';
 import 'package:gyansutra/pages/Nakshatra/Explore.dart';
 import 'package:gyansutra/pages/Nakshatra/blogs.dart';
@@ -181,16 +182,17 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double w = MediaQuery.of(context).size.width*0.9;
+    final double w = Responsive.isDesktop(context)? 500 : MediaQuery.of(context).size.width*0.9;
     final double h = 60;
     final double radius = h / 2;
     return AnimatedPositioned(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         bottom: widget.isVisible ? 60 : -100,
-        left: 20,
-        right: 20,
+        left: 15,
+        right: 15,
         child: Container(
+          width: w,
           height: h,
           child: Stack(
             children: [
@@ -199,7 +201,6 @@ class _NavBarState extends State<NavBar> {
                   painter: NakNavBarPainter(),
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

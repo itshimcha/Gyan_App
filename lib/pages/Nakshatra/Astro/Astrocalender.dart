@@ -12,6 +12,8 @@ import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../../extra/Responsive.dart' show Responsive;
+
 
 
 class Astrocalender extends StatefulWidget {
@@ -111,8 +113,9 @@ class _AstrocalenderState extends State<Astrocalender> {
       child: Scaffold(
         floatingActionButton: Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height * 0.08,
-            left: MediaQuery.of(context).size.width * 0.03,
+            bottom: Responsive.isDesktop(context) ? MediaQuery.of(context).size.height * 0.1: MediaQuery.of(context).size.height * 0.08,
+            left: Responsive.isDesktop(context) ? 0:MediaQuery.of(context).size.width * 0.03,
+            right: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.1:0,
           ),
           child: SpeedDial(
             icon: Icons.calendar_view_month_outlined,
@@ -184,56 +187,59 @@ class _AstrocalenderState extends State<Astrocalender> {
             Opacity(
                 opacity: 0.4,child: StarBg()),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 200 : 10 ),
               child: SingleChildScrollView(
                 key: ValueKey(_currentView),
                 controller: _scrollController,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: Responsive.isDesktop(context) ?CrossAxisAlignment.center:CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 10,top: 50),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (_currentView != 'Schedule') {
-                            setState(() {
-                              _currentView = 'Schedule';
-                            });
-                          } else {
-                            if (Navigator.canPop(context)) {
-                              Navigator.pop(context);
+                      child: Align(
+                        alignment: AlignmentGeometry.topLeft,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_currentView != 'Schedule') {
+                              setState(() {
+                                _currentView = 'Schedule';
+                              });
                             } else {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                                    (Route<dynamic> route) => false,
-                              );
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomePage(),
+                                  ),
+                                      (Route<dynamic> route) => false,
+                                );
+                              }
                             }
-                          }
-                        },
-                        child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle
-                            ),
-                            child: Center(child: Icon(Icons.home,color: Colors.black,))),
+                          },
+                          child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle
+                              ),
+                              child: Center(child: Icon(Icons.home,color: Colors.black,))),
+                        ),
                       )
                     ),
                     SizedBox(height: 10,),
                     Padding(
                       padding: const EdgeInsets.only(left: 10,right: 13),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: Responsive.isDesktop(context) ?CrossAxisAlignment.center:CrossAxisAlignment.start,
                         children: [
                           Text(
                             "AstroCalender", style:
                           GoogleFonts.poppins(
                               fontWeight: FontWeight.w600,
-                              fontSize: 30,
+                              fontSize: Responsive.isDesktop(context) ? 60 : 30,
                               color: Color(0xffe6e6fa)
                           ),),
                           Text("Never miss an Event",
@@ -241,7 +247,7 @@ class _AstrocalenderState extends State<Astrocalender> {
                               GoogleFonts.poppins(
                                   height: 0.7,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 12,
+                                  fontSize: Responsive.isDesktop(context) ? 25:12,
                                   color: Color(0x88e6e6fa)))
                         ],
                       ),

@@ -12,6 +12,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../extra/Responsive.dart' show Responsive;
+
 
 
 class Cosmicfeed extends StatefulWidget {
@@ -50,77 +52,80 @@ class _CosmicfeedState extends State<Cosmicfeed> {
                 child: StarBg()),
             DefaultTabController(
                 length: 2,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:[
-                      SizedBox(height: 50,),
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(left: 20, right: 20),
-                                  child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false);
-                                      },
-                                      child: Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle
-                                          ),
-                                          child: Center(child: Icon(Icons.home,color: Colors.white,))))
-                              ),
-                              SizedBox(height: 10,),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 27.0),
-                                child: Text("Galaxify", style: GoogleFonts.alegreya(fontSize: 50, height: 1,fontWeight: FontWeight.w600,color: Colors.white),),
-                              ),
-                            ],
-                          ),
-                          SizedBox(width: 8,),
-                          Expanded(
-                            child: Container(
-                              height: 130,
-                              child:
-                              Lottie.asset("assets/lottie/Nice.json"),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 200:0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:[
+                        SizedBox(height: 50,),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.only(left: 20, right: 20),
+                                    child: GestureDetector(
+                                        onTap: (){
+                                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()),(Route<dynamic> route) => false);
+                                        },
+                                        child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle
+                                            ),
+                                            child: Center(child: Icon(Icons.home,color: Colors.white,))))
+                                ),
+                                SizedBox(height: 10,),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 27.0),
+                                  child: Text("Galaxify", style: GoogleFonts.alegreya(fontSize: 50, height: 1,fontWeight: FontWeight.w600,color: Colors.white),),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child:
-                        TabBar(
-                          isScrollable: true,
-                          tabAlignment: TabAlignment.start,
-                          physics: BouncingScrollPhysics(),
-                          dividerColor: Colors.transparent,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.grey.withOpacity(0.7),
-                          indicatorColor: Color(0xffe6e6fa),
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorPadding: EdgeInsets.only(left: 20, right: 20) ,
-                          tabs: [
-                            Tab(text: "News For You",),
-                            Tab(text: "On Air",)
+                            SizedBox(width: 8,),
+                            Expanded(
+                              child: Container(
+                                height: 130,
+                                child:
+                                Responsive.isDesktop(context) ? Container() :Lottie.asset("assets/lottie/Nice.json"),
+                              ),
+                            )
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child:
+                          TabBar(
+                            isScrollable: true,
+                            tabAlignment: TabAlignment.start,
+                            physics: BouncingScrollPhysics(),
+                            dividerColor: Colors.transparent,
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.grey.withOpacity(0.7),
+                            indicatorColor: Color(0xffe6e6fa),
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            indicatorPadding: EdgeInsets.only(left: 20, right: 20) ,
+                            tabs: [
+                              Tab(text: "News For You",),
+                              Tab(text: "On Air",)
+                            ],
+                          ),
 
 
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            NewsForYou(),
-                            OnAir(),
-                          ],
-                        ),)
-                      ,
-                    ]
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              NewsForYou(),
+                              OnAir(),
+                            ],
+                          ),)
+                        ,
+                      ]
+                  ),
                 )
             ),
 
@@ -186,68 +191,303 @@ class _NewsForYouState extends State<NewsForYou> {
 
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  autoPlayAnimationDuration: Duration(seconds: 2),
-                  autoPlayInterval: Duration(seconds: 7),
-                  viewportFraction: 0.8,
-                  enlargeFactor: 0.3,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                  scrollPhysics: BouncingScrollPhysics()
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 20:0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: Responsive.isDesktop(context) ? 300:200,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    autoPlayAnimationDuration: Duration(seconds: 2),
+                    autoPlayInterval: Duration(seconds: 7),
+                    viewportFraction: 0.8,
+                    enlargeFactor: 0.3,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                    scrollPhysics: BouncingScrollPhysics()
+                  ),
+                  items: featured.map((article) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return
+                          Container(
+                              width: Responsive.isDesktop(context) ?600:315,
+                              height: 300,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.black,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white.withOpacity(0.2),
+                                      spreadRadius: 0,
+                                      blurRadius: 20,
+                                    )
+                                  ]
+                              ),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final Uri url = Uri.parse(article.url);
+                                  if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                    CustomSnackbar.show(context, "Could not open the article");
+                                  }
+                                },
+                                child: Stack(
+                                    children:[
+                                      Positioned.fill(
+                                          child: Image.network(
+                                            article.image_url,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) => const Center(
+                                              child: Icon(Icons.broken_image, color: Colors.white54),
+                                            ),
+                                          ),
+                                        ),
+                                      Container(
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                Colors.black,
+                                                Colors.transparent,
+                                              ],
+                                                  stops: [0.2, 1.0],
+                                                  begin: Alignment.bottomCenter,
+                                                  end: Alignment.topCenter
+                                              )
+
+                                          )
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          gradient:
+                                          RadialGradient(colors: [
+                                            Colors.black,
+                                            Colors.transparent
+                                          ],
+                                              radius: 1,
+                                              center: Alignment.topRight),
+                                        ),
+
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          gradient:
+                                          RadialGradient(colors: [
+                                            Colors.black,
+                                            Colors.transparent
+                                          ],
+                                              radius: 1,
+                                              center: Alignment.topLeft),
+                                        ),
+
+                                      ),
+                                      Positioned(
+                                          bottom: 50,
+                                          left: 20,
+                                          right: 80,
+                                          child: Text(article.title,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              style: GoogleFonts.jost(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500,))),
+                                      Positioned(
+                                          bottom: 20,
+                                          left: 20,
+                                          right: 20,
+                                          child: Text(article.summary,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w400,))),
+                                      Positioned(
+                                          top: 20,
+                                          left: 20,
+
+                                          child: Text(article.authors,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900,))),
+                                      Positioned(
+                                          top: 15,
+                                          right: 15,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 23))
+                                    ]
+                                ),
+                              )
+                          )
+
+                        ;
+                      },
+                    );
+                  }).toList(),
                 ),
-                items: featured.map((article) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return
-                        Container(
-                            width: 315,
-                            height: 300,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.black,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.white.withOpacity(0.2),
-                                    spreadRadius: 0,
-                                    blurRadius: 20,
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25),
+                  child: Text("Top Stories", style: GoogleFonts.jost(fontSize: 15, fontWeight: FontWeight.w500,color: Colors.white),),
+                ),
+                SizedBox(height: 15),
+                SizedBox(
+                  height: 220,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: topStories.length,
+                    itemBuilder: (context, index) {
+                      final topstory = topStories[index];
+                      return Container(
+                        width:155,
+                        height: 220,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.black,
+                        ),
+                        margin: const EdgeInsets.all(8),
+                        child: GestureDetector(
+                            onTap: () async {
+                              final Uri url = Uri.parse(topstory.url);
+                              if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                CustomSnackbar.show(context, "Could not open the article");;
+                              }
+                            },
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: Image.network(topStories[index].image_url,
+                                  fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Center(
+                                child: Icon(Icons.broken_image, color: Colors.white),)
+                                )
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(colors: [
+                                        Colors.black,
+
+                                        Colors.transparent,
+                                      ],
+                                          stops: [0.0, 1.0],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter
+                                      )
+
                                   )
-                                ]
-                            ),
-                            child: GestureDetector(
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient:
+                                  RadialGradient(colors: [
+                                    Colors.black,
+                                    Colors.transparent
+                                  ],
+                                      radius: 2,
+                                      center: Alignment.bottomLeft),
+
+                                ),
+
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient:
+                                  RadialGradient(colors: [
+                                    Colors.black,
+                                    Colors.transparent
+                                  ],
+                                      radius: 0.7,
+                                      center: Alignment.topRight),
+
+                                ),
+
+                              ),
+                              Positioned(
+                                left: 10,
+                                right: 30,
+                                bottom: 15,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(topStories[index].authors,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800,)),
+                                    SizedBox(height: 8),
+                                    Text(topStories[index].title,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: GoogleFonts.jost(color: Colors.white, height: 1.2 ,fontSize: 13, fontWeight: FontWeight.w500,)),
+
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  top: 10,
+                                  right: 10,
+                                  child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 20))
+
+                            ]
+
+                          )
+                        )
+
+                      );
+
+                    }
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25),
+                  child: Text("News Today", style: GoogleFonts.jost(fontSize: 15, fontWeight: FontWeight.w500,color: Colors.white),),
+                ),
+                SizedBox(height: 10),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: newsToday.length,
+                    itemBuilder: (context, index) {
+                      final newstoday = newsToday[index];
+                      return Container(
+                          width:400,
+                          height: 120,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.black,
+                          ),
+                          margin: const EdgeInsets.only(left: 8,right: 8,bottom:5, top: 5),
+                          child: GestureDetector(
                               onTap: () async {
-                                final Uri url = Uri.parse(article.url);
+                                final Uri url = Uri.parse(newstoday.url);
                                 if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
                                   CustomSnackbar.show(context, "Could not open the article");
                                 }
                               },
                               child: Stack(
-                                  children:[
-                                    Positioned.fill(
-                                        child: Image.network(
-                                          article.image_url,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => const Center(
-                                            child: Icon(Icons.broken_image, color: Colors.white54),
-                                          ),
+                                  children: [
+                                    Container(
+                                      width:400,
+                                      height: 120,
+                                      child: Image.network(
+                                        alignment: Alignment.topCenter,
+                                        newstoday.image_url,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => const Center(
+                                          child: Icon(Icons.broken_image, color: Colors.white54),
                                         ),
                                       ),
+                                    ),
                                     Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
                                               Colors.black,
                                               Colors.transparent,
                                             ],
-                                                stops: [0.2, 1.0],
+                                                stops: [0.0, 1.0],
                                                 begin: Alignment.bottomCenter,
                                                 end: Alignment.topCenter
                                             )
@@ -261,8 +501,9 @@ class _NewsForYouState extends State<NewsForYou> {
                                           Colors.black,
                                           Colors.transparent
                                         ],
-                                            radius: 1,
-                                            center: Alignment.topRight),
+                                            radius: 2,
+                                            center: Alignment.topLeft),
+
                                       ),
 
                                     ),
@@ -273,299 +514,66 @@ class _NewsForYouState extends State<NewsForYou> {
                                           Colors.black,
                                           Colors.transparent
                                         ],
-                                            radius: 1,
-                                            center: Alignment.topLeft),
+                                            radius: 0.7,
+                                            center: Alignment.topRight),
+
                                       ),
 
                                     ),
                                     Positioned(
-                                        bottom: 50,
-                                        left: 20,
-                                        right: 80,
-                                        child: Text(article.title,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: GoogleFonts.jost(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500,))),
-                                    Positioned(
-                                        bottom: 20,
-                                        left: 20,
-                                        right: 20,
-                                        child: Text(article.summary,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w400,))),
-                                    Positioned(
-                                        top: 20,
-                                        left: 20,
+                                      left: 15,
+                                      right: 70,
+                                      bottom: 15,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(newsToday[index].title,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
 
-                                        child: Text(article.authors,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900,))),
+                                              style: GoogleFonts.jost(
+                                                color: Colors.white, height: 1.2 ,fontSize: 13, fontWeight: FontWeight.w800,)
+                                          ),
+                                          SizedBox(height: 2),
+                                          Text(newsToday[index].summary,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500,)),
+
+                                        ],
+                                      ),
+                                    ),
                                     Positioned(
                                         top: 15,
                                         right: 15,
-                                        child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 23))
-                                  ]
-                              ),
-                            )
-                        )
-
-                      ;
-                    },
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text("Top Stories", style: GoogleFonts.jost(fontSize: 15, fontWeight: FontWeight.w500,color: Colors.white),),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                height: 220,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: topStories.length,
-                  itemBuilder: (context, index) {
-                    final topstory = topStories[index];
-                    return Container(
-                      width:155,
-                      height: 220,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.black,
-                      ),
-                      margin: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                          onTap: () async {
-                            final Uri url = Uri.parse(topstory.url);
-                            if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                              CustomSnackbar.show(context, "Could not open the article");;
-                            }
-                          },
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Image.network(topStories[index].image_url,
-                                fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => const Center(
-                              child: Icon(Icons.broken_image, color: Colors.white),)
-                              )
-                            ),
-                            Container(
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Colors.black,
-
-                                      Colors.transparent,
-                                    ],
-                                        stops: [0.0, 1.0],
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter
+                                        left: 15,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(newsToday[index].authors,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800,)),
+                                            Icon(
+                                            Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 20)
+                                          ]
+                                        )
                                     )
+                                  ]
 
-                                )
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient:
-                                RadialGradient(colors: [
-                                  Colors.black,
-                                  Colors.transparent
-                                ],
-                                    radius: 2,
-                                    center: Alignment.bottomLeft),
+                              )
+                          )
 
-                              ),
+                      );
 
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient:
-                                RadialGradient(colors: [
-                                  Colors.black,
-                                  Colors.transparent
-                                ],
-                                    radius: 0.7,
-                                    center: Alignment.topRight),
-
-                              ),
-
-                            ),
-                            Positioned(
-                              left: 10,
-                              right: 30,
-                              bottom: 15,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(topStories[index].authors,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800,)),
-                                  SizedBox(height: 8),
-                                  Text(topStories[index].title,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: GoogleFonts.jost(color: Colors.white, height: 1.2 ,fontSize: 13, fontWeight: FontWeight.w500,)),
-
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                                top: 10,
-                                right: 10,
-                                child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 20))
-
-                          ]
-
-                        )
-                      )
-
-                    );
-
-                  }
+                    }
                 ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text("News Today", style: GoogleFonts.jost(fontSize: 15, fontWeight: FontWeight.w500,color: Colors.white),),
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: newsToday.length,
-                  itemBuilder: (context, index) {
-                    final newstoday = newsToday[index];
-                    return Container(
-                        width:400,
-                        height: 120,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.black,
-                        ),
-                        margin: const EdgeInsets.only(left: 8,right: 8,bottom:5, top: 5),
-                        child: GestureDetector(
-                            onTap: () async {
-                              final Uri url = Uri.parse(newstoday.url);
-                              if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                CustomSnackbar.show(context, "Could not open the article");
-                              }
-                            },
-                            child: Stack(
-                                children: [
-                                  Container(
-                                    width:400,
-                                    height: 120,
-                                    child: Image.network(
-                                      alignment: Alignment.topCenter,
-                                      newstoday.image_url,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => const Center(
-                                        child: Icon(Icons.broken_image, color: Colors.white54),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(colors: [
-                                            Colors.black,
-                                            Colors.transparent,
-                                          ],
-                                              stops: [0.0, 1.0],
-                                              begin: Alignment.bottomCenter,
-                                              end: Alignment.topCenter
-                                          )
-
-                                      )
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      gradient:
-                                      RadialGradient(colors: [
-                                        Colors.black,
-                                        Colors.transparent
-                                      ],
-                                          radius: 2,
-                                          center: Alignment.topLeft),
-
-                                    ),
-
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      gradient:
-                                      RadialGradient(colors: [
-                                        Colors.black,
-                                        Colors.transparent
-                                      ],
-                                          radius: 0.7,
-                                          center: Alignment.topRight),
-
-                                    ),
-
-                                  ),
-                                  Positioned(
-                                    left: 15,
-                                    right: 70,
-                                    bottom: 15,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(newsToday[index].title,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-
-                                            style: GoogleFonts.jost(
-                                              color: Colors.white, height: 1.2 ,fontSize: 13, fontWeight: FontWeight.w800,)
-                                        ),
-                                        SizedBox(height: 2),
-                                        Text(newsToday[index].summary,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500,)),
-
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                      top: 15,
-                                      right: 15,
-                                      left: 15,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(newsToday[index].authors,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          style: GoogleFonts.jost(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800,)),
-                                          Icon(
-                                          Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 20)
-                                        ]
-                                      )
-                                  )
-                                ]
-
-                            )
-                        )
-
-                    );
-
-                  }
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: MainTxt(text: "Nakshatra")
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: MainTxt(text: "Nakshatra")
+                ),
+              ],
+            ),
           ),
         );
       },

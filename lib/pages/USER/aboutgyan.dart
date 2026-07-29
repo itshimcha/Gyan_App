@@ -3,6 +3,8 @@ import 'package:gyansutra/extra/VarFile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/com_wid.dart';
 
+import '../../extra/Responsive.dart';
+
 class Aboutgyan extends StatefulWidget {
   const Aboutgyan({super.key});
 
@@ -34,7 +36,7 @@ class _AboutgyanState extends State<Aboutgyan> {
 
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20,right: 20),
+            padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 200 : 0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

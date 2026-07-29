@@ -10,6 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:intl/intl.dart';
 
+import '../../extra/Responsive.dart';
+
 final FStorage = const FlutterSecureStorage();
 
 class Userpage extends StatefulWidget {
@@ -284,9 +286,6 @@ class _UserpageState extends State<Userpage> {
         }
       }
 
-      print("Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == 200) {
         if (mounted) {
           setState(() {
@@ -355,7 +354,7 @@ class _UserpageState extends State<Userpage> {
                       children: [
                         Positioned(
                             top: MediaQuery.of(context).size.height * 0.3,
-                            left: MediaQuery.of(context).size.width * 0.3,
+                            left: Responsive.isDesktop(context)? MediaQuery.of(context).size.width * 0.6: MediaQuery.of(context).size.width * 0.3,
                             bottom: MediaQuery.of(context).size.height * 0.07,
                             child: Container(
                                 child: Image.asset(_characterData[_selectedCharIndex]["image"]!, fit: BoxFit.fitWidth)
@@ -436,311 +435,316 @@ class _UserpageState extends State<Userpage> {
                               )
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 3),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 spacing: MediaQuery.of(context).size.height * 0.02,
                                 children: [
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                                  CircleAvatar(
-                                    child: ClipOval(
-                                      child: prodata.avatar_url.isEmpty ? const Icon
-                                        (Icons.person, color: Colors.grey, size: 30) : Image.network(prodata.avatar_url,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return const Icon(
-                                            Icons.person,
-                                            color: Colors.grey,
-                                            size: 30,
-                                          );
+                                  SizedBox(height: 20),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: IconButton(
+                                        onPressed:(){
+                                          Navigator.pop(context);
                                         },
-                                      ),
+                                        icon: const Icon(Icons.home, color: Color(0xffe6e6fa),size: 30,)
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Username", style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.5), height: 0.7, fontSize: 10, fontWeight: FontWeight.w500),),
-                                      Text(prodata.username.toUpperCase(), overflow: TextOverflow.ellipsis, maxLines: 2, style: GoogleFonts.poppins(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),),
-                                    ],
-                                  ),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                                  infoCard(Icon(Icons.person,), "Name", prodata.full_name),
-                                  infoCard(Icon(Icons.school,), "Roll No", prodata.roll_no),
-                                  infoCard(Icon(Icons.email,), "Email", prodata.email),
-                                  infoCard(Icon(Icons.school), "Branch", prodata.branch),
-                                  infoCard(Icon(Icons.school,), "Semester", prodata.semester),
-                                  infoCard(Icon(Icons.school,), "Batch", prodata.batch),
-                                  infoCard(Icon(Icons.school,), "Campus", prodata.campus),
-                                  infoCard(Icon(Icons.calendar_month), "Date of Birth", prodata.date_of_birth.isNotEmpty ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(prodata.date_of_birth)) : "Not Provided"),
-                                  infoCard(Icon(Icons.phone,), "Phone", prodata.phone_number),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.1,),
-                                  Divider(
-                                    height: 1,
-                                    endIndent: 4,
-                                    color: Colors.white.withOpacity(0.2),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _controllers['name']!.text = prodata.full_name;
-                                      _controllers['phone']!.text = prodata.phone_number;
-                                      _controllers['rollno']!.text = prodata.roll_no;
-                                      _controllers['dateofbirth']!.text = prodata.date_of_birth;
-                                      _selectedCampus = Varfile.Campus.contains(prodata.campus) ? prodata.campus : null;
-                                      _selectedBranch = Varfile.Branch_Name.contains(prodata.branch) ? prodata.branch : null;
-                                      final int? parsedBatch = int.tryParse(prodata.batch.toString());
-                                      _selectedBatch = Varfile.Batch.contains(parsedBatch) ? parsedBatch : null;
-                                      final int? parsedSem = int.tryParse(prodata.semester.toString());
-                                      _selectedSemester = Varfile.Sem.contains(parsedSem) ? parsedSem : null;
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      spacing: MediaQuery.of(context).size.height * 0.02,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Username", style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.5), height: 0.7, fontSize: 10, fontWeight: FontWeight.w500),),
+                                            Text(prodata.username.toUpperCase(), overflow: TextOverflow.ellipsis, maxLines: 2, style: GoogleFonts.poppins(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),),
+                                          ],
+                                        ),
+                                        SizedBox(height: 20),
+                                        infoCard(Icon(Icons.person,), "Name", prodata.full_name),
+                                        infoCard(Icon(Icons.school,), "Roll No", prodata.roll_no),
+                                        infoCard(Icon(Icons.email,), "Email", prodata.email),
+                                        infoCard(Icon(Icons.school), "Branch", prodata.branch),
+                                        infoCard(Icon(Icons.school,), "Semester", prodata.semester),
+                                        infoCard(Icon(Icons.school,), "Batch", prodata.batch),
+                                        infoCard(Icon(Icons.school,), "Campus", prodata.campus),
+                                        infoCard(Icon(Icons.calendar_month), "Date of Birth", prodata.date_of_birth.isNotEmpty ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(prodata.date_of_birth)) : "Not Provided"),
+                                        infoCard(Icon(Icons.phone,), "Phone", prodata.phone_number),
+                                        SizedBox(height: MediaQuery.of(context).size.height * 0.1,),
+                                        Divider(
+                                          height: 1,
+                                          endIndent: 4,
+                                          color: Colors.white.withOpacity(0.2),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _controllers['name']!.text = prodata.full_name;
+                                            _controllers['phone']!.text = prodata.phone_number;
+                                            _controllers['rollno']!.text = prodata.roll_no;
+                                            _controllers['dateofbirth']!.text = prodata.date_of_birth;
+                                            _selectedCampus = Varfile.Campus.contains(prodata.campus) ? prodata.campus : null;
+                                            _selectedBranch = Varfile.Branch_Name.contains(prodata.branch) ? prodata.branch : null;
+                                            final int? parsedBatch = int.tryParse(prodata.batch.toString());
+                                            _selectedBatch = Varfile.Batch.contains(parsedBatch) ? parsedBatch : null;
+                                            final int? parsedSem = int.tryParse(prodata.semester.toString());
+                                            _selectedSemester = Varfile.Sem.contains(parsedSem) ? parsedSem : null;
 
-                                      showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (BuildContext context) {
-                                          String activeCategory = "Name";
-                                          String? tempCampus = _selectedCampus;
-                                          String? tempBranch = _selectedBranch;
-                                          int? tempBatch = _selectedBatch;
-                                          int? tempSemester = _selectedSemester;
-                                          return StatefulBuilder(
-                                            builder: (BuildContext context, StateSetter setSheetState) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: MediaQuery.of(context).viewInsets.bottom
-                                                ),
-                                                child: Container(
-                                                  decoration: const BoxDecoration(
-                                                    color: Color(0xff191919),
-                                                    borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(20),
-                                                        topRight: Radius.circular(20)
-                                                    ),
-                                                  ),
-                                                  padding: const EdgeInsets.all(20),
-                                                  constraints: BoxConstraints(
-                                                    maxHeight: MediaQuery.of(context).size.height * 0.8,
-                                                  ),
-                                                  child: SingleChildScrollView(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(10.0),
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                        children: [
-                                                          Text("Edit Profile", style: GoogleFonts.poppins(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-                                                          const SizedBox(height: 15),
-                                                          DropdownButtonFormField<String>(
-                                                            value: activeCategory,
-                                                            dropdownColor: Colors.black,
-                                                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
-                                                            menuMaxHeight: 200,
-                                                            decoration: InputDecoration(
-                                                              prefixIcon: const Icon(Icons.search_outlined, color: Colors.white54, size: 20),
-                                                              labelText: "Select Field to Edit",
-                                                              labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
-                                                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-                                                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                            ),
-                                                            items: ["Name", "Rollno", "Campus", "Branch", "Semester", "Batch", "Phone", "Date of Birth"].map((String target) {
-                                                              return DropdownMenuItem<String>(value: target, child: Text(target, style: const TextStyle(color: Colors.white)));
-                                                            }).toList(),
-                                                              onChanged: (newTarget) {
-                                                                if (newTarget != null) {
-                                                                  setSheetState(() => activeCategory = newTarget);
-                                                                }
-                                                              },
+                                            showModalBottomSheet(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              backgroundColor: Colors.transparent,
+                                              builder: (BuildContext context) {
+                                                String activeCategory = "Name";
+                                                String? tempCampus = _selectedCampus;
+                                                String? tempBranch = _selectedBranch;
+                                                int? tempBatch = _selectedBatch;
+                                                int? tempSemester = _selectedSemester;
+                                                return StatefulBuilder(
+                                                  builder: (BuildContext context, StateSetter setSheetState) {
+                                                    return Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: MediaQuery.of(context).viewInsets.bottom
+                                                      ),
+                                                      child: Container(
+                                                        decoration: const BoxDecoration(
+                                                          color: Color(0xff191919),
+                                                          borderRadius: BorderRadius.only(
+                                                              topLeft: Radius.circular(20),
+                                                              topRight: Radius.circular(20)
                                                           ),
-                                                          const SizedBox(height: 25),
-                                                          if (activeCategory == "Name")
-                                                            TextFormField(
-                                                              controller: _controllers['name'],
-                                                              focusNode: _nameFocus,
-                                                              style: const TextStyle(color: Colors.white),
-                                                              decoration: InputDecoration(
-                                                                prefixIcon: const Icon(Icons.person, color: Colors.white54, size: 20),
-                                                                labelText: "Full Name",
-                                                                labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
-                                                                hintText: "Enter Full Name",
-                                                                hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
-                                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12.0),
-                                                                  borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          else if (activeCategory == "Rollno")
-                                                            TextFormField(
-                                                              controller: _controllers['rollno'],
-                                                              focusNode: _rollnoFocus,
-                                                              style: const TextStyle(color: Colors.white),
-                                                              decoration: InputDecoration(
-                                                                prefixIcon: const Icon(Icons.pin, color: Colors.white54, size: 20),
-                                                                labelText: "Rollno",
-                                                                labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
-                                                                hintText: "Enter Roll Number",
-                                                                hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
-                                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12.0),
-                                                                  borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          else if (activeCategory == "Campus")
-                                                              DropdownButtonFormField<String>(
-                                                                value: Varfile.Campus.contains(tempCampus) ? tempCampus : null,
-                                                                dropdownColor: const Color(0xff191919),
-                                                                menuMaxHeight: 200,
-                                                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                                                                decoration: InputDecoration(
-                                                                  prefixIcon: const Icon(Icons.location_city, color: Colors.white54, size: 20),
-                                                                  labelText: "Campus",
-                                                                  labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
-                                                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                                                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-                                                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                                ),
-                                                                items: Varfile.Campus.map((c) => DropdownMenuItem(value: c, child: Text(c, style: const TextStyle(color: Colors.white)))).toList(),
-                                                                onChanged: (val) => setSheetState(() => tempCampus = val),
-                                                              )
-                                                            else if (activeCategory == "Branch")
+                                                        ),
+                                                        padding: const EdgeInsets.all(20),
+                                                        constraints: BoxConstraints(
+                                                          maxHeight: MediaQuery.of(context).size.height * 0.8,
+                                                        ),
+                                                        child: SingleChildScrollView(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(10.0),
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                              children: [
+                                                                Text("Edit Profile", style: GoogleFonts.poppins(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                                                                const SizedBox(height: 15),
                                                                 DropdownButtonFormField<String>(
-                                                                  value: Varfile.Branch_Name.contains(tempBranch) ? tempBranch : null,
-                                                                  dropdownColor: const Color(0xff191919),
-                                                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                                                                  menuMaxHeight: 300,
+                                                                  value: activeCategory,
+                                                                  dropdownColor: Colors.black,
+                                                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+                                                                  menuMaxHeight: 200,
                                                                   decoration: InputDecoration(
-                                                                    prefixIcon: const Icon(Icons.account_tree_rounded, color: Colors.white54, size: 20),
-                                                                    labelText: "Branch",
+                                                                    prefixIcon: const Icon(Icons.search_outlined, color: Colors.white54, size: 20),
+                                                                    labelText: "Select Field to Edit",
                                                                     labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
                                                                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                                                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
                                                                     enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
                                                                   ),
-                                                                  items: Varfile.Branch_Name.map((b) => DropdownMenuItem(value: b, child: Text(b, style: const TextStyle(color: Colors.white)))).toList(),
-                                                                  onChanged: (val) => setSheetState(() => tempBranch = val),
-                                                                )
-                                                              else if (activeCategory == "Semester")
-                                                                  DropdownButtonFormField<int>(
-                                                                    value: Varfile.Sem.contains(tempSemester) ? tempSemester : null,
-                                                                    dropdownColor: const Color(0xff191919),
-                                                                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                                                                    menuMaxHeight: 300,
+                                                                  items: ["Name", "Rollno", "Campus", "Branch", "Semester", "Batch", "Phone", "Date of Birth"].map((String target) {
+                                                                    return DropdownMenuItem<String>(value: target, child: Text(target, style: const TextStyle(color: Colors.white)));
+                                                                  }).toList(),
+                                                                  onChanged: (newTarget) {
+                                                                    if (newTarget != null) {
+                                                                      setSheetState(() => activeCategory = newTarget);
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 25),
+                                                                if (activeCategory == "Name")
+                                                                  TextFormField(
+                                                                    controller: _controllers['name'],
+                                                                    focusNode: _nameFocus,
+                                                                    style: const TextStyle(color: Colors.white),
                                                                     decoration: InputDecoration(
-                                                                      prefixIcon: const Icon(Icons.menu_book_rounded, color: Colors.white54, size: 20),
-                                                                      labelText: "Semester",
-                                                                      labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
-                                                                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-                                                                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                      prefixIcon: const Icon(Icons.person, color: Colors.white54, size: 20),
+                                                                      labelText: "Full Name",
+                                                                      labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
+                                                                      hintText: "Enter Full Name",
+                                                                      hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
+                                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(12.0),
+                                                                        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                                                                      ),
                                                                     ),
-                                                                    items: Varfile.Sem.map((s) => DropdownMenuItem<int>(value: s, child: Text(s.toString(), style: const TextStyle(color: Colors.white)))).toList(),
-                                                                    onChanged: (val) => setSheetState(() => tempSemester = val),
                                                                   )
-                                                                else if (activeCategory == "Batch")
-                                                                    DropdownButtonFormField<int>(
-                                                                      value: Varfile.Batch.contains(tempBatch) ? tempBatch : null,
+                                                                else if (activeCategory == "Rollno")
+                                                                  TextFormField(
+                                                                    controller: _controllers['rollno'],
+                                                                    focusNode: _rollnoFocus,
+                                                                    style: const TextStyle(color: Colors.white),
+                                                                    decoration: InputDecoration(
+                                                                      prefixIcon: const Icon(Icons.pin, color: Colors.white54, size: 20),
+                                                                      labelText: "Rollno",
+                                                                      labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
+                                                                      hintText: "Enter Roll Number",
+                                                                      hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
+                                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                      focusedBorder: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(12.0),
+                                                                        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                else if (activeCategory == "Campus")
+                                                                    DropdownButtonFormField<String>(
+                                                                      value: Varfile.Campus.contains(tempCampus) ? tempCampus : null,
                                                                       dropdownColor: const Color(0xff191919),
+                                                                      menuMaxHeight: 200,
                                                                       style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                                                                      menuMaxHeight: 300,
                                                                       decoration: InputDecoration(
-                                                                        prefixIcon: const Icon(Icons.badge, color: Colors.white54, size: 20),
-                                                                        labelText: "Batch",
+                                                                        prefixIcon: const Icon(Icons.location_city, color: Colors.white54, size: 20),
+                                                                        labelText: "Campus",
                                                                         labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
                                                                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                                                                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
                                                                         enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
                                                                       ),
-                                                                      items: Varfile.Batch.map((b) => DropdownMenuItem<int>(value: b, child: Text(b.toString(), style: const TextStyle(color: Colors.white)))).toList(),
-                                                                      onChanged: (val) => setSheetState(() => tempBatch = val),
+                                                                      items: Varfile.Campus.map((c) => DropdownMenuItem(value: c, child: Text(c, style: const TextStyle(color: Colors.white)))).toList(),
+                                                                      onChanged: (val) => setSheetState(() => tempCampus = val),
                                                                     )
-                                                                  else if (activeCategory == "Phone")
-                                                                      TextFormField(
-                                                                        controller: _controllers['phone'],
-                                                                        focusNode: _phoneFocus,
-                                                                        keyboardType: TextInputType.number,
-                                                                        style: GoogleFonts.poppins(color: Colors.white),
+                                                                  else if (activeCategory == "Branch")
+                                                                      DropdownButtonFormField<String>(
+                                                                        value: Varfile.Branch_Name.contains(tempBranch) ? tempBranch : null,
+                                                                        dropdownColor: const Color(0xff191919),
+                                                                        style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
+                                                                        menuMaxHeight: 300,
                                                                         decoration: InputDecoration(
-                                                                          prefixIcon: const Icon(Icons.phone, color: Colors.white54, size: 20),
-                                                                          prefixText: "+91 ",
-                                                                          prefixStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w400, fontSize: 15),
-                                                                          labelText: "Phone Number",
-                                                                          labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
-                                                                          hintText: "**********",
-                                                                          hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
-                                                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                                          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                                          focusedBorder: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.circular(12.0),
-                                                                            borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
-                                                                          ),
+                                                                          prefixIcon: const Icon(Icons.account_tree_rounded, color: Colors.white54, size: 20),
+                                                                          labelText: "Branch",
+                                                                          labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
+                                                                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+                                                                          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
                                                                         ),
+                                                                        items: Varfile.Branch_Name.map((b) => DropdownMenuItem(value: b, child: Text(b, style: const TextStyle(color: Colors.white)))).toList(),
+                                                                        onChanged: (val) => setSheetState(() => tempBranch = val),
                                                                       )
-                                                                    else if (activeCategory == "Date of Birth")
-                                                                        TextFormField(
-                                                                          controller: _controllers['dateofbirth'],
-                                                                          focusNode: _dateofbirthFocus,
-                                                                          readOnly: true,
-                                                                          style: const TextStyle(color: Colors.white),
+                                                                    else if (activeCategory == "Semester")
+                                                                        DropdownButtonFormField<int>(
+                                                                          value: Varfile.Sem.contains(tempSemester) ? tempSemester : null,
+                                                                          dropdownColor: const Color(0xff191919),
+                                                                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
+                                                                          menuMaxHeight: 300,
                                                                           decoration: InputDecoration(
-                                                                            suffixIcon: const Icon(Icons.calendar_month, color: Colors.white54, size: 20),
-                                                                            labelText: "Date of Birth",
-                                                                            labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
-                                                                            hintText: "DD/MM/YYYY",
-                                                                            hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
-                                                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                              borderRadius: BorderRadius.circular(12.0),
-                                                                              borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
-                                                                            ),
+                                                                            prefixIcon: const Icon(Icons.menu_book_rounded, color: Colors.white54, size: 20),
+                                                                            labelText: "Semester",
+                                                                            labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
+                                                                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+                                                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
                                                                           ),
-                                                                          onTap: () => _selectDate(context, setSheetState),
-                                                                        ),
-                                                          const SizedBox(height: 40),
-                                                          ElevatedButton(
-                                                            style: ElevatedButton.styleFrom(
-                                                              backgroundColor: Colors.indigoAccent,
-                                                              padding: const EdgeInsets.symmetric(vertical: 12),
-                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                                          items: Varfile.Sem.map((s) => DropdownMenuItem<int>(value: s, child: Text(s.toString(), style: const TextStyle(color: Colors.white)))).toList(),
+                                                                          onChanged: (val) => setSheetState(() => tempSemester = val),
+                                                                        )
+                                                                      else if (activeCategory == "Batch")
+                                                                          DropdownButtonFormField<int>(
+                                                                            value: Varfile.Batch.contains(tempBatch) ? tempBatch : null,
+                                                                            dropdownColor: const Color(0xff191919),
+                                                                            style: GoogleFonts.poppins(color: Colors.white, fontSize: 15),
+                                                                            menuMaxHeight: 300,
+                                                                            decoration: InputDecoration(
+                                                                              prefixIcon: const Icon(Icons.badge, color: Colors.white54, size: 20),
+                                                                              labelText: "Batch",
+                                                                              labelStyle: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w500),
+                                                                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+                                                                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                            ),
+                                                                            items: Varfile.Batch.map((b) => DropdownMenuItem<int>(value: b, child: Text(b.toString(), style: const TextStyle(color: Colors.white)))).toList(),
+                                                                            onChanged: (val) => setSheetState(() => tempBatch = val),
+                                                                          )
+                                                                        else if (activeCategory == "Phone")
+                                                                            TextFormField(
+                                                                              controller: _controllers['phone'],
+                                                                              focusNode: _phoneFocus,
+                                                                              keyboardType: TextInputType.number,
+                                                                              style: GoogleFonts.poppins(color: Colors.white),
+                                                                              decoration: InputDecoration(
+                                                                                prefixIcon: const Icon(Icons.phone, color: Colors.white54, size: 20),
+                                                                                prefixText: "+91 ",
+                                                                                prefixStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w400, fontSize: 15),
+                                                                                labelText: "Phone Number",
+                                                                                labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
+                                                                                hintText: "**********",
+                                                                                hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
+                                                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                                  borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          else if (activeCategory == "Date of Birth")
+                                                                              TextFormField(
+                                                                                controller: _controllers['dateofbirth'],
+                                                                                focusNode: _dateofbirthFocus,
+                                                                                readOnly: true,
+                                                                                style: const TextStyle(color: Colors.white),
+                                                                                decoration: InputDecoration(
+                                                                                  suffixIcon: const Icon(Icons.calendar_month, color: Colors.white54, size: 20),
+                                                                                  labelText: "Date of Birth",
+                                                                                  labelStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w400, fontSize: 15),
+                                                                                  hintText: "DD/MM/YYYY",
+                                                                                  hintStyle: GoogleFonts.poppins(color: Colors.white.withOpacity(0.4), fontWeight: FontWeight.w400),
+                                                                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.grey)),
+                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                    borderRadius: BorderRadius.circular(12.0),
+                                                                                    borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                                                                                  ),
+                                                                                ),
+                                                                                onTap: () => _selectDate(context, setSheetState),
+                                                                              ),
+                                                                const SizedBox(height: 40),
+                                                                ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    backgroundColor: Colors.indigoAccent,
+                                                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    UserUpdate(
+                                                                        _controllers['name']!.text,
+                                                                        _controllers['rollno']!.text,
+                                                                        _controllers['phone']!.text,
+                                                                        _controllers['dateofbirth']!.text,
+                                                                        tempCampus,
+                                                                        tempBranch,
+                                                                        tempBatch,
+                                                                        tempSemester
+                                                                    );
+                                                                  },
+                                                                  child: Text("Save Changes", style: GoogleFonts.poppins(color: Colors.white, fontSize: 14)),
+                                                                ),
+                                                                const SizedBox(height: 50)
+                                                              ],
                                                             ),
-                                                            onPressed: () {
-                                                              UserUpdate(
-                                                                  _controllers['name']!.text,
-                                                                  _controllers['rollno']!.text,
-                                                                  _controllers['phone']!.text,
-                                                                  _controllers['dateofbirth']!.text,
-                                                                  tempCampus,
-                                                                  tempBranch,
-                                                                  tempBatch,
-                                                                  tempSemester
-                                                              );
-                                                            },
-                                                            child: Text("Save Changes", style: GoogleFonts.poppins(color: Colors.white, fontSize: 14)),
                                                           ),
-                                                          const SizedBox(height: 50)
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.edit_note, color: Colors.white.withOpacity(0.5)),
-                                        const SizedBox(width: 4),
-                                        Text("Edit Profile", style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.5), fontSize: 12, fontWeight: FontWeight.w500))
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit_note, color: Colors.white.withOpacity(0.5)),
+                                              const SizedBox(width: 4),
+                                              Text("Edit Profile", style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.5), fontSize: 12, fontWeight: FontWeight.w500))
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   )

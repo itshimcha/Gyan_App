@@ -24,6 +24,8 @@ import 'package:lottie/lottie.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/exploreGyan.dart';
+import 'package:gyansutra/extra/Responsive.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -97,7 +99,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final double widthnav = 350;
+    final double widthnav = Responsive.isDesktop(context)?700:350;
     final double heightnav = 60;
     return Scaffold(
       drawer: CustomDrawer(),
@@ -149,12 +151,12 @@ class _HomePageState extends State<HomePage> {
                                 return const Text('Loading...');
                               }
                               if (snapshot.hasData && snapshot.data != null) {
-                                return Text('Hello, ${snapshot.data}', style: GoogleFonts.poppins(
+                                return Text('Hi, ${snapshot.data}', style: GoogleFonts.poppins(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xffE6E6FA)));
                               }
-                              return Text("Hello", style: GoogleFonts.poppins(
+                              return Text("Hi", style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xffE6E6FA)));
@@ -171,8 +173,8 @@ class _HomePageState extends State<HomePage> {
                               ).createShader(bounds);
                             },
                             child: Text(
-                              "Explore\nThe\nSpace!", style: GoogleFonts.poppins(
-                              fontSize: 60,
+                              "START\nEXPLORING", style: GoogleFonts.poppins(
+                              fontSize: Responsive.isDesktop(context)?120 : 50,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
                               height: 1.1,
@@ -182,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 20),
                       Text(
                         "Annoucements", style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
@@ -238,14 +240,18 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: 10),
                       StaggeredGrid.count(
-                        crossAxisCount: 4,
+                        crossAxisCount: Responsive.isDesktop(context)?8:4,
                         mainAxisSpacing: 5,
                         crossAxisSpacing: 4,
                         children: [
                           StaggeredGridTile.count(
                             crossAxisCellCount: 2,
                             mainAxisCellCount: 3,
-                            child: Container(
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
+                                },
+                              child: Container(
                               clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -256,10 +262,6 @@ class _HomePageState extends State<HomePage> {
                                 ],
                                     radius: 3,center: Alignment.topLeft),
                               ),
-                              child: GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
-                              },
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -296,7 +298,10 @@ class _HomePageState extends State<HomePage> {
                             mainAxisCellCount: 2,
                             child: Padding(
                               padding: EdgeInsets.all(4),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Exploregyan()));
+                                },child: Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -307,10 +312,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 2,center: Alignment.topLeft),
                                 ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Exploregyan()));
-                                  },
                                   child: Stack(
                                     children: [
                                       Positioned(
@@ -346,11 +347,15 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ), //Notes
                           StaggeredGridTile.count(
-                            crossAxisCellCount: 2,
-                            mainAxisCellCount: 1,
+                            crossAxisCellCount: Responsive.isDesktop(context)?3:2,
+                            mainAxisCellCount: Responsive.isDesktop(context)?1:1,
                             child: Padding(
                               padding: EdgeInsets.all(4),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Advicepage()));
+                                },
+                                child: Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -361,10 +366,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 3,center: Alignment.topLeft),
                                 ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Advicepage()));
-                                  },
                                   child: Stack(
                                     children: [
                                       Positioned(
@@ -397,13 +398,17 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                          ), //PYQs
+                          ), //Campus Share
                           StaggeredGridTile.count(
-                            crossAxisCellCount: 3,
+                            crossAxisCellCount: Responsive.isDesktop(context)?2:3,
                             mainAxisCellCount: 1,
                             child: Padding(
                               padding: EdgeInsets.all(4),
-                              child: Container(
+                              child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Blogs()));
+                                  },
+                                  child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: RadialGradient(colors: [
@@ -413,10 +418,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 4,center: Alignment.topLeft),
                                 ),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Blogs()));
-                                    },
                                     child: Stack(
                                       children: [
                                         Positioned(
@@ -449,13 +450,17 @@ class _HomePageState extends State<HomePage> {
                                   )
                               ),
                             ),
-                          ), //Announcement
+                          ), //Blogs
                           StaggeredGridTile.count(
-                            crossAxisCellCount: 1,
+                            crossAxisCellCount: Responsive.isDesktop(context)?1:1,
                             mainAxisCellCount: 1,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Container(
+                              child:GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutGyanScreen()));
+                                },
+                                child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: RadialGradient(colors: [
@@ -465,10 +470,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 3,center: Alignment.topLeft),
                                 ),
-                                child:GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutGyanScreen()));
-                                  },
                                   child: Stack(
                                     children: [
                                       Positioned(
@@ -505,10 +506,14 @@ class _HomePageState extends State<HomePage> {
                           ), //About the app
                           StaggeredGridTile.count(
                             crossAxisCellCount: 2,
-                            mainAxisCellCount: 2,
+                            mainAxisCellCount: Responsive.isDesktop(context)?1:2,
                             child: Padding(
                               padding: EdgeInsets.all(4),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutnkt()));
+                                },
+                                child: Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -519,10 +524,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 2,center: Alignment.topLeft),
                                 ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutnkt()));
-                                  },
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [
@@ -561,10 +562,13 @@ class _HomePageState extends State<HomePage> {
                           ), // Nakshatra
                           StaggeredGridTile.count(
                             crossAxisCellCount: 2,
-                            mainAxisCellCount: 2,
+                            mainAxisCellCount: Responsive.isDesktop(context)?1:2,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutgyan()));
+                                },child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: RadialGradient(colors: [
@@ -574,10 +578,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 4,center: Alignment.topLeft),
                                 ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Aboutgyan()));
-                                  },
+
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [
@@ -620,7 +621,11 @@ class _HomePageState extends State<HomePage> {
                             mainAxisCellCount: 1,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Meettheteam()));
+                                },
+                                child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: RadialGradient(colors: [
@@ -630,10 +635,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 9,center: Alignment.topLeft),
                                 ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Meettheteam()));
-                                    },
+
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [
@@ -659,7 +661,14 @@ class _HomePageState extends State<HomePage> {
                             mainAxisCellCount: 1,
                             child: Padding(
                               padding: EdgeInsets.all(4),
-                              child: Container(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final Uri url = Uri.parse(Varfile.instagram_url);
+                                  if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                    CustomSnackbar.show(context, "Try again later");
+                                  }
+                                },
+                                child: Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -671,13 +680,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                       radius: 4,center: Alignment.bottomRight),
                                 ),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    final Uri url = Uri.parse(Varfile.instagram_url);
-                                    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                      CustomSnackbar.show(context, "Try again later");
-                                    }
-                                  },
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [

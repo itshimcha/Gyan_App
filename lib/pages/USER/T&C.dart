@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../extra/Responsive.dart' show Responsive;
 import '../../extra/VarFile.dart';
 
 class TermsAndConditionsScreen extends StatelessWidget {
@@ -39,61 +40,64 @@ class TermsAndConditionsScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-        children: [
-          ...sections.map((section) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${section["id"]}. ${section["title"]}", style: headlineStyle),
-                  const SizedBox(height: 8),
-
-                  if (section["intro_text"] != null) ...[
-                    Text(section["intro_text"], style: bodyStyle),
-                    const SizedBox(height: 10),
-                  ],
-
-                  if (section["content"] != null) ...[
-                    for (var text in section["content"]) ...[
-                      Text(text.toString(), style: bodyStyle),
-                      const SizedBox(height: 10),
-                    ]
-                  ],
-
-                  if (section["sub_heading"] != null) ...[
-                    Text(section["sub_heading"], style: bodyStyle.copyWith(fontWeight: FontWeight.w700, color: Colors.white)),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 300 : 0),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+          children: [
+            ...sections.map((section) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${section["id"]}. ${section["title"]}", style: headlineStyle),
                     const SizedBox(height: 8),
-                  ],
 
-                  ..._buildListData(section["purposes"], bodyStyle),
-                  ..._buildListData(section["points"], bodyStyle),
-                  ..._buildListData(section["contact_details"], bodyStyle, isBullet: false),
+                    if (section["intro_text"] != null) ...[
+                      Text(section["intro_text"], style: bodyStyle),
+                      const SizedBox(height: 10),
+                    ],
 
-                  if (section["sub_sections"] != null) ...[
-                    for (var sub in section["sub_sections"]) ...[
-                      const SizedBox(height: 6),
-                      Text(sub["title"], style: bodyStyle.copyWith(fontWeight: FontWeight.w700, color: Colors.white)),
-                      const SizedBox(height: 4),
-                      Text(sub["description"], style: bodyStyle),
+                    if (section["content"] != null) ...[
+                      for (var text in section["content"]) ...[
+                        Text(text.toString(), style: bodyStyle),
+                        const SizedBox(height: 10),
+                      ]
+                    ],
+
+                    if (section["sub_heading"] != null) ...[
+                      Text(section["sub_heading"], style: bodyStyle.copyWith(fontWeight: FontWeight.w700, color: Colors.white)),
                       const SizedBox(height: 8),
-                      ..._buildListData(sub["items"], bodyStyle),
-                      const SizedBox(height: 6),
-                    ]
-                  ],
+                    ],
 
-                  if (section["closing_text"] != null) ...[
-                    const SizedBox(height: 6),
-                    Text(section["closing_text"], style: bodyStyle),
+                    ..._buildListData(section["purposes"], bodyStyle),
+                    ..._buildListData(section["points"], bodyStyle),
+                    ..._buildListData(section["contact_details"], bodyStyle, isBullet: false),
+
+                    if (section["sub_sections"] != null) ...[
+                      for (var sub in section["sub_sections"]) ...[
+                        const SizedBox(height: 6),
+                        Text(sub["title"], style: bodyStyle.copyWith(fontWeight: FontWeight.w700, color: Colors.white)),
+                        const SizedBox(height: 4),
+                        Text(sub["description"], style: bodyStyle),
+                        const SizedBox(height: 8),
+                        ..._buildListData(sub["items"], bodyStyle),
+                        const SizedBox(height: 6),
+                      ]
+                    ],
+
+                    if (section["closing_text"] != null) ...[
+                      const SizedBox(height: 6),
+                      Text(section["closing_text"], style: bodyStyle),
+                    ],
                   ],
-                ],
-              ),
-            );
-          }),
-          const SizedBox(height: 24),
-        ],
+                ),
+              );
+            }),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }

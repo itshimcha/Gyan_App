@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gyansutra/extra/Responsive.dart';
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'package:gyansutra/extra/Varfile.dart';
 import 'package:gyansutra/extra/com_wid.dart';
@@ -292,7 +293,7 @@ class _AdvicepageState extends State<Advicepage> {
               await futureAdvice;
             },
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: Responsive.isDesktop(context)?EdgeInsetsGeometry.symmetric(horizontal: 200):EdgeInsets.all(10.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

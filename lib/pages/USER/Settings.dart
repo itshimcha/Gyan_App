@@ -6,6 +6,8 @@ import 'package:gyansutra/pages/USER/T&C.dart';
 import 'package:gyansutra/pages/USER/abtapp.dart';
 import 'package:gyansutra/pages/USER/privacy.dart';
 
+import '../../extra/Responsive.dart';
+
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -21,7 +23,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body:
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 300 : 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

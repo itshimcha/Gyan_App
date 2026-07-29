@@ -6,6 +6,8 @@ import 'package:gyansutra/extra/com_wid.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
 
+import '../../../extra/Responsive.dart';
+
 
 class Schedule extends StatefulWidget {
   final ScrollController? parentScrollController;
@@ -116,190 +118,193 @@ class _ScheduleState extends State<Schedule> {
           targetMonthIndex = monthKeys.length - 1;
         }
         _scrollToCurrentMonth();
-        return Column(
-          children: [
-            ListView.builder(
-              controller: _scrollController,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: monthKeys.length,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              itemBuilder: (context, monthIndex) {
-                final monthName = monthKeys[monthIndex];
-                final isTargetMonth = monthIndex == targetMonthIndex;
-                final daysMap = groupedData[monthName]!;
-                final firstEvent = daysMap.values.first.first;
-                final int year = firstEvent.start_date.year;
-                final int month = firstEvent.start_date.month;
-                int daysInMonth = DateTime(year, month+1, 0).day;
-                List<dynamic> layoutPlan = [];
-                int? gapStart;
-                for (int d = 1; d <= daysInMonth; d++) {
-                  if (daysMap.containsKey(d)) {
-                    if (gapStart != null) {
-                      int gapEnd = d - 1;
-                      layoutPlan.add(gapStart == gapEnd ? "$gapStart" : "$gapStart-$gapEnd");
-                      gapStart = null;
+        return Padding(
+          padding:EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 100 : 0),
+          child: Column(
+            children: [
+              ListView.builder(
+                controller: _scrollController,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: monthKeys.length,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemBuilder: (context, monthIndex) {
+                  final monthName = monthKeys[monthIndex];
+                  final isTargetMonth = monthIndex == targetMonthIndex;
+                  final daysMap = groupedData[monthName]!;
+                  final firstEvent = daysMap.values.first.first;
+                  final int year = firstEvent.start_date.year;
+                  final int month = firstEvent.start_date.month;
+                  int daysInMonth = DateTime(year, month+1, 0).day;
+                  List<dynamic> layoutPlan = [];
+                  int? gapStart;
+                  for (int d = 1; d <= daysInMonth; d++) {
+                    if (daysMap.containsKey(d)) {
+                      if (gapStart != null) {
+                        int gapEnd = d - 1;
+                        layoutPlan.add(gapStart == gapEnd ? "$gapStart" : "$gapStart-$gapEnd");
+                        gapStart = null;
+                      }
+                      layoutPlan.add(d);
+                    } else {
+                      gapStart ??= d;
                     }
-                    layoutPlan.add(d);
-                  } else {
-                    gapStart ??= d;
                   }
-                }
-                if (gapStart != null) {
-                  layoutPlan.add(gapStart == daysInMonth ? "$gapStart" : "$gapStart-$daysInMonth");
-                }
-                return Column(
-                  children: [
-                    Column(
-                      key: isTargetMonth ? _currentMonthKey : null,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
-                            monthName,
-                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  if (gapStart != null) {
+                    layoutPlan.add(gapStart == daysInMonth ? "$gapStart" : "$gapStart-$daysInMonth");
+                  }
+                  return Column(
+                    children: [
+                      Column(
+                        key: isTargetMonth ? _currentMonthKey : null,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            child: Text(
+                              monthName,
+                              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        ...List.generate(layoutPlan.length, (index) {
-                          final item = layoutPlan[index];
-                          if (item is int){
-                            final currentDay =item;
-                            if (daysMap.containsKey(currentDay)) {
-                              final dayEvents = daysMap[currentDay]!;
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: dayEvents.map((event) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-                                    key: ValueKey(event.id),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        if (widget.onEventTap != null) {
-                                          widget.onEventTap!(event.start_date);
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 62,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(colors: [
-                                            Color(0xffBEB8CD),
-                                            Color(0xffBEB8CD),
-                                            Color(0xffFAF9F8),
-                                          ]),
-                                          borderRadius: BorderRadius.circular(40),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(width: 4,),
-                                            Container(
-                                              width: 53,
-                                              height: 53,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Color(0xff0D2750).withOpacity(0.3),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 2,
-                                                      offset: Offset(1, 2),
-                                                    ),
-                                                    BoxShadow(
-                                                      color: Color(0xff0D2750),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 2,
-                                                      offset: Offset(-1, -1),
-                                                    ),
-                                                    BoxShadow(
-                                                      color: Color(0xffffffff),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 2,
-                                                      offset: Offset(0, 0),
-                                                    ),
-                                                  ],
-                                                  shape: BoxShape.circle
+                          ...List.generate(layoutPlan.length, (index) {
+                            final item = layoutPlan[index];
+                            if (item is int){
+                              final currentDay =item;
+                              if (daysMap.containsKey(currentDay)) {
+                                final dayEvents = daysMap[currentDay]!;
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: dayEvents.map((event) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                                      key: ValueKey(event.id),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          if (widget.onEventTap != null) {
+                                            widget.onEventTap!(event.start_date);
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 62,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(colors: [
+                                              Color(0xffBEB8CD),
+                                              Color(0xffBEB8CD),
+                                              Color(0xffFAF9F8),
+                                            ]),
+                                            borderRadius: BorderRadius.circular(40),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(width: 4,),
+                                              Container(
+                                                width: 53,
+                                                height: 53,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Color(0xff0D2750).withOpacity(0.3),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 2,
+                                                        offset: Offset(1, 2),
+                                                      ),
+                                                      BoxShadow(
+                                                        color: Color(0xff0D2750),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 2,
+                                                        offset: Offset(-1, -1),
+                                                      ),
+                                                      BoxShadow(
+                                                        color: Color(0xffffffff),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 2,
+                                                        offset: Offset(0, 0),
+                                                      ),
+                                                    ],
+                                                    shape: BoxShape.circle
 
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(event.start_date.day.toString(), style: GoogleFonts.poppins(color: Colors.black,fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
-                                                  Text(Varfile.days[event.start_date.weekday - 1], style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 10, right: 30),
+                                                ),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.center,
-                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    Text(event.title ?? "Event Details", maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700)),
-                                                    Text(event.short_description,maxLines: 1,overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.black, fontSize: 8, fontWeight: FontWeight.w500)),
+                                                    Text(event.start_date.day.toString(), style: GoogleFonts.poppins(color: Colors.black,fontSize: 20, fontWeight: FontWeight.w900, height: 0.8)),
+                                                    Text(Varfile.days[event.start_date.weekday - 1], style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w900)),
                                                   ],
                                                 ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 15),
-                                              child: Icon(Icons.arrow_circle_right, color: Colors.black87, size: 25),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 10, right: 30),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text(event.title ?? "Event Details", maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700)),
+                                                      Text(event.short_description,maxLines: 1,overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.black, fontSize: 8, fontWeight: FontWeight.w500)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 15),
+                                                child: Icon(Icons.arrow_circle_right, color: Colors.black87, size: 25),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  }).toList(),
+                                );
+                              }
+                            }
+                            if(item is String){
+                              return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      Text(item.toString(), style: GoogleFonts.poppins(color: Colors.white38, fontWeight: FontWeight.w600)),
+                                      SizedBox(width: 10,),
+                                      Expanded(
+                                        child: Divider(
+                                          color:Colors.white54,
+                                          thickness: 1,
+                                          height: 1,
+                                        ),
+                                      )
+                                    ],
+                                  )
                               );
                             }
+                            return const SizedBox.shrink();
                           }
-                          if(item is String){
-                            return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                child: Row(
-                                  children: [
-                                    Text(item.toString(), style: GoogleFonts.poppins(color: Colors.white38, fontWeight: FontWeight.w600)),
-                                    SizedBox(width: 10,),
-                                    Expanded(
-                                      child: Divider(
-                                        color:Colors.white54,
-                                        thickness: 1,
-                                        height: 1,
-                                      ),
-                                    )
-                                  ],
-                                )
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        }
-                        ),
-                      ],
-                    ),
-                    if (!hasCurrentMonth && isTargetMonth)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, top: 10),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.info_outline, color: Colors.white54, size: 20),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                "Current month calendar will be added soon. Showing latest available.",
-                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                  ],
-                );
-              },
-            ),
-          ],
+                      if (!hasCurrentMonth && isTargetMonth)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 10),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.info_outline, color: Colors.white54, size: 20),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  "Current month calendar will be added soon. Showing latest available.",
+                                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
     );

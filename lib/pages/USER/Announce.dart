@@ -7,6 +7,8 @@ import 'package:gyansutra/pages/Homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart' show Lottie;
 
+import '../../extra/Responsive.dart';
+
 class Announce extends StatefulWidget {
   const Announce({super.key});
 
@@ -43,7 +45,7 @@ class _AnnounceState extends State<Announce> {
           Opacity(
               opacity: 0.4,child: StarBg()),
           Padding(
-            padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
+            padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 300 : 10, vertical: 10 ) ,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -138,6 +140,7 @@ class _AnnounceState extends State<Announce> {
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
                                       item.details,
+                                      textAlign: TextAlign.start,
                                       style:  GoogleFonts.poppins(color: Colors.white70,fontSize: 12),
                                     ),
                                   ),

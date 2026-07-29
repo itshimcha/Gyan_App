@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gyansutra/extra/com_wid.dart';
 
+import '../../extra/Responsive.dart';
+
 class Meettheteam extends StatefulWidget {
   const Meettheteam({super.key});
 
@@ -14,7 +16,7 @@ class _MeettheteamState extends State<Meettheteam> {
   Widget Card(String image, String Name, String Designation, String Detail){
     return Expanded(
         child: SizedBox(
-          height: 280,
+          height: Responsive.isDesktop(context)?600:280,
           child: Stack(
               children: [
                 Positioned(
@@ -22,7 +24,7 @@ class _MeettheteamState extends State<Meettheteam> {
                   left: 0,
                   right: 0,
                   child: SizedBox(
-                    height: 170,
+                    height: Responsive.isDesktop(context)?600:170,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
@@ -120,206 +122,209 @@ class _MeettheteamState extends State<Meettheteam> {
             color: Color(0xff010101)
           ),
           SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SizedBox(
-                    height: 230,
-                    width: double.infinity,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.asset(
-                          "assets/images/Firefly.png",
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black,
-                                Colors.transparent,
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0.0,0.8]
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 200 : 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      height: 230,
+                      width: double.infinity,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.asset(
+                            "assets/images/Firefly.png",
+                            fit: BoxFit.cover,
+                          ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.black,
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                stops: [0.0,0.8]
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          top: 35,
-                          left: 10,
-                          child: IconButton(
-                              onPressed: (){
-                                Navigator.pop(context);
-                              }, icon: Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xffe6e6fa),size: 20,)),
-                        ),
-                        Positioned(
-                          top: 70,
-                          left: 20,
-                          right: 20,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Meet The Team", style: GoogleFonts.gloock(color: Color(0xffe6e6fa),fontWeight: FontWeight.w700,fontSize: 35),),
-                                SizedBox(height: 10),
-                                Text.rich(
-                                    textAlign: TextAlign.center,
-                                    TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: "Nakshatra " ,
-                                            style: GoogleFonts.poppins(
-                                                color: Color(0xaae6e6fa),
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 10
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: "features a sleek, space-inspired design for effortless navigation. Whether exploring the cosmos or hunting for lab files, exactly what you need is just a tap away." ,
-                                            style: GoogleFonts.poppins(
-                                                color: Color(0x88e6e6fa),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10
-                                            ),
-                                          ),
-                                        ]
-                                    )
-                                ),
-                              ]
+                          Positioned(
+                            top: 35,
+                            left: 10,
+                            child: IconButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                }, icon: Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xffe6e6fa),size: 20,)),
                           ),
-                        )
-                      ],
+                          Positioned(
+                            top: 70,
+                            left: 20,
+                            right: 20,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Meet The Team", style: GoogleFonts.gloock(color: Color(0xffe6e6fa),fontWeight: FontWeight.w700,fontSize: 35),),
+                                  SizedBox(height: 10),
+                                  Text.rich(
+                                      textAlign: TextAlign.center,
+                                      TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Nakshatra " ,
+                                              style: GoogleFonts.poppins(
+                                                  color: Color(0xaae6e6fa),
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 10
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "features a sleek, space-inspired design for effortless navigation. Whether exploring the cosmos or hunting for lab files, exactly what you need is just a tap away." ,
+                                              style: GoogleFonts.poppins(
+                                                  color: Color(0x88e6e6fa),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10
+                                              ),
+                                            ),
+                                          ]
+                                      )
+                                  ),
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Card("assets/images/Team/himcha.png",
-                        "Himanshu Chaurasia",
-                        "App Developer",
-                      "Hi! This is Himcha. I spent like ten minutes typing and deleting this, so... this is what we're going with ig hehe"
-                      ),
-                      SizedBox(width: 10,),
-                      Card("assets/images/Team/coco.png",
-                        "Pratyaksh",
-                        "Backend Developer",
-                        "Yo , me Coco aur Data, APIs aur crash ka dukh me akele jhelta hoon. Mera code sirf chai aur bhagwan ke bharose chalta hai. Agar app band ho jaye toh mera fix reply: 'Bhai, mere laptop pe chal raha hai!'"
-                      ),
-                    ]
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Card("assets/images/Team/atharv.png",
-                            "Atharv",
-                            "Backend Developer",
-                            "Hi, I'm Atharv from ICE, and I can proudly say ICE is not so cool."
+                        Card("assets/images/Team/himcha.png",
+                          "Himanshu Chaurasia",
+                          "App Developer",
+                        "Hi! This is Himcha. I spent like ten minutes typing and deleting this, so... this is what we're going with ig hehe"
                         ),
                         SizedBox(width: 10,),
-                        Card("assets/images/Team/akash.png",
-                          "Akash",
+                        Card("assets/images/Team/coco.png",
+                          "Pratyaksh",
                           "Backend Developer",
-                          "Hi, I’m akash from ICE and singing is my part time job"
+                          "Yo , me Coco aur Data, APIs aur crash ka dukh me akele jhelta hoon. Mera code sirf chai aur bhagwan ke bharose chalta hai. Agar app band ho jaye toh mera fix reply: 'Bhai, mere laptop pe chal raha hai!'"
                         ),
                       ]
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card("assets/images/Team/diya.png",
-                          "Diya",
-                          "Resource Manager",
-                          "Meet Diya Gautam, an ITNS student (Batch of 2029) at NSUT. A confident speaker with endless energy. she channels her creativity into reading, writing, dancing and sports.",
-                        ),
-                        SizedBox(width: 10,),
-                        Card("assets/images/Team/vidita.png",
-                          "Vidita",
-                          "Resource Manager",
-                          "Hey, I'm Vidita! CSAI student, my life currently revolves around code, coffee, dance and convincing myself I'll finish all 14 side projects someday. Always up for learning, building cool things, and meeting new people!",
-                        ),
-                      ]
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card("assets/images/Team/atharv.png",
+                              "Atharv",
+                              "Backend Developer",
+                              "Hi, I'm Atharv from ICE, and I can proudly say ICE is not so cool."
+                          ),
+                          SizedBox(width: 10,),
+                          Card("assets/images/Team/akash.png",
+                            "Akash",
+                            "Backend Developer",
+                            "Hi, I’m akash from ICE and singing is my part time job"
+                          ),
+                        ]
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card("assets/images/Team/kush.png",
-                          "Kushank",
-                          "UI/UX",
-                          "Hi, I am Narasimha. I move pixels until they finally agree with each other. Fighting bad UX one screen at a time, because confused users deserve better.",
-                        ),
-                        SizedBox(width: 10,),
-                        Card("assets/images/Team/Ekansh.png",
-                          "Ekansh",
-                          "Content writer & Tester",
-                          "Ekansh Miglani is a student of Instrumentation and Control Engineering, batch of 2029, at NSUT. His interests include technology, finance, and writing. Outside academics, he enjoys playing sports and writing poetry."
-                        ),
-                      ]
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card("assets/images/Team/diya.png",
+                            "Diya",
+                            "Resource Manager",
+                            "Meet Diya Gautam, an ITNS student (Batch of 2029) at NSUT. A confident speaker with endless energy. she channels her creativity into reading, writing, dancing and sports.",
+                          ),
+                          SizedBox(width: 10,),
+                          Card("assets/images/Team/vidita.png",
+                            "Vidita",
+                            "Resource Manager",
+                            "Hey, I'm Vidita! CSAI student, my life currently revolves around code, coffee, dance and convincing myself I'll finish all 14 side projects someday. Always up for learning, building cool things, and meeting new people!",
+                          ),
+                        ]
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card("assets/images/Team/ishit.png",
-                          "Ishit Ninawat",
-                          "Content Writer",
-                          "Ishit Ninawat is a student from Mathematics and Computing, batch of 2029. His main focus lies in software development, and as his side activities, carries out writing, public speaking, debating and photography. ",
-                        ),
-                        SizedBox(width: 10,),
-                        Card("assets/images/Team/laksh.png",
-                            "lakshay",
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card("assets/images/Team/kush.png",
+                            "Kushank",
+                            "UI/UX",
+                            "Hi, I am Narasimha. I move pixels until they finally agree with each other. Fighting bad UX one screen at a time, because confused users deserve better.",
+                          ),
+                          SizedBox(width: 10,),
+                          Card("assets/images/Team/Ekansh.png",
+                            "Ekansh",
+                            "Content writer & Tester",
+                            "Ekansh Miglani is a student of Instrumentation and Control Engineering, batch of 2029, at NSUT. His interests include technology, finance, and writing. Outside academics, he enjoys playing sports and writing poetry."
+                          ),
+                        ]
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card("assets/images/Team/ishit.png",
+                            "Ishit Ninawat",
+                            "Content Writer",
+                            "Ishit Ninawat is a student from Mathematics and Computing, batch of 2029. His main focus lies in software development, and as his side activities, carries out writing, public speaking, debating and photography. ",
+                          ),
+                          SizedBox(width: 10,),
+                          Card("assets/images/Team/laksh.png",
+                              "lakshay",
+                              "Tester",
+                              "Hey, I'm Lakshya. My superpower? Finding the one bug that survives every test case. If this app breaks, I probably already knew it would happen. I just wanted to watch it live."
+                          ),
+                        ]
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card("assets/images/Team/yashw.png",
+                            "Yashwani Jain",
                             "Tester",
-                            "Hey, I'm Lakshya. My superpower? Finding the one bug that survives every test case. If this app breaks, I probably already knew it would happen. I just wanted to watch it live."
-                        ),
-                      ]
+                            "Meet Yashwani Jain, a CSAI student Batch'29. Passionate about technology and finance, she enjoys exploring new things, connecting with new people and embracing new experiences. ",
+                          ),
+                          SizedBox(width: 10,),
+                          Card("assets/images/Team/harshita.png",
+                              "Harshita",
+                              "Tester",
+                              "Hey, I'm Harshita Kannoujia, a CSE student. Equal parts curious and chaotic, I believe the best souvenirs aren't bought. They're the experiences, conversations, and stories you bring back."
+                          ),
+                        ]
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card("assets/images/Team/yashw.png",
-                          "Yashwani Jain",
-                          "Tester",
-                          "Meet Yashwani Jain, a CSAI student Batch'29. Passionate about technology and finance, she enjoys exploring new things, connecting with new people and embracing new experiences. ",
-                        ),
-                        SizedBox(width: 10,),
-                        Card("assets/images/Team/harshita.png",
-                            "Harshita",
-                            "Tester",
-                            "Hey, I'm Harshita Kannoujia, a CSE student. Equal parts curious and chaotic, I believe the best souvenirs aren't bought. They're the experiences, conversations, and stories you bring back."
-                        ),
-                      ]
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(23.0),
-                  child: MainTxt(text: "gyan"),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(23.0),
+                    child: MainTxt(text: "gyan"),
+                  )
+                ],
+              ),
             ),
           ),
         ],

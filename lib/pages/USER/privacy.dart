@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../extra/Responsive.dart';
 import '../../extra/VarFile.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -39,54 +40,57 @@ class PrivacyPolicyScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-        children: [
-          Text(
-            "Last Updated: ${docInfo["last_updated"]}",
-            style: bodyStyle.copyWith(color: Colors.white54, fontStyle: FontStyle.italic),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 14.0),
-            child: Divider(height: 1, thickness: 0.5, color: Colors.white24),
-          ),
-          ...sections.map((section) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${section["id"]}. ${section["title"]}", style: headlineStyle),
-                  const SizedBox(height: 8),
-                  if (section["intro_text"] != null) ...[
-                    Text(section["intro_text"], style: bodyStyle),
-                    const SizedBox(height: 10),
-                  ],
-                  if (section["content"] != null) ...[
-                    for (var text in section["content"]) ...[
-                      Text(text.toString(), style: bodyStyle),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Responsive.isDesktop(context) ? 300 : 0),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+          children: [
+            Text(
+              "Last Updated: ${docInfo["last_updated"]}",
+              style: bodyStyle.copyWith(color: Colors.white54, fontStyle: FontStyle.italic),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 14.0),
+              child: Divider(height: 1, thickness: 0.5, color: Colors.white24),
+            ),
+            ...sections.map((section) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${section["id"]}. ${section["title"]}", style: headlineStyle),
+                    const SizedBox(height: 8),
+                    if (section["intro_text"] != null) ...[
+                      Text(section["intro_text"], style: bodyStyle),
                       const SizedBox(height: 10),
-                    ]
+                    ],
+                    if (section["content"] != null) ...[
+                      for (var text in section["content"]) ...[
+                        Text(text.toString(), style: bodyStyle),
+                        const SizedBox(height: 10),
+                      ]
+                    ],
+                    ..._buildMapData(section["data_collected"], bodyStyle),
+                    ..._buildMapData(section["usage_purposes"], bodyStyle),
+                    ..._buildMapData(section["contact_details"], bodyStyle),
+                    ..._buildListData(section["additional_details"], bodyStyle, isBullet: false),
+                    ..._buildListData(section["points"], bodyStyle),
+                    ..._buildListData(section["conditions"], bodyStyle),
+                    ..._buildListData(section["links"], bodyStyle),
+                    ..._buildListData(section["rights"], bodyStyle),
+                    ..._buildListData(section["notification_types"], bodyStyle),
+                    if (section["closing_text"] != null) ...[
+                      const SizedBox(height: 6),
+                      Text(section["closing_text"], style: bodyStyle),
+                    ],
                   ],
-                  ..._buildMapData(section["data_collected"], bodyStyle),
-                  ..._buildMapData(section["usage_purposes"], bodyStyle),
-                  ..._buildMapData(section["contact_details"], bodyStyle),
-                  ..._buildListData(section["additional_details"], bodyStyle, isBullet: false),
-                  ..._buildListData(section["points"], bodyStyle),
-                  ..._buildListData(section["conditions"], bodyStyle),
-                  ..._buildListData(section["links"], bodyStyle),
-                  ..._buildListData(section["rights"], bodyStyle),
-                  ..._buildListData(section["notification_types"], bodyStyle),
-                  if (section["closing_text"] != null) ...[
-                    const SizedBox(height: 6),
-                    Text(section["closing_text"], style: bodyStyle),
-                  ],
-                ],
-              ),
-            );
-          }),
-          const SizedBox(height: 24),
-        ],
+                ),
+              );
+            }),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }

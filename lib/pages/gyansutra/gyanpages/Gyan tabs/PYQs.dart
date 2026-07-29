@@ -92,9 +92,7 @@ class _PYQsState extends State<PYQs> {
                             onTap: () async {
                               final Uri url = Uri.parse(notes.web_view_link);
                               if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Could not open the article.')),
-                                );
+                                CustomSnackbar.show(context, "Could not open the article.");
                               }
                             },
                             child: Container(
