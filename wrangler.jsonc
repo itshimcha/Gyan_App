@@ -1,7 +1,5 @@
 {
   "name": "gyansutra",
   "compatibility_date": "2026-07-30",
-  "assets": {
-    "directory": "./build/web"
-  }
+  "pages_build_output_dir": "./build/web"
 }
