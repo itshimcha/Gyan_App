@@ -51,5 +51,47 @@
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
+  <div id="ios-safari-banner" style="
+  display:none;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#1a1a2e;
+  color:#fff;
+  padding:16px 20px;
+  font-family:-apple-system, sans-serif;
+  font-size:14px;
+  z-index:9999;
+  box-shadow:0 -2px 12px rgba(0,0,0,0.3);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+">
+    <span>📲 To install this app on IOS, please open this link in <b>Safari</b> instead of Chrome, and for android user .apk is available</span>
+    <button onclick="document.getElementById('ios-safari-banner').style.display='none'; localStorage.setItem('iosSafariBannerDismissed','true');" style="
+    background:transparent;
+    border:1px solid #fff;
+    color:#fff;
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:13px;
+  ">Got it</button>
+  </div>
+
+  <script>
+    (function() {
+      var ua = window.navigator.userAgent;
+      var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      var isSafari = /^((?!chrome|crios|fxios|android).)*safari/i.test(ua);
+      var isStandalone = window.navigator.standalone === true;
+      var dismissed = localStorage.getItem('iosSafariBannerDismissed');
+
+      if (isIOS && !isSafari && !isStandalone && !dismissed) {
+        document.getElementById('ios-safari-banner').style.display = 'flex';
+      }
+    })();
+  </script>
 </body>
 </html>

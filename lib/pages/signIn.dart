@@ -87,7 +87,7 @@ class _signInState extends State<signIn> {
       }
     } catch (e) {
       if (!context.mounted) return;
-      CustomSnackbar.show(context,"An error occurred${e}");
+      CustomSnackbar.show(context,"An error occurred");
     } finally {
       if (mounted) {
         setState(() {
@@ -108,7 +108,7 @@ class _signInState extends State<signIn> {
       await CompleteSignInGoogle(context, googleUser);
     } catch (e) {
       if (!context.mounted) return;
-      CustomSnackbar.show(context, "An error occurred$e");
+      CustomSnackbar.show(context, "An error occurred");
       setState(() => _isLoading = false);
     }
   }

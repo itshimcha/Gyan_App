@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: 20),
                       Text(
-                        "Annoucements", style: GoogleFonts.poppins(
+                        "Announcements", style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
                         color: Color(0xffE6E6FA),),

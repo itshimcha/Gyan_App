@@ -73,7 +73,7 @@ class _AdvicepageState extends State<Advicepage> {
       requestBody['action'] = 'add';
       final response = await http.post(
         Uri.parse(apiConfig.Sr_advise),
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "text/plain"},
         body: jsonEncode(requestBody),
       );
       if (response.statusCode == 200 || response.statusCode == 302) {
@@ -119,7 +119,7 @@ class _AdvicepageState extends State<Advicepage> {
     try {
       final request = http.Request('POST', Uri.parse(apiConfig.Sr_advise))
         ..followRedirects = false
-        ..headers['Content-Type'] = 'application/json'
+        ..headers['Content-Type'] = 'text/plain'
         ..body = jsonEncode(advice.toJsonVote(newVote, userId));
 
       final streamedResponse = await request.send();
@@ -137,11 +137,7 @@ class _AdvicepageState extends State<Advicepage> {
           ..addAll(prevVotes);
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to vote: sorry for inconvenience', style: GoogleFonts.poppins(color: Colors.white)),
-            backgroundColor: Colors.red,
-          ),
+        CustomSnackbar.show(context, "failed to post advice, sorry for Inconvience"
         );
       }
     }
