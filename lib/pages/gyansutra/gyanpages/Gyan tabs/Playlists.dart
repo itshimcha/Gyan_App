@@ -130,7 +130,12 @@ class _PlaylistsState extends State<Playlists> {
                                                           playlist.thumbnail_url,
                                                           fit: BoxFit.cover,
                                                           errorBuilder: (context, error, stackTrace) =>
-                                                          const ColoredBox(color: Colors.grey),
+                                                          Stack(
+                                                            children: [
+                                                              const ColoredBox(color: Colors.grey),
+                                                              Center(child: Icon(Icons.image_not_supported_outlined))
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

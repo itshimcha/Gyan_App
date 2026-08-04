@@ -198,6 +198,7 @@ class _UserInputState extends State<UserInput> {
                     child: TextField(style: GoogleFonts.poppins(color: Colors.white),
                         controller: _dobController,
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.calendar_month, color: Colors.white54, size: 20),
                           labelText: "Date of Birth",

@@ -12,13 +12,10 @@ import 'package:file_picker/file_picker.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
-
   @override
   State<FeedbackPage> createState() => _FeedbackPageState();
 }
-
 class _FeedbackPageState extends State<FeedbackPage> {
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _rollnoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -116,7 +113,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         });
         _showDialog();
       } else {
-        CustomSnackbar.show(context, "Submission failed");
+        CustomSnackbar.show(context, "Make sure your Email and Rollno is correct");
       }
     } catch (e) {
       No_internet();
@@ -352,7 +349,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Text(
-                                                      displayLabel, // Renders "Bug Report", "Feature Request"
+                                                      displayLabel,
                                                       style: GoogleFonts.poppins(
                                                         color: isSelected
                                                             ? Colors.white

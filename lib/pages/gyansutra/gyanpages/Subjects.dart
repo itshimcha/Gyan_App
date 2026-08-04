@@ -183,8 +183,8 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                                   left: -19,
                                                   child: Icon(Icons.folder_rounded, color: Color(0xffc29242),size: 216)),
                                               const Positioned(
-                                                  bottom: 60,
-                                                  right: 10,
+                                                  bottom: 40,
+                                                  right: 12,
                                                   child: Icon(Icons.more_horiz,color: Colors.black,size: 30)),
                                               Positioned(
                                                   left: 10,

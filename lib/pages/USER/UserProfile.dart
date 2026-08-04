@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gyansutra/extra/VarFile.dart';
-import 'package:gyansutra/extra/com_wid.dart' show earthrotate, snackbar, CustomSnackbar;
+import 'package:gyansutra/extra/com_wid.dart' show earthrotate, snackbar, CustomSnackbar, No_internet;
 import 'package:http/http.dart' as http;
 import 'package:gyansutra/extra/backEndSup.dart';
 import 'dart:convert';
@@ -339,8 +339,8 @@ class _UserpageState extends State<Userpage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return earthrotate();
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}',
-                        style: const TextStyle(color: Colors.white));
+                    return Center(
+                        child: No_internet());
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text("No data found.",
                         style: TextStyle(color: Colors.white)));

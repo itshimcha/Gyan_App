@@ -334,9 +334,8 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
                                               Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
-
                                             ],
                                           )
                                       ),
@@ -388,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.7),),
+                                              Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 1),),
                                               Text("Your Thought",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
@@ -440,7 +439,7 @@ class _HomePageState extends State<HomePage> {
                                               mainAxisSize: MainAxisSize.min,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 0.9),),
+                                                Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 1),),
                                                 Text("NKT Special",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                               ],
                                             )
@@ -492,7 +491,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 0.7),),
+                                              Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 1),),
                                               Text("The App",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -548,7 +547,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
                                               Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -603,7 +602,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
                                               Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -647,7 +646,7 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(Icons.groups_rounded,color: Color(0x111b003f), size: 150,))
 
                                       ),
-                                      Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 0.7),)),
+                                      Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 1),)),
 
                                     ],
                                   ),
@@ -704,7 +703,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Social", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 0.7),),
+                                              Text("Social", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
                                               Text("Follow to Stay Update", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
