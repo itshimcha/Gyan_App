@@ -9,6 +9,7 @@ import 'package:gyansutra/extra/com_wid.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gyansutra/pages/Event/Recuritment.dart';
 import 'package:gyansutra/pages/Nakshatra/Astro/Astrocalender.dart';
 import 'package:gyansutra/pages/Nakshatra/blogs.dart';
 import 'package:gyansutra/pages/USER/Announce.dart';
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
         }
       });
     } catch (e) {
-      print("Error");
+      print("Sorry can't Load the announcement");
     }
   }
 
@@ -244,54 +245,103 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSpacing: 5,
                         crossAxisSpacing: 4,
                         children: [
+                          // StaggeredGridTile.count(
+                          //   crossAxisCellCount: 2,
+                          //   mainAxisCellCount: 3,
+                          //   child: GestureDetector(
+                          //     onTap: (){
+                          //       Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
+                          //       },
+                          //     child: Container(
+                          //     clipBehavior: Clip.antiAlias,
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(15),
+                          //       gradient: RadialGradient(colors: [
+                          //         Color(0xffB3B3FF),
+                          //         Color(0xff030322),
+                          //         Color(0xff09093b),
+                          //       ],
+                          //           radius: 3,center: Alignment.topLeft),
+                          //     ),
+                          //     child: Stack(
+                          //       children: [
+                          //         Positioned(
+                          //           bottom: 20,
+                          //           right:1,
+                          //           child: Transform.rotate(
+                          //               angle : 0.2,
+                          //               child: Icon(Icons.calendar_month,color: Color(0x22ffffff), size: 300,)),
+                          //         ),
+                          //         Positioned(
+                          //             top:12,
+                          //             right: 10,
+                          //             child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
+                          //         ),
+                          //         Positioned(
+                          //             bottom: 20,
+                          //             left: 10,
+                          //             right: 10,
+                          //             child: Column(
+                          //               crossAxisAlignment: CrossAxisAlignment.start,
+                          //               children: [
+                          //                 Text("Astro Calendar",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                          //                 Text("Stay Updated with latest events",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                          //               ],
+                          //             )
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          //   )
+                          // ), //Astrocalender
                           StaggeredGridTile.count(
-                            crossAxisCellCount: 2,
-                            mainAxisCellCount: 3,
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Astrocalender()));
+                              crossAxisCellCount: 2,
+                              mainAxisCellCount: 3,
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecruitmentPage(formId: 1,)));
                                 },
-                              child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: RadialGradient(colors: [
-                                  Color(0xffB3B3FF),
-                                  Color(0xff030322),
-                                  Color(0xff09093b),
-                                ],
-                                    radius: 3,center: Alignment.topLeft),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    bottom: 20,
-                                    right:1,
-                                    child: Transform.rotate(
-                                        angle : 0.2,
-                                        child: Icon(Icons.calendar_month,color: Color(0x22ffffff), size: 300,)),
+                                child: Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    gradient: RadialGradient(colors: [
+                                      Color(0xffB3B3FF),
+                                      Color(0xff030322),
+                                      Color(0xff09093b),
+                                    ],
+                                        radius: 3,center: Alignment.topLeft),
                                   ),
-                                  Positioned(
-                                      top:12,
-                                      right: 10,
-                                      child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        bottom: 20,
+                                        right:1,
+                                        child: Transform.rotate(
+                                            angle : 0.2,
+                                            child: Icon(Icons.rocket_launch,color: Color(0x22ffffff), size: 300,)),
+                                      ),
+                                      Positioned(
+                                          top:12,
+                                          right: 10,
+                                          child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
+                                      ),
+                                      Positioned(
+                                          bottom: 20,
+                                          left: 10,
+                                          right: 10,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Recuritment form",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                                              Text("Join Us",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                            ],
+                                          )
+                                      ),
+                                    ],
                                   ),
-                                  Positioned(
-                                      bottom: 20,
-                                      left: 10,
-                                      right: 10,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Astro Calendar",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
-                                          Text("Stay Updated with latest events",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
-                                        ],
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
-                            )
+                                ),
+                              )
                           ), //Astrocalender
                           StaggeredGridTile.count(
                             crossAxisCellCount: 2,
@@ -334,7 +384,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
+                                              Text("Study Materials",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 20, fontWeight: FontWeight.w700,),),
                                               Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1b003f), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
@@ -387,7 +437,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 1),),
+                                              Text("Campus Share",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,),),
                                               Text("Your Thought",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
@@ -439,7 +489,7 @@ class _HomePageState extends State<HomePage> {
                                               mainAxisSize: MainAxisSize.min,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,height: 1),),
+                                                Text("Blogs",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w600,),),
                                                 Text("NKT Special",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                               ],
                                             )
@@ -491,7 +541,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,height: 1),),
+                                              Text("About",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w600,),),
                                               Text("The App",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -547,7 +597,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
+                                              Text("Nakshatra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,),),
                                               Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -602,7 +652,7 @@ class _HomePageState extends State<HomePage> {
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
+                                              Text("Gyansutra",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 20, fontWeight: FontWeight.w700),),
                                               Text("Know More...",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 10, fontWeight: FontWeight.w500)),
 
                                             ],
@@ -646,7 +696,7 @@ class _HomePageState extends State<HomePage> {
                                               child: Icon(Icons.groups_rounded,color: Color(0x111b003f), size: 150,))
 
                                       ),
-                                      Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,height: 1),)),
+                                      Center(child: Text("MEET THE TEAM",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xff1B003F), fontSize: 25, fontWeight: FontWeight.w800,),)),
 
                                     ],
                                   ),
@@ -714,6 +764,64 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                           ),
+                          if (Responsive.isMobile(context))
+                            StaggeredGridTile.count(
+                                crossAxisCellCount: 2,
+                                mainAxisCellCount: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: GestureDetector(
+                                    onTap: () async {
+
+
+
+                                    },
+                                    child: Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient:  RadialGradient(colors: [
+                                          Color(0xff09093b),
+                                          Color(0xff030322),
+                                          Color(0xffB3B3FF),
+                                        ],
+                                            radius: 4,center: Alignment.bottomRight),
+                                      ),
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          Positioned(
+                                              right: -20,
+                                              bottom: -30,
+                                              child: Transform.rotate(
+                                                  angle: -0.3,
+                                                  child: Opacity(opacity: 0.6,
+                                                      child: Icon(Icons.apple,color: Color(0x55ffffff), size: 130,))
+                                          )),
+                                          Positioned(
+                                              top:15,
+                                              right: 10,
+                                              child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.7),size: 25)
+                                          ),
+                                          Positioned(
+                                              bottom: 15,
+                                              left: 10,
+                                              right: 10,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Get", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 20, fontWeight: FontWeight.w700,height: 1),),
+                                                  Text("The App for IOS", style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
+                                                ],
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            )
                         ],
                       ),
                       SizedBox(height: 20),

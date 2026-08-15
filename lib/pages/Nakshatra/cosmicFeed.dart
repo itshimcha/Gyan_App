@@ -10,7 +10,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../extra/Responsive.dart' show Responsive;
 

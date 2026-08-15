@@ -199,6 +199,7 @@ class _UserInputState extends State<UserInput> {
                         controller: _dobController,
                         readOnly: true,
                         enableInteractiveSelection: false,
+
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.calendar_month, color: Colors.white54, size: 20),
                           labelText: "Date of Birth",
@@ -218,7 +219,9 @@ class _UserInputState extends State<UserInput> {
                             initialDate: DateTime(2008),
                             firstDate: DateTime(1991),
                             lastDate: DateTime(2011),
-                            initialDatePickerMode: DatePickerMode.year,);
+                            initialDatePickerMode: DatePickerMode.year,
+                            initialEntryMode: DatePickerEntryMode.calendarOnly,
+                          );
                           if (pickedDate != null) {
                             String formattedDate = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
                             setState(() {

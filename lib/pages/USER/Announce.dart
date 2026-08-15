@@ -158,9 +158,6 @@ class _AnnounceState extends State<Announce> {
               ),
             ),
           )
-          // Lottie.asset("assets/lottie/SpaceCat.json",
-          //     fit: BoxFit.cover,width: double.infinity, height: double.infinity, repeat: false),
-
         ],
       )
     );

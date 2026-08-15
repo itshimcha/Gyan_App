@@ -166,7 +166,6 @@ class _BlogsState extends State<Blogs> {
                     onSwipe: (previousIndex, currentIndex, direction) async {
                       final swipedBlog = blogs[previousIndex];
                       if (direction == CardSwiperDirection.right) {
-
                         String? rawLink = swipedBlog.medium_link;
                         if (rawLink == null || rawLink.trim().isEmpty) {
                           ScaffoldMessenger.of(context).clearSnackBars();
