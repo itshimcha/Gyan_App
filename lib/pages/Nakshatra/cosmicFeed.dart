@@ -646,7 +646,7 @@ class _OnAirState extends State<OnAir> {
           return earthrotate();
         }
         else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.red)));
+          return Center(child: No_internet());
         }
         else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('No events on air right now.', style: TextStyle(color: Colors.white)));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gyansutra/pages/USER/Announce.dart';
 import 'package:gyansutra/pages/USER/MeetTheTeam.dart';
 import 'package:gyansutra/pages/USER/Settings.dart';
@@ -19,6 +20,8 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   String _version = 'Loading...';
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
       _version = packageInfo.version;
     });
   }
+
+  Future<void> _handleSignOut(BuildContext context) async {
+    try {
+      await Storage.delete(key: 'access_token');
+      await Storage.delete(key: 'refresh_token');
+      await Storage.delete(key: 'is_profile_complete');
+    } catch (e) {
+      debugPrint("Failed to clear local storage: $e");
+    }
+
+    try {
+      await _googleSignIn.signOut();
+    } catch (e) {
+      // Not fatal — local session is already cleared, don't block the user
+      debugPrint("Google signOut failed (likely not initialized): $e");
+    }
+
+    if (!context.mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const signIn()),
+          (route) => false,
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -152,12 +181,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           minimumSize: Size.zero
                                       ),
                                       onPressed: (){
-                                    FStorage.deleteAll();
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const signIn()),
-                                          (route) => false,);
-                                  },
+                                        Navigator.pop(dialogContext);
+                                        _handleSignOut(context);
+                                      },
                                       child: Text("Yes",style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Color(0x66e6e6fa)))),
                                   TextButton(
                                       style: TextButton.styleFrom(

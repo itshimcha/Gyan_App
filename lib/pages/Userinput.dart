@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gyansutra/extra/com_wid.dart';
-import 'package:gyansutra/extra/backEndSup.dart';
+import 'package:gyansutra/extra/backEndSup.dart' hide signIn;
 import 'package:gyansutra/pages/Homepage.dart';
 import 'package:gyansutra/extra/VarFile.dart';
 import 'package:lottie/lottie.dart';

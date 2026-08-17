@@ -27,6 +27,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:gyansutra/pages/gyansutra/gyanpages/exploreGyan.dart';
 import 'package:gyansutra/extra/Responsive.dart';
 
+import 'USER/IOS.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -298,9 +300,18 @@ class _HomePageState extends State<HomePage> {
                               crossAxisCellCount: 2,
                               mainAxisCellCount: 3,
                               child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecruitmentPage(formId: 1,)));
+                                onTap: () async {
+                                  final Uri url = Uri.parse(Varfile.Recuritmentlink);
+                                  if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Could not open the form, try again later!')),
+                                    );
+                                  }
                                 },
+                                // onTap: (){
+                                //
+                                //   // Navigator.push(context, MaterialPageRoute(builder: (context) => RecruitmentPage(formId: 1,)));
+                                // },
                                 child: Container(
                                   clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
@@ -322,6 +333,66 @@ class _HomePageState extends State<HomePage> {
                                             child: Icon(Icons.rocket_launch,color: Color(0x22ffffff), size: 300,)),
                                       ),
                                       Positioned(
+                                        top: 12,
+                                        left: 10,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                                          decoration: BoxDecoration(
+                                            // Shiny gradient fill
+                                            gradient: const LinearGradient(
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              colors: [
+                                                Color(0xFF80E5FF), // Cyan highlight
+                                                Color(0xFF6366F1), // Electric Indigo
+                                                Color(0xFFEC4899),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(20),
+                                            // Glowing outer shadow
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF6366F1).withOpacity(0.6),
+                                                blurRadius: 10,
+                                                spreadRadius: 1,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                            // Subtle glassy top border highlight
+                                            border: Border.all(
+                                              color: Colors.white.withOpacity(0.8),
+                                              width: 0.8,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(
+                                                Icons.auto_awesome,
+                                                color: Colors.white,
+                                                size: 9,
+                                              ),
+                                              const SizedBox(width: 3),
+                                              Text(
+                                                "NEW",
+                                                style: GoogleFonts.jost(
+                                                  color: Colors.white,
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.w800,
+                                                  letterSpacing: 1.0,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                            .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                                            .shimmer(
+                                          duration: 1800.ms,
+                                          color: Colors.white.withOpacity(0.65),
+                                          angle: 45,
+                                        )
+                                      ),
+                                      Positioned(
                                           top:12,
                                           right: 10,
                                           child: Icon(Icons.arrow_circle_right, color: Colors.white.withOpacity(0.6),size:25 )
@@ -333,7 +404,7 @@ class _HomePageState extends State<HomePage> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text("Recuritment form",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
+                                              Text("Recruitment form",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 18, fontWeight: FontWeight.w700,height: 1)),
                                               Text("Join Us",maxLines: 1, overflow: TextOverflow.ellipsis, style: GoogleFonts.jost(color: Color(0xffe6e6fa), fontSize: 10, fontWeight: FontWeight.w500)),
                                             ],
                                           )
@@ -772,9 +843,7 @@ class _HomePageState extends State<HomePage> {
                                   padding: EdgeInsets.all(4),
                                   child: GestureDetector(
                                     onTap: () async {
-
-
-
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PwaInstallGuideScreen()));
                                     },
                                     child: Container(
                                       clipBehavior: Clip.antiAlias,

@@ -292,7 +292,7 @@ class _MeettheteamState extends State<Meettheteam> {
                           ),
                           SizedBox(width: 10,),
                           Card("assets/images/Team/laksh.png",
-                              "lakshya",
+                              "Lakshya",
                               "Tester",
                               "Hey, I'm Lakshya. My superpower? Finding the one bug that survives every test case. If this app breaks, I probably already knew it would happen. I just wanted to watch it live."
                           ),

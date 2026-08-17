@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gyansutra/extra/VarFile.dart';
 import 'package:gyansutra/extra/com_wid.dart' show earthrotate, snackbar, CustomSnackbar, No_internet;
 import 'package:http/http.dart' as http;
-import 'package:gyansutra/extra/backEndSup.dart';
+import 'package:gyansutra/extra/backEndSup.dart' hide signIn;
 import 'dart:convert';
 import 'package:gyansutra/pages/signIn.dart';
 import 'package:google_fonts/google_fonts.dart';
